@@ -1,1 +1,1 @@
-Production installer merged-snapshot deployment trigger.
+Production installer functional-validation deployment trigger.
