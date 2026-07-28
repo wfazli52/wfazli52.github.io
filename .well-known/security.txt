@@ -1,0 +1,5 @@
+Contact: https://github.com/wfazli52/wfazli52.github.io/issues
+Preferred-Languages: en
+Canonical: https://wfazli52.github.io/.well-known/security.txt
+Policy: https://github.com/wfazli52/wfazli52.github.io/security
+Expires: 2027-07-28T00:00:00.000Z

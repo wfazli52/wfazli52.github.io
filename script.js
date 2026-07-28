@@ -230,6 +230,56 @@
     document.body.appendChild(proofData);
   }
 
+  function dataAttribute(key) {
+    return `data-${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`;
+  }
+
+  function addStyleOnce(path, key) {
+    const attribute = dataAttribute(key);
+    if (document.querySelector(`link[${attribute}]`)) return;
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = new URL(path, assetBase).href;
+    style.setAttribute(attribute, '');
+    document.head.appendChild(style);
+  }
+
+  function addScriptOnce(path, key, onLoad) {
+    const attribute = dataAttribute(key);
+    const existing = document.querySelector(`script[${attribute}]`);
+    if (existing) {
+      if (onLoad && existing.dataset.loaded === 'true') onLoad();
+      else if (onLoad) existing.addEventListener('load', onLoad, { once: true });
+      return existing;
+    }
+    const script = document.createElement('script');
+    script.src = new URL(path, assetBase).href;
+    script.setAttribute(attribute, '');
+    script.async = false;
+    script.addEventListener('load', () => {
+      script.dataset.loaded = 'true';
+      onLoad?.();
+    }, { once: true });
+    script.addEventListener('error', () => console.error(`Could not load ${path}.`));
+    document.body.appendChild(script);
+    return script;
+  }
+
+  function setupProductionSuiteLoader() {
+    addStyleOnce('portfolio-suite.css?v=4', 'portfolioSuiteStyle');
+    const pagePath = new URL(document.baseURI || location.href).pathname;
+    const projectPage = Boolean(document.querySelector('.page-hero')) && /\/projects\//.test(pagePath);
+    if (projectPage) addStyleOnce('case-study.css?v=4', 'caseStudyStyle');
+
+    const loadSuite = () => {
+      addScriptOnce('portfolio-suite.js?v=4', 'portfolioSuiteLoader');
+      if (projectPage) addScriptOnce('case-study.js?v=4', 'caseStudyLoader');
+    };
+
+    if (window.PORTFOLIO_PLATFORM) loadSuite();
+    else addScriptOnce('portfolio-data.js?v=4', 'portfolioDataLoader', loadSuite);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     setProfileContent();
     setYear();
@@ -241,5 +291,6 @@
     setupCinematicNavigationFallback();
     setupProofModeLoader();
     setupCommandCenterLoader();
+    setupProductionSuiteLoader();
   });
 })();

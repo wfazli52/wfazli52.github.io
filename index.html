@@ -1,227 +1,399 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Interactive portfolio for an aspiring data center technician and network engineer.">
-  <meta name="theme-color" content="#07111f">
-  <title>Data Center & Networking Portfolio</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="fx.css">
-  <script src="config.js" defer></script>
-  <script src="script.js" defer></script>
-  <script src="fx.js" defer></script>
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Proof-first data center and networking portfolio featuring interactive infrastructure simulations, verified evidence, project case studies, Linux operations, Cisco networking, troubleshooting, and technical documentation." name="description"/>
+<meta content="#07111f" name="theme-color"/>
+<title>Data Center &amp; Networking Portfolio | wfazli52</title>
+<link href="styles.css" rel="stylesheet"/>
+<link href="fx.css" rel="stylesheet"/>
+<link href="command-center.css" rel="stylesheet"/>
+<script defer="" src="config.js"></script>
+<script defer="" src="script.js"></script>
+<script defer="" src="fx.js"></script>
+<script defer="" src="command-center.js"></script>
+<meta content="dark" name="color-scheme"/><meta content="index,follow,max-image-preview:large" name="robots"/><meta content="wfazli52" name="author"/><meta content="DC//NET Portfolio" name="application-name"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><meta content="DC//NET" name="apple-mobile-web-app-title"/><link href="https://wfazli52.github.io/" rel="canonical"/><link href="manifest.webmanifest" rel="manifest"/><link href="assets/icon.svg" rel="icon" type="image/svg+xml"/><link href="assets/icon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="assets/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><meta content="DC//NET Portfolio" property="og:site_name"/><meta content="website" property="og:type"/><meta content="Data Center &amp; Networking Portfolio | wfazli52" property="og:title"/><meta content="Proof-first data center and networking portfolio featuring interactive infrastructure simulations, verified evidence, project case studies, Linux operations, Cisco networking, troubleshooting, and technical documentation." property="og:description"/><meta content="https://wfazli52.github.io/" property="og:url"/><meta content="https://wfazli52.github.io/assets/social-card.png" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/><meta content="DC//NET proof-first data center and networking portfolio" property="og:image:alt"/><meta content="summary_large_image" name="twitter:card"/><meta content="Data Center &amp; Networking Portfolio | wfazli52" name="twitter:title"/><meta content="Proof-first data center and networking portfolio featuring interactive infrastructure simulations, verified evidence, project case studies, Linux operations, Cisco networking, troubleshooting, and technical documentation." name="twitter:description"/><meta content="https://wfazli52.github.io/assets/social-card.png" name="twitter:image"/><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://wfazli52.github.io/#person","name":"wfazli52","url":"https://wfazli52.github.io/","sameAs":["https://github.com/wfazli52"],"jobTitle":"Aspiring Data Center Technician and Network Engineer","alumniOf":{"@type":"CollegeOrUniversity","name":"Western Governors University"}},{"@type":"WebSite","@id":"https://wfazli52.github.io/#website","url":"https://wfazli52.github.io/","name":"DC//NET Proof-First Portfolio","description":"Proof-first data center and networking portfolio featuring interactive infrastructure simulations, verified evidence, project case studies, Linux operations, Cisco networking, troubleshooting, and technical documentation.","author":{"@id":"https://wfazli52.github.io/#person"},"inLanguage":"en-US"},{"@type":"CollectionPage","@id":"https://wfazli52.github.io/#portfolio","url":"https://wfazli52.github.io/","name":"Data Center & Networking Portfolio | wfazli52","isPartOf":{"@id":"https://wfazli52.github.io/#website"},"about":{"@id":"https://wfazli52.github.io/#person"}}]}</script></head>
 <body>
-  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
-  <div class="ambient-orb ambient-orb-one" aria-hidden="true"></div>
-  <div class="ambient-orb ambient-orb-two" aria-hidden="true"></div>
-  <div class="ambient-orb ambient-orb-three" aria-hidden="true"></div>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html" aria-label="Portfolio home">
-        <span class="brand-mark" data-profile="initials">WF</span>
-        <span>DC//NET Portfolio</span>
-      </a>
-      <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>☰</button>
-      <nav class="nav-links" aria-label="Main navigation" data-menu>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#proof">Capabilities</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="resume.html" data-resume-link>Resume</a>
-        <button class="fx-toggle" type="button" data-fx-toggle aria-pressed="false" title="Pause visual effects"><span class="fx-toggle-icon" aria-hidden="true">◉</span><span data-fx-label>Pause FX</span></button>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero" id="top">
-      <canvas class="network-canvas" data-network-canvas aria-hidden="true"></canvas>
-      <div class="container hero-grid">
-        <div data-reveal>
-          <div class="live-signal"><span class="signal-dot" aria-hidden="true"></span><span>Portfolio system online</span></div>
-          <span class="eyebrow">Infrastructure portfolio // live build</span>
-          <h1><span data-profile="name">wfazli52</span><span data-profile="headline">Aspiring Data Center Technician & Network Engineer</span></h1>
-          <p class="hero-copy">I am building hands-on evidence in server operations, networking, Linux, troubleshooting, and technical documentation while completing my network engineering degree.</p>
-          <div class="meta-row">
-            <span class="meta-pill" data-profile="school">WGU — B.S. Network Engineering, Cisco track</span>
-            <span class="meta-pill" data-profile="location">Location available upon request</span>
-            <span class="meta-pill" data-profile="availability">Open to data center technician and network support roles</span>
-          </div>
-          <div class="button-row">
-            <a class="button primary" href="#projects">View lab plan <span aria-hidden="true">↓</span></a>
-            <a class="button" href="resume.html" data-resume-link>Open resume</a>
-          </div>
-          <div class="mini-terminal" aria-label="Animated portfolio setup terminal">
-            <div class="terminal-bar">
-              <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span>career-lab.sh</span>
-              <span class="terminal-state"><span class="signal-dot" aria-hidden="true"></span> active</span>
-            </div>
-            <div class="terminal-body" aria-hidden="true"><span class="terminal-prompt">$</span> <span data-terminal-text>boot portfolio --mode=proof-first</span><span class="terminal-cursor">_</span></div>
-          </div>
-        </div>
-
-        <div class="rack-visual" aria-label="Stylized animated server rack illustration" data-reveal data-tilt>
-          <div class="rack-badge"><span class="signal-dot" aria-hidden="true"></span> LAB NETWORK READY</div>
-          <div class="rack">
-            <div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">CORE-SW-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
-            <div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">LAB-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
-            <div class="server"><div class="server-leds"><span class="led blue"></span><span class="led"></span></div><span class="server-label">MON-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
-            <div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">EDGE-RTR-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
-            <div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">PDU-A / PDU-B</span><div class="server-bars"><span></span><span></span><span></span></div></div>
-          </div>
-          <div class="visual-note"><strong>Current build rule</strong>Publish only what you personally configured, tested, photographed, or documented.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="system-dashboard" id="dashboard" aria-labelledby="dashboard-title">
-      <div class="container">
-        <div class="dashboard-shell" data-reveal>
-          <div class="dashboard-head">
-            <div><span class="eyebrow">Mission control</span><h2 id="dashboard-title">Portfolio status board.</h2></div>
-            <div class="system-health"><span class="signal-dot" aria-hidden="true"></span> GitHub Pages live</div>
-          </div>
-          <div class="metric-grid">
-            <article class="metric-card" data-tilt><span class="metric-kicker">Build plans</span><strong class="metric-value"><span data-counter data-target="4">0</span></strong><span class="metric-label">technical lab blueprints</span></article>
-            <article class="metric-card" data-tilt><span class="metric-kicker">Career sprint</span><strong class="metric-value"><span data-counter data-target="90">0</span><small> days</small></strong><span class="metric-label">structured roadmap</span></article>
-            <article class="metric-card" data-tilt><span class="metric-kicker">Documentation</span><strong class="metric-value"><span data-counter data-target="6">0</span></strong><span class="metric-label">evidence templates ready</span></article>
-            <article class="metric-card metric-card-live" data-tilt><span class="metric-kicker">Deployment</span><strong class="metric-value metric-word">LIVE</strong><span class="metric-label">public portfolio online</span></article>
-          </div>
-          <div class="build-sequence">
-            <div class="sequence-head"><span>Build sequence</span><strong>Website live · Enterprise network lab next</strong></div>
-            <div class="sequence-track" aria-label="One of five portfolio phases established"><span class="sequence-fill"></span><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="sequence-labels"><span class="is-active">Portfolio</span><span>Networking</span><span>Linux</span><span>Incidents</span><span>Operations</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="tech-marquee" aria-label="Technology focus areas">
-      <div class="marquee-track">
-        <span>CISCO IOS</span><i>◆</i><span>PACKET TRACER</span><i>◆</i><span>LINUX</span><i>◆</i><span>TCP/IP</span><i>◆</i><span>VLANs</span><i>◆</i><span>DNS + DHCP</span><i>◆</i><span>TROUBLESHOOTING</span><i>◆</i><span>GITHUB</span><i>◆</i>
-        <span aria-hidden="true">CISCO IOS</span><i aria-hidden="true">◆</i><span aria-hidden="true">PACKET TRACER</span><i aria-hidden="true">◆</i><span aria-hidden="true">LINUX</span><i aria-hidden="true">◆</i><span aria-hidden="true">TCP/IP</span><i aria-hidden="true">◆</i><span aria-hidden="true">VLANs</span><i aria-hidden="true">◆</i><span aria-hidden="true">DNS + DHCP</span><i aria-hidden="true">◆</i><span aria-hidden="true">TROUBLESHOOTING</span><i aria-hidden="true">◆</i><span aria-hidden="true">GITHUB</span><i aria-hidden="true">◆</i>
-      </div>
-    </div>
-
-    <section class="section alt" id="proof">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div><span class="eyebrow">Job-aligned proof</span><h2>Show the work behind the skills.</h2></div>
-          <p>Large data center teams need technicians who can follow procedures, isolate faults, handle equipment safely, communicate clearly, and leave reliable documentation for the next shift.</p>
-        </div>
-        <div class="grid four">
-          <article class="card" data-reveal data-tilt><div class="icon-box">HW</div><h3>Hardware operations</h3><p>Component identification, rack planning, cable labeling, parts handling, break/fix logic, and asset tracking.</p></article>
-          <article class="card" data-reveal data-tilt><div class="icon-box">NET</div><h3>Networking</h3><p>IPv4 subnetting, VLANs, routing, switching, ACLs, DHCP, DNS, connectivity tests, and topology documentation.</p></article>
-          <article class="card" data-reveal data-tilt><div class="icon-box">LIN</div><h3>Linux & monitoring</h3><p>Installation, users and permissions, SSH, services, logs, storage, patching, basic monitoring, and recovery steps.</p></article>
-          <article class="card" data-reveal data-tilt><div class="icon-box">DOC</div><h3>Operational discipline</h3><p>Runbooks, ticket notes, change plans, validation matrices, incident timelines, root-cause analysis, and handoff summaries.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div><span class="eyebrow">Portfolio projects</span><h2>Four labs that tell one career story.</h2></div>
-          <p>Complete them in order. Each page gives you a build plan, acceptance tests, and an evidence checklist. Replace “planned” with “completed” only after the lab works.</p>
-        </div>
-        <div class="grid two">
-          <a class="card project-card" data-tilt href="projects/enterprise-network.html" data-reveal>
-            <span class="project-number">PROJECT 01</span><h3>Enterprise VLAN & Routing Lab</h3><p>Design a small multi-department network with an IP plan, VLANs, inter-VLAN routing, DHCP, DNS, ACLs, and a repeatable test matrix.</p>
-            <div class="tag-row"><span class="tag">Packet Tracer</span><span class="tag">Cisco IOS</span><span class="tag">TCP/IP</span></div>
-            <div class="project-footer"><span class="status">Build first</span><span class="arrow" aria-hidden="true">↗</span></div>
-          </a>
-          <a class="card project-card" data-tilt href="projects/linux-monitoring.html" data-reveal>
-            <span class="project-number">PROJECT 02</span><h3>Linux Server Operations Lab</h3><p>Operate two Linux servers, secure remote access, manage services and storage, centralize logs, monitor health, and recover from controlled failures.</p>
-            <div class="tag-row"><span class="tag">Ubuntu Server</span><span class="tag">SSH</span><span class="tag">Systemd</span></div>
-            <div class="project-footer"><span class="status">Build second</span><span class="arrow" aria-hidden="true">↗</span></div>
-          </a>
-          <a class="card project-card" data-tilt href="projects/incident-response.html" data-reveal>
-            <span class="project-number">PROJECT 03</span><h3>Break/Fix Incident Simulation</h3><p>Create and resolve realistic incidents involving DNS, interfaces, disk capacity, services, cabling, and incorrect network configuration.</p>
-            <div class="tag-row"><span class="tag">Troubleshooting</span><span class="tag">RCA</span><span class="tag">Ticketing</span></div>
-            <div class="project-footer"><span class="status">Build third</span><span class="arrow" aria-hidden="true">↗</span></div>
-          </a>
-          <a class="card project-card" data-tilt href="projects/rack-inventory.html" data-reveal>
-            <span class="project-number">PROJECT 04</span><h3>Rack, Cabling & Asset Plan</h3><p>Produce a rack elevation, port map, labeling standard, asset inventory, power estimate, maintenance checklist, and decommission plan.</p>
-            <div class="tag-row"><span class="tag">DC operations</span><span class="tag">Inventory</span><span class="tag">Safety</span></div>
-            <div class="project-footer"><span class="status">Build fourth</span><span class="arrow" aria-hidden="true">↗</span></div>
-          </a>
-        </div>
-        <div class="honesty" data-reveal><div class="icon-box">!</div><div><strong>Do not let AI invent your evidence.</strong><p>ChatGPT can draft a lab plan, explain commands, review configurations, and turn your actual notes into clean documentation. You must run the lab, capture the outputs, explain failures, and verify the final result yourself.</p></div></div>
-      </div>
-    </section>
-
-    <section class="section alt" id="skills">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div><span class="eyebrow">Skills inventory</span><h2>Label your level honestly.</h2></div>
-          <p>Recruiters trust precise language. “Practicing in labs” is stronger than claiming expert knowledge you cannot demonstrate during an interview.</p>
-        </div>
-        <div class="grid three">
-          <article class="card skill-group" data-reveal><h3>Networking</h3><div class="skill-list">
-            <div class="skill-item"><span>IPv4 subnetting</span><span class="skill-level">Practicing</span></div>
-            <div class="skill-item"><span>VLANs & trunks</span><span class="skill-level">Planned lab</span></div>
-            <div class="skill-item"><span>Routing & ACLs</span><span class="skill-level">Planned lab</span></div>
-            <div class="skill-item"><span>DNS & DHCP</span><span class="skill-level">Planned lab</span></div>
-          </div></article>
-          <article class="card skill-group" data-reveal><h3>Systems</h3><div class="skill-list">
-            <div class="skill-item"><span>PC/server components</span><span class="skill-level">Learning</span></div>
-            <div class="skill-item"><span>Linux administration</span><span class="skill-level">Planned lab</span></div>
-            <div class="skill-item"><span>Logs & monitoring</span><span class="skill-level">Planned lab</span></div>
-            <div class="skill-item"><span>Virtualization</span><span class="skill-level">Planned lab</span></div>
-          </div></article>
-          <article class="card skill-group" data-reveal><h3>Operations</h3><div class="skill-list">
-            <div class="skill-item"><span>Incident notes</span><span class="skill-level">Template ready</span></div>
-            <div class="skill-item"><span>Runbooks & SOPs</span><span class="skill-level">Template ready</span></div>
-            <div class="skill-item"><span>Asset inventory</span><span class="skill-level">Template ready</span></div>
-            <div class="skill-item"><span>Change validation</span><span class="skill-level">Template ready</span></div>
-          </div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="roadmap">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div><span class="eyebrow">90-day roadmap</span><h2>Build, document, apply.</h2></div>
-          <p>A small completed portfolio beats ten unfinished ideas. Aim for one publishable deliverable every two weeks and begin applying before everything is perfect.</p>
-        </div>
-        <div class="timeline">
-          <div class="timeline-item" data-reveal><div class="timeline-date">Days 1–30</div><div class="timeline-copy"><h3>Foundations + Project 01</h3><p>Set up GitHub, Packet Tracer, your documentation folders, and complete the enterprise network lab. Practice subnetting, cable types, core hardware, DNS, DHCP, and the OSI/TCP-IP troubleshooting flow.</p></div></div>
-          <div class="timeline-item" data-reveal><div class="timeline-date">Days 31–60</div><div class="timeline-copy"><h3>Linux operations + incident evidence</h3><p>Build the Linux lab, capture clean logs and screenshots, then run at least five break/fix scenarios. Publish one full incident report and one short runbook.</p></div></div>
-          <div class="timeline-item" data-reveal><div class="timeline-date">Days 61–90</div><div class="timeline-copy"><h3>Rack plan + applications</h3><p>Finish the operations project, update the resume, practice behavioral and technical interviews, and apply weekly to data center technician, deployment technician, network support, NOC, and field technician roles.</p></div></div>
-        </div>
-        <div class="button-row" style="margin-top: 1.5rem" data-reveal>
-          <a class="button primary" href="ROADMAP.md">Open the weekly roadmap</a>
-          <a class="button" href="CHATGPT_WORKFLOW.md">Open the ChatGPT prompt pack</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section alt" id="contact">
-      <div class="container">
-        <div class="cta" data-reveal>
-          <div><span class="eyebrow">Contact</span><h2>Let the evidence do the talking.</h2><p>Follow the GitHub profile now, then add a professional email or LinkedIn URL in <code>config.js</code> when you are ready to publish those details.</p></div>
-          <div class="button-row">
-            <a class="button primary" href="https://github.com/wfazli52" data-profile-href="github">View GitHub</a>
-            <a class="button" href="#" data-profile-href="linkedin" data-hide-empty>LinkedIn</a>
-            <a class="button" href="#" data-profile-href="email" data-hide-empty>Email me</a>
-            <button class="button" type="button" data-copy-email data-hide-empty>Copy email</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-row">
-      <span>© <span data-year></span> <span data-profile="name">wfazli52</span>. Built as a proof-based technical portfolio.</span>
-      <div class="footer-links"><a href="https://github.com/wfazli52" data-profile-href="github">GitHub</a><a href="#" data-profile-href="linkedin" data-hide-empty>LinkedIn</a><a href="resume.html" data-resume-link>Resume</a></div>
-    </div>
-  </footer>
+<div aria-hidden="true" class="scroll-progress" data-scroll-progress=""></div>
+<div aria-hidden="true" class="ambient-orb ambient-orb-one"></div>
+<div aria-hidden="true" class="ambient-orb ambient-orb-two"></div>
+<div aria-hidden="true" class="ambient-orb ambient-orb-three"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container nav-wrap">
+<a aria-label="Portfolio home" class="brand" href="index.html">
+<span class="brand-mark" data-profile="initials">WF</span>
+<span>DC//NET Portfolio</span>
+</a>
+<button aria-expanded="false" aria-label="Open navigation" class="menu-button" data-menu-button="" type="button">☰</button>
+<nav aria-label="Main navigation" class="nav-links" data-menu="">
+<a href="#dashboard">Dashboard</a>
+<a href="#command-center">Simulator</a>
+<a href="#proof">Capabilities</a>
+<a href="#projects">Projects</a>
+<a href="#skills">Skills</a>
+<a href="#roadmap">Roadmap</a>
+<a data-resume-link="" href="resume.html">Resume</a>
+<button aria-pressed="false" class="fx-toggle" data-fx-toggle="" title="Pause visual effects" type="button"><span aria-hidden="true" class="fx-toggle-icon">◉</span><span data-fx-label="">Pause FX</span></button>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="hero" id="top">
+<canvas aria-hidden="true" class="network-canvas" data-network-canvas=""></canvas>
+<div class="container hero-grid">
+<div data-reveal="">
+<div class="live-signal"><span aria-hidden="true" class="signal-dot"></span><span>Portfolio system online</span></div>
+<span class="eyebrow">Infrastructure portfolio // live build</span>
+<h1><span data-profile="name">wfazli52</span><span data-profile="headline">Aspiring Data Center Technician &amp; Network Engineer</span></h1>
+<p class="hero-copy">I am building hands-on evidence in server operations, networking, Linux, troubleshooting, and technical documentation while completing my network engineering degree.</p>
+<div class="meta-row">
+<span class="meta-pill" data-profile="school">WGU — B.S. Network Engineering, Cisco track</span>
+<span class="meta-pill" data-profile="location">Location available upon request</span>
+<span class="meta-pill" data-profile="availability">Open to data center technician and network support roles</span>
+</div>
+<div class="button-row">
+<a class="button primary" href="#projects">View lab plan <span aria-hidden="true">↓</span></a>
+<button class="button button-command" data-ops-open="" type="button">Launch operations mode <span aria-hidden="true">↗</span></button>
+<button class="button" data-tour-start="" type="button">60-second recruiter tour</button>
+<a class="button" data-resume-link="" href="resume.html">Open resume</a>
+</div>
+<div aria-label="Animated portfolio setup terminal" class="mini-terminal">
+<div class="terminal-bar">
+<span aria-hidden="true" class="terminal-dots"><i></i><i></i><i></i></span>
+<span>career-lab.sh</span>
+<span class="terminal-state"><span aria-hidden="true" class="signal-dot"></span> active</span>
+</div>
+<div aria-hidden="true" class="terminal-body"><span class="terminal-prompt">$</span> <span data-terminal-text="">boot portfolio --mode=proof-first</span><span class="terminal-cursor">_</span></div>
+</div>
+</div>
+<div aria-label="Stylized animated server rack illustration" class="rack-visual" data-reveal="" data-tilt="">
+<div class="rack-badge"><span aria-hidden="true" class="signal-dot"></span> LAB NETWORK READY</div>
+<div class="rack">
+<div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">CORE-SW-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+<div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">LAB-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+<div class="server"><div class="server-leds"><span class="led blue"></span><span class="led"></span></div><span class="server-label">MON-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+<div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">EDGE-RTR-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+<div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">PDU-A / PDU-B</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+</div>
+<div class="visual-note"><strong>Current build rule</strong>Publish only what you personally configured, tested, photographed, or documented.</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="dashboard-title" class="system-dashboard" id="dashboard">
+<div class="container">
+<div class="dashboard-shell" data-reveal="">
+<div class="dashboard-head">
+<div><span class="eyebrow">Mission control</span><h2 id="dashboard-title">Portfolio status board.</h2></div>
+<div class="system-health"><span aria-hidden="true" class="signal-dot"></span> GitHub Pages live</div>
+</div>
+<div class="metric-grid">
+<article class="metric-card" data-tilt=""><span class="metric-kicker">Build plans</span><strong class="metric-value"><span data-counter="" data-target="4">0</span></strong><span class="metric-label">technical lab blueprints</span></article>
+<article class="metric-card" data-tilt=""><span class="metric-kicker">Career sprint</span><strong class="metric-value"><span data-counter="" data-target="90">0</span><small> days</small></strong><span class="metric-label">structured roadmap</span></article>
+<article class="metric-card" data-tilt=""><span class="metric-kicker">Documentation</span><strong class="metric-value"><span data-counter="" data-target="6">0</span></strong><span class="metric-label">evidence templates ready</span></article>
+<article class="metric-card metric-card-live" data-tilt=""><span class="metric-kicker">Deployment</span><strong class="metric-value metric-word">LIVE</strong><span class="metric-label">public portfolio online</span></article>
+</div>
+<div class="build-sequence">
+<div class="sequence-head"><span>Build sequence</span><strong>Website live · Enterprise network lab next</strong></div>
+<div aria-label="One of five portfolio phases established" class="sequence-track"><span class="sequence-fill"></span><i></i><i></i><i></i><i></i><i></i></div>
+<div class="sequence-labels"><span class="is-active">Portfolio</span><span>Networking</span><span>Linux</span><span>Incidents</span><span>Operations</span></div>
+</div>
+</div>
+</div>
+</section>
+<div aria-label="Technology focus areas" class="tech-marquee">
+<div class="marquee-track">
+<span>CISCO IOS</span><i>◆</i><span>PACKET TRACER</span><i>◆</i><span>LINUX</span><i>◆</i><span>TCP/IP</span><i>◆</i><span>VLANs</span><i>◆</i><span>DNS + DHCP</span><i>◆</i><span>TROUBLESHOOTING</span><i>◆</i><span>GITHUB</span><i>◆</i>
+<span aria-hidden="true">CISCO IOS</span><i aria-hidden="true">◆</i><span aria-hidden="true">PACKET TRACER</span><i aria-hidden="true">◆</i><span aria-hidden="true">LINUX</span><i aria-hidden="true">◆</i><span aria-hidden="true">TCP/IP</span><i aria-hidden="true">◆</i><span aria-hidden="true">VLANs</span><i aria-hidden="true">◆</i><span aria-hidden="true">DNS + DHCP</span><i aria-hidden="true">◆</i><span aria-hidden="true">TROUBLESHOOTING</span><i aria-hidden="true">◆</i><span aria-hidden="true">GITHUB</span><i aria-hidden="true">◆</i>
+</div>
+</div>
+<section aria-labelledby="command-center-title" class="section command-center-section" id="command-center">
+<div class="container">
+<div class="section-heading command-heading" data-reveal="">
+<div><span class="eyebrow">Interactive operations lab</span><h2 id="command-center-title">Diagnose the network. Inspect the rack. Restore service.</h2></div>
+<p>This browser-based command center is a clearly labeled training simulation. Choose an incident, inspect device states, run troubleshooting commands, and validate the recovery without pretending the results came from a real production system.</p>
+</div>
+<div class="command-center-actions" data-reveal="">
+<div class="command-center-note"><span aria-hidden="true" class="signal-dot"></span><span>Keyboard ready: <kbd>1</kbd>–<kbd>4</kbd> incidents · <kbd>Ctrl</kbd>+<kbd>K</kbd> terminal · <kbd>O</kbd> operations mode · <kbd>T</kbd> tour · <kbd>P</kbd> pause</span></div>
+<div class="button-row">
+<button class="button" data-tour-start="" type="button">Start recruiter tour</button>
+<button class="button primary" data-ops-open="" type="button">Enter full-screen operations mode <span aria-hidden="true">↗</span></button>
+</div>
+</div>
+<div class="command-center-shell" data-command-center="" data-incident-state="baseline" data-reveal="">
+<div class="ops-topbar">
+<div class="ops-brand-lockup">
+<span aria-hidden="true" class="ops-logo"><i></i><i></i><i></i></span>
+<div><strong>DC//NET COMMAND CENTER</strong><span aria-live="polite" data-incident-status="">Baseline telemetry nominal</span></div>
+</div>
+<div class="ops-topbar-actions">
+<button aria-label="Show keyboard and terminal help" class="ops-icon-button" data-ops-help="" title="Help" type="button">?</button>
+<button aria-pressed="false" class="ops-icon-button" data-fx-toggle="" title="Pause visual effects" type="button"><span aria-hidden="true" class="fx-toggle-icon">◉</span><span data-fx-label="">Pause FX</span></button>
+<button class="ops-icon-button" data-tour-start="" type="button">Tour</button>
+<button class="ops-icon-button ops-expand" data-ops-open="" type="button"><span aria-hidden="true">⛶</span><span>Full screen</span></button>
+<button class="ops-icon-button ops-exit" data-ops-close="" hidden="" type="button"><span aria-hidden="true">×</span><span>Exit</span></button>
+</div>
+</div>
+<div class="incident-console">
+<div class="incident-console-copy">
+<span class="simulation-label"><span aria-hidden="true" class="signal-dot"></span> Training simulation</span>
+<h3>Inject a controlled incident</h3>
+<p>Select one of four scenarios. Device colors, packet flow, rack health, terminal output, and the incident brief will change together.</p>
+</div>
+<div aria-label="Incident simulations" class="incident-tabs" role="tablist">
+<button aria-controls="incident-brief" aria-selected="false" class="incident-tab" data-incident="vlan" role="tab" type="button"><span>01</span><strong>VLAN mismatch</strong><small>Client isolation</small></button>
+<button aria-controls="incident-brief" aria-selected="false" class="incident-tab" data-incident="dns" role="tab" type="button"><span>02</span><strong>DNS outage</strong><small>Name resolution</small></button>
+<button aria-controls="incident-brief" aria-selected="false" class="incident-tab" data-incident="uplink" role="tab" type="button"><span>03</span><strong>Uplink down</strong><small>Access failure</small></button>
+<button aria-controls="incident-brief" aria-selected="false" class="incident-tab" data-incident="disk" role="tab" type="button"><span>04</span><strong>Disk pressure</strong><small>Service failure</small></button>
+</div>
+<button class="incident-reset" data-incident-reset="" type="button">Reset baseline</button>
+</div>
+<div class="ops-grid">
+<section aria-labelledby="topology-title" class="ops-panel topology-panel">
+<div class="ops-panel-head">
+<div><span class="panel-kicker">Live topology</span><h3 id="topology-title">Packet-flow map</h3></div>
+<div class="telemetry-pill"><span aria-hidden="true" class="signal-dot"></span><span data-topology-health="">8 devices online</span></div>
+</div>
+<div class="topology-workspace">
+<svg aria-labelledby="topology-svg-title topology-svg-desc" class="interactive-topology" data-topology="" role="img" viewbox="0 0 930 430">
+<title id="topology-svg-title">Interactive simulated network topology</title>
+<desc id="topology-svg-desc">Internet, edge router, core switch, access switch, client, DNS server, web server, and monitoring server. Select a node for details.</desc>
+<defs>
+<filter height="260%" id="topology-glow" width="260%" x="-80%" y="-80%"><fegaussianblur result="blur" stddeviation="4"></fegaussianblur><femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge></filter>
+<lineargradient id="link-gradient" x1="0" x2="1"><stop offset="0" stop-color="#63d3ff"></stop><stop offset="1" stop-color="#80f0c0"></stop></lineargradient>
+</defs>
+<g aria-hidden="true" class="topology-links">
+<path class="topology-link" d="M140 215 H190" data-link="wan"></path>
+<path class="topology-link" d="M310 215 H360" data-link="edge-core"></path>
+<path class="topology-link" d="M500 205 C530 205 530 105 550 105" data-link="core-access"></path>
+<path class="topology-link" d="M690 105 H760" data-link="access-client"></path>
+<path class="topology-link" d="M500 225 C530 225 530 325 550 325" data-link="core-dns"></path>
+<path class="topology-link" d="M690 325 H760" data-link="dns-web"></path>
+<path class="topology-link" d="M430 250 V330" data-link="core-monitor"></path>
+</g>
+<g aria-hidden="true" class="topology-packets">
+<circle class="topology-packet packet-cyan" data-packet-route="wan" r="4"><animatemotion dur="2.1s" path="M140 215 H190" repeatcount="indefinite"></animatemotion></circle>
+<circle class="topology-packet packet-green" data-packet-route="edge-core" r="4"><animatemotion begin="-.8s" dur="2.4s" path="M310 215 H360" repeatcount="indefinite"></animatemotion></circle>
+<circle class="topology-packet packet-cyan" data-packet-route="core-access" r="4"><animatemotion begin="-1.2s" dur="2.8s" path="M500 205 C530 205 530 105 550 105" repeatcount="indefinite"></animatemotion></circle>
+<circle class="topology-packet packet-green" data-packet-route="access-client" r="4"><animatemotion begin="-.4s" dur="2s" path="M690 105 H760" repeatcount="indefinite"></animatemotion></circle>
+<circle class="topology-packet packet-green" data-packet-route="core-dns" r="4"><animatemotion begin="-1.6s" dur="3.1s" path="M500 225 C530 225 530 325 550 325" repeatcount="indefinite"></animatemotion></circle>
+<circle class="topology-packet packet-cyan" data-packet-route="dns-web" r="4"><animatemotion begin="-1s" dur="2.3s" path="M690 325 H760" repeatcount="indefinite"></animatemotion></circle>
+<circle class="topology-packet packet-green" data-packet-route="core-monitor" r="4"><animatemotion begin="-.6s" dur="2.7s" path="M430 250 V330" repeatcount="indefinite"></animatemotion></circle>
+</g>
+<g aria-label="Internet gateway, online" class="topology-node" data-device="internet" role="button" tabindex="0" transform="translate(20 180)">
+<rect class="node-shell" height="70" rx="18" width="120"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="60" y="31">WAN</text><text class="node-name" text-anchor="middle" x="60" y="51">INTERNET</text>
+</g>
+<g aria-label="Edge router, online" class="topology-node" data-device="edge" role="button" tabindex="0" transform="translate(190 180)">
+<rect class="node-shell" height="70" rx="18" width="120"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="60" y="31">ROUTER</text><text class="node-name" text-anchor="middle" x="60" y="51">EDGE-RTR-01</text>
+</g>
+<g aria-label="Core switch, online" class="topology-node" data-device="core" role="button" tabindex="0" transform="translate(360 180)">
+<rect class="node-shell" height="70" rx="18" width="140"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="70" y="31">L3 SWITCH</text><text class="node-name" text-anchor="middle" x="70" y="51">CORE-SW-01</text>
+</g>
+<g aria-label="Access switch, online" class="topology-node" data-device="access" role="button" tabindex="0" transform="translate(550 70)">
+<rect class="node-shell" height="70" rx="18" width="140"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="70" y="31">ACCESS</text><text class="node-name" text-anchor="middle" x="70" y="51">ACCESS-SW-01</text>
+</g>
+<g aria-label="Engineering workstation, online" class="topology-node" data-device="client" role="button" tabindex="0" transform="translate(760 70)">
+<rect class="node-shell" height="70" rx="18" width="150"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="75" y="31">CLIENT</text><text class="node-name" text-anchor="middle" x="75" y="51">ENG-WS-04</text>
+</g>
+<g aria-label="DNS server, online" class="topology-node" data-device="dns" role="button" tabindex="0" transform="translate(550 290)">
+<rect class="node-shell" height="70" rx="18" width="140"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="70" y="31">DNS</text><text class="node-name" text-anchor="middle" x="70" y="51">DNS-SRV-01</text>
+</g>
+<g aria-label="Application server, online" class="topology-node" data-device="web" role="button" tabindex="0" transform="translate(760 290)">
+<rect class="node-shell" height="70" rx="18" width="150"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="75" y="31">LINUX WEB</text><text class="node-name" text-anchor="middle" x="75" y="51">APP-SRV-01</text>
+</g>
+<g aria-label="Monitoring server, online" class="topology-node" data-device="monitor" role="button" tabindex="0" transform="translate(360 330)">
+<rect class="node-shell" height="70" rx="18" width="140"></rect><circle class="node-state" cx="17" cy="17" r="5"></circle><text class="node-kicker" text-anchor="middle" x="70" y="31">MONITORING</text><text class="node-name" text-anchor="middle" x="70" y="51">MON-SRV-01</text>
+</g>
+</svg>
+<div aria-hidden="true" class="topology-legend"><span><i class="legend-dot healthy"></i>Online</span><span><i class="legend-dot warning"></i>Degraded</span><span><i class="legend-dot critical"></i>Fault</span><span><i class="legend-line"></i>Traffic path</span></div>
+</div>
+<div class="device-inspector" data-device-inspector="">
+<div><span class="panel-kicker" data-device-type="">L3 switch</span><h4 data-device-name="">CORE-SW-01</h4><p data-device-role="">Routes lab VLANs and provides the default gateways for simulated client networks.</p></div>
+<dl><div><dt>Address</dt><dd data-device-address="">10.99.0.2</dd></div><div><dt>Rack</dt><dd data-device-rack="">RACK-A · U38</dd></div><div><dt>Status</dt><dd class="device-status-good" data-device-status="">Online</dd></div></dl>
+</div>
+</section>
+<section aria-labelledby="rack-title" class="ops-panel rack-panel">
+<div class="ops-panel-head">
+<div><span class="panel-kicker">Rack explorer</span><h3 id="rack-title">RACK-A / 42U</h3></div>
+<span class="rack-load" data-rack-load="">7 devices · nominal</span>
+</div>
+<div class="rack-explorer-layout">
+<div aria-label="Clickable rack units" class="rack-frame" role="group">
+<div class="rack-cap"><span>U42</span><strong>FRONT VIEW</strong><span>U01</span></div>
+<button class="rack-unit rack-passive" data-rack-device="patch" type="button"><span class="rack-u">U42</span><span><strong>PATCH-01</strong><small>24-port panel</small></span><i aria-hidden="true"></i></button>
+<button class="rack-unit" data-rack-device="core" type="button"><span class="rack-u">U38</span><span><strong>CORE-SW-01</strong><small>L3 switch</small></span><i aria-hidden="true"></i></button>
+<button class="rack-unit" data-rack-device="access" type="button"><span class="rack-u">U36</span><span><strong>ACCESS-SW-01</strong><small>Access switch</small></span><i aria-hidden="true"></i></button>
+<button class="rack-unit" data-rack-device="web" type="button"><span class="rack-u">U28</span><span><strong>APP-SRV-01</strong><small>Linux application</small></span><i aria-hidden="true"></i></button>
+<button class="rack-unit" data-rack-device="dns" type="button"><span class="rack-u">U24</span><span><strong>DNS-SRV-01</strong><small>Name services</small></span><i aria-hidden="true"></i></button>
+<button class="rack-unit" data-rack-device="monitor" type="button"><span class="rack-u">U20</span><span><strong>MON-SRV-01</strong><small>Telemetry</small></span><i aria-hidden="true"></i></button>
+<button class="rack-unit rack-power" data-rack-device="pdu" type="button"><span class="rack-u">REAR</span><span><strong>PDU-A / PDU-B</strong><small>Redundant feeds</small></span><i aria-hidden="true"></i></button>
+</div>
+<div class="rack-detail" data-rack-detail="">
+<span class="panel-kicker" data-rack-type="">L3 switch</span>
+<h4 data-rack-name="">CORE-SW-01</h4>
+<p data-rack-role="">Routes the training VLANs and aggregates access and server links.</p>
+<dl><div><dt>Position</dt><dd data-rack-position="">U38</dd></div><div><dt>Power</dt><dd data-rack-power="">A+B feeds</dd></div><div><dt>Ports</dt><dd data-rack-ports="">12 active / 24</dd></div></dl>
+<button class="rack-locate" data-rack-locate="" type="button">Locate on topology</button>
+</div>
+</div>
+</section>
+<section aria-labelledby="terminal-title" class="ops-panel terminal-panel">
+<div class="ops-panel-head">
+<div><span class="panel-kicker">Troubleshooting terminal</span><h3 id="terminal-title">Evidence-first diagnostics</h3></div>
+<span class="terminal-mode">SIMULATED OUTPUT</span>
+</div>
+<div class="troubleshooting-terminal">
+<div aria-label="Troubleshooting terminal output" aria-live="polite" class="terminal-output" data-sim-terminal-output="" role="log" tabindex="0"></div>
+<form autocomplete="off" class="terminal-command-line" data-sim-terminal-form="">
+<label class="visually-hidden" for="sim-command">Enter a simulated troubleshooting command</label>
+<span aria-hidden="true" class="terminal-prompt">tech@lab:~$</span>
+<input aria-describedby="terminal-help-text" data-sim-terminal-input="" id="sim-command" inputmode="text" placeholder="Try: help, status, ping, nslookup, show vlan brief, df -h" spellcheck="false" type="text"/>
+<button type="submit">Run</button>
+</form>
+<div aria-label="Quick terminal commands" class="terminal-quick-commands" id="terminal-help-text">
+<button data-terminal-command="status" type="button">status</button><button data-terminal-command="ping gateway" type="button">ping gateway</button><button data-terminal-command="show interfaces status" type="button">show interfaces</button><button data-terminal-command="show vlan brief" type="button">show vlan</button><button data-terminal-command="nslookup app.lab" type="button">nslookup</button><button data-terminal-command="systemctl status" type="button">systemctl</button><button data-terminal-command="df -h" type="button">df -h</button><button data-terminal-command="fix" type="button">apply fix</button>
+</div>
+</div>
+</section>
+<aside aria-labelledby="incident-title" class="ops-panel incident-brief" id="incident-brief">
+<div class="incident-brief-top"><span class="incident-id" data-incident-id="">BASELINE</span><span class="incident-severity" data-incident-severity="">NOMINAL</span></div>
+<h3 data-incident-title="" id="incident-title">All simulated systems operational</h3>
+<p data-incident-summary="">Traffic is flowing across every training path. Select an incident to begin a controlled troubleshooting exercise.</p>
+<div class="incident-block"><strong>Observed symptoms</strong><ul data-incident-symptoms=""><li>No active alerts.</li><li>All eight simulated devices report online.</li><li>Packet paths are passing telemetry.</li></ul></div>
+<div class="incident-objective"><strong>Operator objective</strong><p data-incident-objective="">Inspect the topology or rack, then inject one of the four training incidents.</p></div>
+<button class="button primary incident-fix" data-apply-fix="" disabled="" type="button">Apply confirmed fix</button>
+<div class="resolution-panel" data-resolution-panel="" hidden=""><span>RECOVERY VERIFIED</span><p data-resolution-text=""></p></div>
+</aside>
+</div>
+<div class="ops-statusbar">
+<span><kbd>1</kbd>–<kbd>4</kbd> incidents · <kbd>↑</kbd>/<kbd>↓</kbd> command history · <kbd>Ctrl</kbd>+<kbd>K</kbd> focus terminal · <kbd>Esc</kbd> exit</span>
+<span data-simulation-clock="">STANDBY</span>
+</div>
+</div>
+</div>
+</section>
+<section class="section alt" id="proof">
+<div class="container">
+<div class="section-heading" data-reveal="">
+<div><span class="eyebrow">Job-aligned proof</span><h2>Show the work behind the skills.</h2></div>
+<p>Large data center teams need technicians who can follow procedures, isolate faults, handle equipment safely, communicate clearly, and leave reliable documentation for the next shift.</p>
+</div>
+<div class="grid four">
+<article class="card" data-reveal="" data-tilt=""><div class="icon-box">HW</div><h3>Hardware operations</h3><p>Component identification, rack planning, cable labeling, parts handling, break/fix logic, and asset tracking.</p></article>
+<article class="card" data-reveal="" data-tilt=""><div class="icon-box">NET</div><h3>Networking</h3><p>IPv4 subnetting, VLANs, routing, switching, ACLs, DHCP, DNS, connectivity tests, and topology documentation.</p></article>
+<article class="card" data-reveal="" data-tilt=""><div class="icon-box">LIN</div><h3>Linux &amp; monitoring</h3><p>Installation, users and permissions, SSH, services, logs, storage, patching, basic monitoring, and recovery steps.</p></article>
+<article class="card" data-reveal="" data-tilt=""><div class="icon-box">DOC</div><h3>Operational discipline</h3><p>Runbooks, ticket notes, change plans, validation matrices, incident timelines, root-cause analysis, and handoff summaries.</p></article>
+</div>
+</div>
+</section>
+<section class="section" id="projects">
+<div class="container">
+<div class="section-heading" data-reveal="">
+<div><span class="eyebrow">Portfolio projects</span><h2>Four labs that tell one career story.</h2></div>
+<p>Complete them in order. Each page gives you a build plan, acceptance tests, and an evidence checklist. Replace “planned” with “completed” only after the lab works.</p>
+</div>
+<div class="grid two">
+<a class="card project-card" data-project-transition="" data-reveal="" data-tilt="" href="projects/enterprise-network.html">
+<span class="project-number">PROJECT 01</span><h3>Enterprise VLAN &amp; Routing Lab</h3><p>Design a small multi-department network with an IP plan, VLANs, inter-VLAN routing, DHCP, DNS, ACLs, and a repeatable test matrix.</p>
+<div class="tag-row"><span class="tag">Packet Tracer</span><span class="tag">Cisco IOS</span><span class="tag">TCP/IP</span></div>
+<div class="project-footer"><span class="status">Build first</span><span aria-hidden="true" class="arrow">↗</span></div>
+</a>
+<a class="card project-card" data-project-transition="" data-reveal="" data-tilt="" href="projects/linux-monitoring.html">
+<span class="project-number">PROJECT 02</span><h3>Linux Server Operations Lab</h3><p>Operate two Linux servers, secure remote access, manage services and storage, centralize logs, monitor health, and recover from controlled failures.</p>
+<div class="tag-row"><span class="tag">Ubuntu Server</span><span class="tag">SSH</span><span class="tag">Systemd</span></div>
+<div class="project-footer"><span class="status">Build second</span><span aria-hidden="true" class="arrow">↗</span></div>
+</a>
+<a class="card project-card" data-project-transition="" data-reveal="" data-tilt="" href="projects/incident-response.html">
+<span class="project-number">PROJECT 03</span><h3>Break/Fix Incident Simulation</h3><p>Create and resolve realistic incidents involving DNS, interfaces, disk capacity, services, cabling, and incorrect network configuration.</p>
+<div class="tag-row"><span class="tag">Troubleshooting</span><span class="tag">RCA</span><span class="tag">Ticketing</span></div>
+<div class="project-footer"><span class="status">Build third</span><span aria-hidden="true" class="arrow">↗</span></div>
+</a>
+<a class="card project-card" data-project-transition="" data-reveal="" data-tilt="" href="projects/rack-inventory.html">
+<span class="project-number">PROJECT 04</span><h3>Rack, Cabling &amp; Asset Plan</h3><p>Produce a rack elevation, port map, labeling standard, asset inventory, power estimate, maintenance checklist, and decommission plan.</p>
+<div class="tag-row"><span class="tag">DC operations</span><span class="tag">Inventory</span><span class="tag">Safety</span></div>
+<div class="project-footer"><span class="status">Build fourth</span><span aria-hidden="true" class="arrow">↗</span></div>
+</a>
+</div>
+<div class="honesty" data-reveal=""><div class="icon-box">!</div><div><strong>Do not let AI invent your evidence.</strong><p>ChatGPT can draft a lab plan, explain commands, review configurations, and turn your actual notes into clean documentation. You must run the lab, capture the outputs, explain failures, and verify the final result yourself.</p></div></div>
+</div>
+</section>
+<section class="section alt" id="skills">
+<div class="container">
+<div class="section-heading" data-reveal="">
+<div><span class="eyebrow">Skills inventory</span><h2>Label your level honestly.</h2></div>
+<p>Recruiters trust precise language. “Practicing in labs” is stronger than claiming expert knowledge you cannot demonstrate during an interview.</p>
+</div>
+<div class="grid three">
+<article class="card skill-group" data-reveal=""><h3>Networking</h3><div class="skill-list">
+<div class="skill-item"><span>IPv4 subnetting</span><span class="skill-level">Practicing</span></div>
+<div class="skill-item"><span>VLANs &amp; trunks</span><span class="skill-level">Planned lab</span></div>
+<div class="skill-item"><span>Routing &amp; ACLs</span><span class="skill-level">Planned lab</span></div>
+<div class="skill-item"><span>DNS &amp; DHCP</span><span class="skill-level">Planned lab</span></div>
+</div></article>
+<article class="card skill-group" data-reveal=""><h3>Systems</h3><div class="skill-list">
+<div class="skill-item"><span>PC/server components</span><span class="skill-level">Learning</span></div>
+<div class="skill-item"><span>Linux administration</span><span class="skill-level">Planned lab</span></div>
+<div class="skill-item"><span>Logs &amp; monitoring</span><span class="skill-level">Planned lab</span></div>
+<div class="skill-item"><span>Virtualization</span><span class="skill-level">Planned lab</span></div>
+</div></article>
+<article class="card skill-group" data-reveal=""><h3>Operations</h3><div class="skill-list">
+<div class="skill-item"><span>Incident notes</span><span class="skill-level">Template ready</span></div>
+<div class="skill-item"><span>Runbooks &amp; SOPs</span><span class="skill-level">Template ready</span></div>
+<div class="skill-item"><span>Asset inventory</span><span class="skill-level">Template ready</span></div>
+<div class="skill-item"><span>Change validation</span><span class="skill-level">Template ready</span></div>
+</div></article>
+</div>
+</div>
+</section>
+<section class="section" id="roadmap">
+<div class="container">
+<div class="section-heading" data-reveal="">
+<div><span class="eyebrow">90-day roadmap</span><h2>Build, document, apply.</h2></div>
+<p>A small completed portfolio beats ten unfinished ideas. Aim for one publishable deliverable every two weeks and begin applying before everything is perfect.</p>
+</div>
+<div class="timeline">
+<div class="timeline-item" data-reveal=""><div class="timeline-date">Days 1–30</div><div class="timeline-copy"><h3>Foundations + Project 01</h3><p>Set up GitHub, Packet Tracer, your documentation folders, and complete the enterprise network lab. Practice subnetting, cable types, core hardware, DNS, DHCP, and the OSI/TCP-IP troubleshooting flow.</p></div></div>
+<div class="timeline-item" data-reveal=""><div class="timeline-date">Days 31–60</div><div class="timeline-copy"><h3>Linux operations + incident evidence</h3><p>Build the Linux lab, capture clean logs and screenshots, then run at least five break/fix scenarios. Publish one full incident report and one short runbook.</p></div></div>
+<div class="timeline-item" data-reveal=""><div class="timeline-date">Days 61–90</div><div class="timeline-copy"><h3>Rack plan + applications</h3><p>Finish the operations project, update the resume, practice behavioral and technical interviews, and apply weekly to data center technician, deployment technician, network support, NOC, and field technician roles.</p></div></div>
+</div>
+<div class="button-row" data-reveal="" style="margin-top: 1.5rem">
+<a class="button primary" href="ROADMAP.md">Open the weekly roadmap</a>
+<a class="button" href="CHATGPT_WORKFLOW.md">Open the ChatGPT prompt pack</a>
+</div>
+</div>
+</section>
+<section class="section alt" id="contact">
+<div class="container">
+<div class="cta" data-reveal="">
+<div><span class="eyebrow">Contact</span><h2>Let the evidence do the talking.</h2><p>Follow the GitHub profile now, then add a professional email or LinkedIn URL in <code>config.js</code> when you are ready to publish those details.</p></div>
+<div class="button-row">
+<a class="button primary" data-profile-href="github" href="https://github.com/wfazli52">View GitHub</a>
+<a class="button" data-hide-empty="" data-profile-href="linkedin" href="#">LinkedIn</a>
+<a class="button" data-hide-empty="" data-profile-href="email" href="#">Email me</a>
+<button class="button" data-copy-email="" data-hide-empty="" type="button">Copy email</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container footer-row">
+<span>© <span data-year=""></span> <span data-profile="name">wfazli52</span>. Built as a proof-based technical portfolio.</span>
+<div class="footer-links"><a data-profile-href="github" href="https://github.com/wfazli52">GitHub</a><a data-hide-empty="" data-profile-href="linkedin" href="#">LinkedIn</a><a data-resume-link="" href="resume.html">Resume</a></div>
+</div>
+</footer>
+<div aria-hidden="true" class="recruiter-tour-layer" data-tour-layer="" hidden="">
+<div aria-hidden="true" class="tour-spotlight" data-tour-spotlight=""></div>
+<section aria-describedby="tour-description" aria-labelledby="tour-title" aria-modal="false" class="tour-card" data-tour-card="" role="dialog" tabindex="-1">
+<div class="tour-card-top"><span data-tour-counter="">Step 1 of 6</span><button aria-label="Close recruiter tour" data-tour-close="" type="button">×</button></div>
+<div aria-hidden="true" class="tour-progress"><span data-tour-progress=""></span></div>
+<span class="panel-kicker" data-tour-kicker="">Career direction</span>
+<h2 data-tour-title="" id="tour-title">Built for infrastructure work</h2>
+<p data-tour-description="" id="tour-description">This opening establishes the target role, current degree path, and proof-first approach without exaggerating experience.</p>
+<div class="tour-actions"><button class="button" data-tour-back="" disabled="" type="button">Back</button><button class="button primary" data-tour-next="" type="button">Next</button></div>
+<p class="tour-keyboard">Use <kbd>←</kbd> <kbd>→</kbd> to navigate and <kbd>Esc</kbd> to exit.</p>
+</section>
+</div>
 </body>
 </html>

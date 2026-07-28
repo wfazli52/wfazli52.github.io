@@ -5,13 +5,13 @@
   function applyEffectsState() {
     document.body.classList.toggle('fx-paused', effectsPaused);
 
-    const button = document.querySelector('[data-fx-toggle]');
-    const label = document.querySelector('[data-fx-label]');
-    if (button) {
+    document.querySelectorAll('[data-fx-toggle]').forEach((button) => {
       button.setAttribute('aria-pressed', String(effectsPaused));
       button.title = effectsPaused ? 'Resume visual effects' : 'Pause visual effects';
-    }
-    if (label) label.textContent = effectsPaused ? 'Resume FX' : 'Pause FX';
+    });
+    document.querySelectorAll('[data-fx-label]').forEach((label) => {
+      label.textContent = effectsPaused ? 'Resume FX' : 'Pause FX';
+    });
 
     window.dispatchEvent(new CustomEvent('portfolio:fxchange', {
       detail: { paused: effectsPaused }
@@ -19,10 +19,11 @@
   }
 
   function setupEffectsToggle() {
-    const button = document.querySelector('[data-fx-toggle]');
-    button?.addEventListener('click', () => {
-      effectsPaused = !effectsPaused;
-      applyEffectsState();
+    document.querySelectorAll('[data-fx-toggle]').forEach((button) => {
+      button.addEventListener('click', () => {
+        effectsPaused = !effectsPaused;
+        applyEffectsState();
+      });
     });
 
     motionQuery.addEventListener?.('change', (event) => {

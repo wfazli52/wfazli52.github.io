@@ -1,0 +1,6 @@
+DC//NET Portfolio
+Owner: wfazli52
+Purpose: Proof-first portfolio for data center technician and network engineering development
+Technology: Semantic HTML, CSS, vanilla JavaScript, SVG, GitHub Pages
+Principle: Simulations, plans, and verified evidence remain visibly separated
+Repository: https://github.com/wfazli52/wfazli52.github.io

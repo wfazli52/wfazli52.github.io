@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">WF data center and networking mark</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#10263f"/><stop offset="1" stop-color="#06111f"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#63d3ff"/><stop offset="1" stop-color="#80f0c0"/></linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
+  <path d="M12 16h40M12 24h40M12 40h40M12 48h40" stroke="#63d3ff" stroke-opacity=".12"/>
+  <path d="M16 12v40M24 12v40M40 12v40M48 12v40" stroke="#80f0c0" stroke-opacity=".08"/>
+  <path d="M15 21l7 24 8-16 8 16 11-26" fill="none" stroke="url(#accent)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="15" cy="21" r="3" fill="#63d3ff"/><circle cx="49" cy="19" r="3" fill="#80f0c0"/>
+</svg>

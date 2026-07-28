@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">DC NET proof-first infrastructure portfolio</title>
+  <desc id="desc">A dark technical social card with a server rack, network paths, and portfolio title.</desc>
+  <defs>
+    <radialGradient id="bg" cx="15%" cy="10%" r="100%"><stop stop-color="#153b5d"/><stop offset=".42" stop-color="#071727"/><stop offset="1" stop-color="#020811"/></radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#63d3ff"/><stop offset="1" stop-color="#80f0c0"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity=".09" stroke="#63d3ff"><path d="M0 70h1200M0 140h1200M0 210h1200M0 280h1200M0 350h1200M0 420h1200M0 490h1200M0 560h1200"/><path d="M80 0v630M160 0v630M240 0v630M320 0v630M400 0v630M480 0v630M560 0v630M640 0v630M720 0v630M800 0v630M880 0v630M960 0v630M1040 0v630M1120 0v630"/></g>
+  <circle cx="175" cy="75" r="140" fill="#63d3ff" opacity=".09" filter="url(#glow)"/><circle cx="1050" cy="540" r="170" fill="#80f0c0" opacity=".08" filter="url(#glow)"/>
+  <g transform="translate(775 74)">
+    <rect width="326" height="482" rx="34" fill="#030b14" stroke="#8fdfff" stroke-opacity=".3" stroke-width="3"/>
+    <g fill="#102842" stroke="#63d3ff" stroke-opacity=".25" stroke-width="2">
+      <rect x="34" y="48" width="258" height="62" rx="12"/><rect x="34" y="126" width="258" height="62" rx="12"/><rect x="34" y="204" width="258" height="62" rx="12"/><rect x="34" y="282" width="258" height="62" rx="12"/><rect x="34" y="360" width="258" height="62" rx="12"/>
+    </g>
+    <g fill="url(#accent)"><circle cx="62" cy="79" r="8"/><circle cx="62" cy="157" r="8"/><circle cx="62" cy="235" r="8"/><circle cx="62" cy="313" r="8"/><circle cx="62" cy="391" r="8"/></g>
+    <g stroke="#a6bfd5" stroke-opacity=".38" stroke-width="7" stroke-linecap="round"><path d="M98 79h150"/><path d="M98 157h115"/><path d="M98 235h150"/><path d="M98 313h128"/><path d="M98 391h150"/></g>
+  </g>
+  <g fill="none" stroke="#63d3ff" stroke-opacity=".24" stroke-width="3"><path d="M690 175C610 115 560 125 490 175"/><path d="M692 310C600 255 552 280 492 318"/><path d="M692 445C610 410 565 430 505 468"/></g>
+  <g fill="#80f0c0"><circle cx="690" cy="175" r="6"/><circle cx="492" cy="318" r="6"/><circle cx="505" cy="468" r="6"/></g>
+  <text x="82" y="105" fill="#80f0c0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24" font-weight="800" letter-spacing="4">DC//NET PORTFOLIO</text>
+  <text x="82" y="205" fill="#eff8ff" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="850">Proof-first infrastructure</text>
+  <text x="82" y="278" fill="#eff8ff" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="850">portfolio.</text>
+  <text x="82" y="348" fill="#a7bfd2" font-family="Inter, Arial, sans-serif" font-size="29">Networking · Linux · Troubleshooting · Data center operations</text>
+  <rect x="82" y="408" width="520" height="74" rx="18" fill="#0c2239" stroke="#63d3ff" stroke-opacity=".28"/>
+  <circle cx="122" cy="445" r="9" fill="#80f0c0"/>
+  <text x="148" y="454" fill="#dff7ff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24" font-weight="750">Verified evidence separated from simulation</text>
+  <text x="82" y="558" fill="url(#accent)" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">wfazli52.github.io</text>
+</svg>
