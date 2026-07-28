@@ -37,10 +37,11 @@ jobs:
           sha256sum proof-data.js proof-mode.js proof-mode.css PROOF_MODE.md
 
       - name: Set up isolated Python
+        id: python
+        continue-on-error: true
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: pip
 
       - name: Build and validate in an isolated directory
         id: build
@@ -78,5 +79,6 @@ jobs:
         run: |
           echo "package_step=${{ steps.package.outcome }}"
           echo "proof_step=${{ steps.proof.outcome }}"
+          echo "python_step=${{ steps.python.outcome }}"
           echo "build_step=${{ steps.build.outcome }}"
           echo "Diagnostic workflow intentionally exits successfully so it does not send another failure notification."
