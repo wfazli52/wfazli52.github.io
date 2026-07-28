@@ -1,5 +1,6 @@
 (() => {
   const profile = window.PORTFOLIO || {};
+  const assetBase = new URL('.', document.currentScript?.src || document.baseURI);
 
   function hideEmptyElement(element) {
     if (!element.hasAttribute('data-hide-empty')) return;
@@ -178,13 +179,55 @@
     if (document.querySelector('script[data-command-center-loader]')) return;
 
     const script = document.createElement('script');
-    script.src = 'command-center.js?v=3';
+    script.src = new URL('command-center.js?v=3', assetBase).href;
     script.dataset.commandCenterLoader = '';
     script.async = true;
     script.addEventListener('error', () => {
       console.error('The interactive command center could not be loaded.');
     });
     document.body.appendChild(script);
+  }
+
+  function setupProofModeLoader() {
+    if (document.querySelector('script[data-proof-mode-loader], script[data-proof-data-loader]')) return;
+
+    let initialMode = 'verified';
+    try {
+      const requested = new URLSearchParams(window.location.search).get('proof');
+      const stored = window.localStorage.getItem('dc-portfolio-proof-mode');
+      if (requested === 'simulation' || requested === 'verified') initialMode = requested;
+      else if (stored === 'simulation' || stored === 'verified') initialMode = stored;
+    } catch { /* Sandboxed previews or disabled storage can block this read. */ }
+    document.documentElement.dataset.proofMode = initialMode;
+    document.body.dataset.proofMode = initialMode;
+
+    if (!document.querySelector('link[data-proof-mode-style]')) {
+      const style = document.createElement('link');
+      style.rel = 'stylesheet';
+      style.href = new URL('proof-mode.css?v=1', assetBase).href;
+      style.dataset.proofModeStyle = '';
+      document.head.appendChild(style);
+    }
+
+    const loadMode = () => {
+      if (document.querySelector('script[data-proof-mode-loader]')) return;
+      const mode = document.createElement('script');
+      mode.src = new URL('proof-mode.js?v=1', assetBase).href;
+      mode.dataset.proofModeLoader = '';
+      mode.async = true;
+      mode.addEventListener('error', () => {
+        console.error('Proof Mode could not be loaded.');
+      });
+      document.body.appendChild(mode);
+    };
+
+    const proofData = document.createElement('script');
+    proofData.src = new URL('proof-data.js?v=1', assetBase).href;
+    proofData.dataset.proofDataLoader = '';
+    proofData.async = true;
+    proofData.addEventListener('load', loadMode, { once: true });
+    proofData.addEventListener('error', loadMode, { once: true });
+    document.body.appendChild(proofData);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -196,6 +239,7 @@
     setupPrint();
     setupPageTransitions();
     setupCinematicNavigationFallback();
+    setupProofModeLoader();
     setupCommandCenterLoader();
   });
 })();
