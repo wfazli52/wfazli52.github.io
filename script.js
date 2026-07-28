@@ -105,6 +105,63 @@
     if (button) button.addEventListener('click', () => window.print());
   }
 
+  function setupPageTransitions() {
+    const root = document.documentElement;
+    root.classList.toggle('supports-view-transitions', 'startViewTransition' in document);
+
+    const cards = Array.from(document.querySelectorAll('[data-project-transition], .project-card'));
+    const markCard = (card) => {
+      cards.forEach((item) => { item.style.viewTransitionName = ''; });
+      card.style.viewTransitionName = 'project-hero';
+      root.dataset.transitioning = 'project';
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener('pointerdown', () => markCard(card));
+      card.addEventListener('click', () => markCard(card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') markCard(card);
+      });
+    });
+
+    window.addEventListener('pageshow', () => {
+      cards.forEach((card) => { card.style.viewTransitionName = ''; });
+      delete root.dataset.transitioning;
+      root.classList.add('page-ready');
+    });
+  }
+
+
+  function setupCinematicNavigationFallback() {
+    const links = Array.from(document.querySelectorAll('.project-card[href]'));
+    if (!links.length) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-wipe';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(overlay);
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target === '_blank') return;
+        const href = link.href;
+        if (!href) return;
+        event.preventDefault();
+        link.classList.add('is-launching');
+        document.body.classList.add('cinematic-leaving');
+        overlay.classList.add('is-active');
+        window.setTimeout(() => window.location.assign(href), reduceMotion.matches ? 0 : 460);
+      });
+    });
+
+    window.addEventListener('pageshow', () => {
+      document.body.classList.remove('cinematic-leaving');
+      overlay.classList.remove('is-active');
+      links.forEach((link) => link.classList.remove('is-launching'));
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     setProfileContent();
     setYear();
@@ -112,5 +169,7 @@
     setupCopyEmail();
     setupReveal();
     setupPrint();
+    setupPageTransitions();
+    setupCinematicNavigationFallback();
   });
 })();
