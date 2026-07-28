@@ -1,1 +1,1 @@
-Production installer tolerant-decode deployment trigger.
+Production installer exact-diagnostic trigger.
