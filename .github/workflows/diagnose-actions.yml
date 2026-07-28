@@ -83,7 +83,7 @@ jobs:
           test -s assets/screenshot-wide.webp
           test -s assets/screenshot-mobile.webp
 
-      - name: Remove all temporary deployment machinery
+      - name: Remove temporary deployment machinery except workflow files
         shell: bash
         run: |
           set -euo pipefail
@@ -93,8 +93,7 @@ jobs:
           rm -rf .ultimate-suite
           rm -f .github/diagnostic-trigger.txt
           rm -f .github/production-diagnostic-report.txt
-          rm -f .github/workflows/install-production-release.yml
-          rm -f .github/workflows/diagnose-actions.yml
+          rm -f .github/workflows/site-quality.yml
 
       - name: Commit the validated production release to the temporary PR branch
         shell: bash
