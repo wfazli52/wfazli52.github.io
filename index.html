@@ -3,13 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portfolio for an aspiring data center technician and network engineer.">
+  <meta name="description" content="Interactive portfolio for an aspiring data center technician and network engineer.">
+  <meta name="theme-color" content="#07111f">
   <title>Data Center & Networking Portfolio</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="fx.css">
   <script src="config.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="fx.js" defer></script>
 </head>
 <body>
+  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb-one" aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb-two" aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb-three" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="container nav-wrap">
@@ -19,20 +26,24 @@
       </a>
       <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>☰</button>
       <nav class="nav-links" aria-label="Main navigation" data-menu>
+        <a href="#dashboard">Dashboard</a>
         <a href="#proof">Capabilities</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#roadmap">Roadmap</a>
         <a href="resume.html" data-resume-link>Resume</a>
+        <button class="fx-toggle" type="button" data-fx-toggle aria-pressed="false" title="Pause visual effects"><span class="fx-toggle-icon" aria-hidden="true">◉</span><span data-fx-label>Pause FX</span></button>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="hero">
+    <section class="hero" id="top">
+      <canvas class="network-canvas" data-network-canvas aria-hidden="true"></canvas>
       <div class="container hero-grid">
         <div data-reveal>
-          <span class="eyebrow">Portfolio starter — built for proof</span>
+          <div class="live-signal"><span class="signal-dot" aria-hidden="true"></span><span>Portfolio system online</span></div>
+          <span class="eyebrow">Infrastructure portfolio // live build</span>
           <h1><span data-profile="name">wfazli52</span><span data-profile="headline">Aspiring Data Center Technician & Network Engineer</span></h1>
           <p class="hero-copy">I am building hands-on evidence in server operations, networking, Linux, troubleshooting, and technical documentation while completing my network engineering degree.</p>
           <div class="meta-row">
@@ -44,9 +55,18 @@
             <a class="button primary" href="#projects">View lab plan <span aria-hidden="true">↓</span></a>
             <a class="button" href="resume.html" data-resume-link>Open resume</a>
           </div>
+          <div class="mini-terminal" aria-label="Animated portfolio setup terminal">
+            <div class="terminal-bar">
+              <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span>career-lab.sh</span>
+              <span class="terminal-state"><span class="signal-dot" aria-hidden="true"></span> active</span>
+            </div>
+            <div class="terminal-body" aria-hidden="true"><span class="terminal-prompt">$</span> <span data-terminal-text>boot portfolio --mode=proof-first</span><span class="terminal-cursor">_</span></div>
+          </div>
         </div>
 
-        <div class="rack-visual" aria-label="Stylized server rack illustration" data-reveal>
+        <div class="rack-visual" aria-label="Stylized animated server rack illustration" data-reveal data-tilt>
+          <div class="rack-badge"><span class="signal-dot" aria-hidden="true"></span> LAB NETWORK READY</div>
           <div class="rack">
             <div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">CORE-SW-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
             <div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">LAB-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
@@ -59,6 +79,35 @@
       </div>
     </section>
 
+    <section class="system-dashboard" id="dashboard" aria-labelledby="dashboard-title">
+      <div class="container">
+        <div class="dashboard-shell" data-reveal>
+          <div class="dashboard-head">
+            <div><span class="eyebrow">Mission control</span><h2 id="dashboard-title">Portfolio status board.</h2></div>
+            <div class="system-health"><span class="signal-dot" aria-hidden="true"></span> GitHub Pages live</div>
+          </div>
+          <div class="metric-grid">
+            <article class="metric-card" data-tilt><span class="metric-kicker">Build plans</span><strong class="metric-value"><span data-counter data-target="4">0</span></strong><span class="metric-label">technical lab blueprints</span></article>
+            <article class="metric-card" data-tilt><span class="metric-kicker">Career sprint</span><strong class="metric-value"><span data-counter data-target="90">0</span><small> days</small></strong><span class="metric-label">structured roadmap</span></article>
+            <article class="metric-card" data-tilt><span class="metric-kicker">Documentation</span><strong class="metric-value"><span data-counter data-target="6">0</span></strong><span class="metric-label">evidence templates ready</span></article>
+            <article class="metric-card metric-card-live" data-tilt><span class="metric-kicker">Deployment</span><strong class="metric-value metric-word">LIVE</strong><span class="metric-label">public portfolio online</span></article>
+          </div>
+          <div class="build-sequence">
+            <div class="sequence-head"><span>Build sequence</span><strong>Website live · Enterprise network lab next</strong></div>
+            <div class="sequence-track" aria-label="One of five portfolio phases established"><span class="sequence-fill"></span><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="sequence-labels"><span class="is-active">Portfolio</span><span>Networking</span><span>Linux</span><span>Incidents</span><span>Operations</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tech-marquee" aria-label="Technology focus areas">
+      <div class="marquee-track">
+        <span>CISCO IOS</span><i>◆</i><span>PACKET TRACER</span><i>◆</i><span>LINUX</span><i>◆</i><span>TCP/IP</span><i>◆</i><span>VLANs</span><i>◆</i><span>DNS + DHCP</span><i>◆</i><span>TROUBLESHOOTING</span><i>◆</i><span>GITHUB</span><i>◆</i>
+        <span aria-hidden="true">CISCO IOS</span><i aria-hidden="true">◆</i><span aria-hidden="true">PACKET TRACER</span><i aria-hidden="true">◆</i><span aria-hidden="true">LINUX</span><i aria-hidden="true">◆</i><span aria-hidden="true">TCP/IP</span><i aria-hidden="true">◆</i><span aria-hidden="true">VLANs</span><i aria-hidden="true">◆</i><span aria-hidden="true">DNS + DHCP</span><i aria-hidden="true">◆</i><span aria-hidden="true">TROUBLESHOOTING</span><i aria-hidden="true">◆</i><span aria-hidden="true">GITHUB</span><i aria-hidden="true">◆</i>
+      </div>
+    </div>
+
     <section class="section alt" id="proof">
       <div class="container">
         <div class="section-heading" data-reveal>
@@ -66,10 +115,10 @@
           <p>Large data center teams need technicians who can follow procedures, isolate faults, handle equipment safely, communicate clearly, and leave reliable documentation for the next shift.</p>
         </div>
         <div class="grid four">
-          <article class="card" data-reveal><div class="icon-box">HW</div><h3>Hardware operations</h3><p>Component identification, rack planning, cable labeling, parts handling, break/fix logic, and asset tracking.</p></article>
-          <article class="card" data-reveal><div class="icon-box">NET</div><h3>Networking</h3><p>IPv4 subnetting, VLANs, routing, switching, ACLs, DHCP, DNS, connectivity tests, and topology documentation.</p></article>
-          <article class="card" data-reveal><div class="icon-box">LIN</div><h3>Linux & monitoring</h3><p>Installation, users and permissions, SSH, services, logs, storage, patching, basic monitoring, and recovery steps.</p></article>
-          <article class="card" data-reveal><div class="icon-box">DOC</div><h3>Operational discipline</h3><p>Runbooks, ticket notes, change plans, validation matrices, incident timelines, root-cause analysis, and handoff summaries.</p></article>
+          <article class="card" data-reveal data-tilt><div class="icon-box">HW</div><h3>Hardware operations</h3><p>Component identification, rack planning, cable labeling, parts handling, break/fix logic, and asset tracking.</p></article>
+          <article class="card" data-reveal data-tilt><div class="icon-box">NET</div><h3>Networking</h3><p>IPv4 subnetting, VLANs, routing, switching, ACLs, DHCP, DNS, connectivity tests, and topology documentation.</p></article>
+          <article class="card" data-reveal data-tilt><div class="icon-box">LIN</div><h3>Linux & monitoring</h3><p>Installation, users and permissions, SSH, services, logs, storage, patching, basic monitoring, and recovery steps.</p></article>
+          <article class="card" data-reveal data-tilt><div class="icon-box">DOC</div><h3>Operational discipline</h3><p>Runbooks, ticket notes, change plans, validation matrices, incident timelines, root-cause analysis, and handoff summaries.</p></article>
         </div>
       </div>
     </section>
@@ -81,22 +130,22 @@
           <p>Complete them in order. Each page gives you a build plan, acceptance tests, and an evidence checklist. Replace “planned” with “completed” only after the lab works.</p>
         </div>
         <div class="grid two">
-          <a class="card project-card" href="projects/enterprise-network.html" data-reveal>
+          <a class="card project-card" data-tilt href="projects/enterprise-network.html" data-reveal>
             <span class="project-number">PROJECT 01</span><h3>Enterprise VLAN & Routing Lab</h3><p>Design a small multi-department network with an IP plan, VLANs, inter-VLAN routing, DHCP, DNS, ACLs, and a repeatable test matrix.</p>
             <div class="tag-row"><span class="tag">Packet Tracer</span><span class="tag">Cisco IOS</span><span class="tag">TCP/IP</span></div>
             <div class="project-footer"><span class="status">Build first</span><span class="arrow" aria-hidden="true">↗</span></div>
           </a>
-          <a class="card project-card" href="projects/linux-monitoring.html" data-reveal>
+          <a class="card project-card" data-tilt href="projects/linux-monitoring.html" data-reveal>
             <span class="project-number">PROJECT 02</span><h3>Linux Server Operations Lab</h3><p>Operate two Linux servers, secure remote access, manage services and storage, centralize logs, monitor health, and recover from controlled failures.</p>
             <div class="tag-row"><span class="tag">Ubuntu Server</span><span class="tag">SSH</span><span class="tag">Systemd</span></div>
             <div class="project-footer"><span class="status">Build second</span><span class="arrow" aria-hidden="true">↗</span></div>
           </a>
-          <a class="card project-card" href="projects/incident-response.html" data-reveal>
+          <a class="card project-card" data-tilt href="projects/incident-response.html" data-reveal>
             <span class="project-number">PROJECT 03</span><h3>Break/Fix Incident Simulation</h3><p>Create and resolve realistic incidents involving DNS, interfaces, disk capacity, services, cabling, and incorrect network configuration.</p>
             <div class="tag-row"><span class="tag">Troubleshooting</span><span class="tag">RCA</span><span class="tag">Ticketing</span></div>
             <div class="project-footer"><span class="status">Build third</span><span class="arrow" aria-hidden="true">↗</span></div>
           </a>
-          <a class="card project-card" href="projects/rack-inventory.html" data-reveal>
+          <a class="card project-card" data-tilt href="projects/rack-inventory.html" data-reveal>
             <span class="project-number">PROJECT 04</span><h3>Rack, Cabling & Asset Plan</h3><p>Produce a rack elevation, port map, labeling standard, asset inventory, power estimate, maintenance checklist, and decommission plan.</p>
             <div class="tag-row"><span class="tag">DC operations</span><span class="tag">Inventory</span><span class="tag">Safety</span></div>
             <div class="project-footer"><span class="status">Build fourth</span><span class="arrow" aria-hidden="true">↗</span></div>
