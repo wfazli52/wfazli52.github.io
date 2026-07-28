@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Linux Server Operations Lab portfolio project plan.">
+  <title>Linux Server Operations Lab | DC//NET Portfolio</title>
+  <link rel="stylesheet" href="../styles.css"><script src="../config.js" defer></script><script src="../script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html"><span class="brand-mark" data-profile="initials">WF</span><span>DC//NET Portfolio</span></a><nav class="nav-links" style="display:flex"><a href="../index.html#projects">All projects</a><a href="../resume.html">Resume</a></nav></div></header>
+  <main id="main">
+    <section class="page-hero"><div class="container" data-reveal><a class="breadcrumb" href="../index.html#projects">← Back to portfolio</a><p class="eyebrow" style="margin-top:1.5rem">PROJECT 02</p><h1>Linux Server Operations Lab</h1><p class="page-summary">A two-server virtual lab focused on installation, secure access, services, logs, storage, monitoring, patching, and controlled recovery.</p><div class="tag-row"><span class="tag">Ubuntu Server</span><span class="tag">VirtualBox/VMware</span><span class="tag">SSH</span><span class="tag">Systemd</span><span class="tag">Logs</span><span class="tag">Monitoring</span><span class="status">Planned — update after completion</span></div></div></section>
+    <section class="section" style="padding-top:1rem"><div class="container content-grid">
+      <article class="article" data-reveal>
+        <section><h2>Objective</h2><p>Build two Linux virtual machines: one application server and one monitoring/log server. Establish secure administration, document normal operating state, monitor resources, and recover from intentionally created failures.</p></section>
+        <section><h2>Why this matters</h2><p>Technicians need to distinguish hardware, operating-system, storage, service, and network symptoms. Linux logs and service tools provide concrete evidence that you can investigate instead of guessing.</p></section>
+        <section><h2>Lab design</h2><ul><li>Two Ubuntu Server VMs on an isolated or host-only network with static or reserved addresses.</li><li>SSH key authentication, a non-root admin account, and host firewall rules.</li><li>A simple service such as Nginx on the application server.</li><li>System health checks for CPU, memory, disk, interface state, services, and recent errors.</li><li>Centralized logging or a lightweight monitoring stack; keep the first version simple and understandable.</li><li>A backup and restore test for one configuration file and one service.</li></ul></section>
+        <section><h2>Build sequence</h2><ol><li>Create the VM plan: names, CPU, memory, disk, network, IP addresses, and purpose.</li><li>Install the operating system and record installation choices.</li><li>Create users, configure SSH keys, apply updates, set time synchronization, and configure the firewall.</li><li>Install and validate the test service.</li><li>Configure basic health monitoring and define normal thresholds.</li><li>Create failures: stop the service, fill a small test filesystem, change a firewall rule, and misconfigure name resolution.</li><li>Use logs and commands to identify root cause, recover service, and record the incident timeline.</li><li>Capture final state, package configuration files, and write a runbook.</li></ol></section>
+        <section><h2>Acceptance tests</h2><ul><li>SSH works with keys and direct root login is not required.</li><li>The application service starts automatically after reboot.</li><li>Monitoring or scripted checks report service, CPU, memory, disk, and network status.</li><li>A stopped service and low-disk condition are detected and resolved.</li><li>A backed-up configuration can be restored and validated.</li></ul></section>
+        
+        <section><h2>Resume bullet — use only after completion</h2><div class="code-block">Built and operated a two-node Linux lab with secure SSH administration, service management, host firewall controls, health monitoring, log-based troubleshooting, and tested configuration recovery.</div></section>
+      </article>
+      <aside class="sidebar" data-reveal>
+        <div class="card"><h3>Evidence checklist</h3><ul class="checklist"><li>VM architecture diagram</li><li>Build notes with versions and resource settings</li><li>User and SSH configuration summary</li><li>Firewall rule list</li><li>Service status and log excerpts</li><li>Monitoring screenshot or health-check output</li><li>Backup/restore proof</li><li>Recovery runbook</li></ul></div>
+        <div class="card"><h3>Documentation files</h3><p><a href="../docs/PROJECT_WRITEUP_TEMPLATE.md">Project write-up</a><br><a href="../docs/TEST_MATRIX.csv">Test matrix</a><br><a href="../docs/INCIDENT_REPORT_TEMPLATE.md">Incident report</a></p></div>
+      </aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-row"><span>© <span data-year></span> <span data-profile="name">wfazli52</span></span><a href="../index.html">Portfolio home</a></div></footer>
+</body></html>

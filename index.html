@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfolio for an aspiring data center technician and network engineer.">
+  <title>Data Center & Networking Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Portfolio home">
+        <span class="brand-mark" data-profile="initials">WF</span>
+        <span>DC//NET Portfolio</span>
+      </a>
+      <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>☰</button>
+      <nav class="nav-links" aria-label="Main navigation" data-menu>
+        <a href="#proof">Capabilities</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="resume.html" data-resume-link>Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div data-reveal>
+          <span class="eyebrow">Portfolio starter — built for proof</span>
+          <h1><span data-profile="name">wfazli52</span><span data-profile="headline">Aspiring Data Center Technician & Network Engineer</span></h1>
+          <p class="hero-copy">I am building hands-on evidence in server operations, networking, Linux, troubleshooting, and technical documentation while completing my network engineering degree.</p>
+          <div class="meta-row">
+            <span class="meta-pill" data-profile="school">WGU — B.S. Network Engineering, Cisco track</span>
+            <span class="meta-pill" data-profile="location">Location available upon request</span>
+            <span class="meta-pill" data-profile="availability">Open to data center technician and network support roles</span>
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="#projects">View lab plan <span aria-hidden="true">↓</span></a>
+            <a class="button" href="resume.html" data-resume-link>Open resume</a>
+          </div>
+        </div>
+
+        <div class="rack-visual" aria-label="Stylized server rack illustration" data-reveal>
+          <div class="rack">
+            <div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">CORE-SW-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+            <div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">LAB-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+            <div class="server"><div class="server-leds"><span class="led blue"></span><span class="led"></span></div><span class="server-label">MON-SRV-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+            <div class="server"><div class="server-leds"><span class="led"></span><span class="led blue"></span></div><span class="server-label">EDGE-RTR-01</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+            <div class="server"><div class="server-leds"><span class="led"></span><span class="led"></span></div><span class="server-label">PDU-A / PDU-B</span><div class="server-bars"><span></span><span></span><span></span></div></div>
+          </div>
+          <div class="visual-note"><strong>Current build rule</strong>Publish only what you personally configured, tested, photographed, or documented.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="proof">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div><span class="eyebrow">Job-aligned proof</span><h2>Show the work behind the skills.</h2></div>
+          <p>Large data center teams need technicians who can follow procedures, isolate faults, handle equipment safely, communicate clearly, and leave reliable documentation for the next shift.</p>
+        </div>
+        <div class="grid four">
+          <article class="card" data-reveal><div class="icon-box">HW</div><h3>Hardware operations</h3><p>Component identification, rack planning, cable labeling, parts handling, break/fix logic, and asset tracking.</p></article>
+          <article class="card" data-reveal><div class="icon-box">NET</div><h3>Networking</h3><p>IPv4 subnetting, VLANs, routing, switching, ACLs, DHCP, DNS, connectivity tests, and topology documentation.</p></article>
+          <article class="card" data-reveal><div class="icon-box">LIN</div><h3>Linux & monitoring</h3><p>Installation, users and permissions, SSH, services, logs, storage, patching, basic monitoring, and recovery steps.</p></article>
+          <article class="card" data-reveal><div class="icon-box">DOC</div><h3>Operational discipline</h3><p>Runbooks, ticket notes, change plans, validation matrices, incident timelines, root-cause analysis, and handoff summaries.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div><span class="eyebrow">Portfolio projects</span><h2>Four labs that tell one career story.</h2></div>
+          <p>Complete them in order. Each page gives you a build plan, acceptance tests, and an evidence checklist. Replace “planned” with “completed” only after the lab works.</p>
+        </div>
+        <div class="grid two">
+          <a class="card project-card" href="projects/enterprise-network.html" data-reveal>
+            <span class="project-number">PROJECT 01</span><h3>Enterprise VLAN & Routing Lab</h3><p>Design a small multi-department network with an IP plan, VLANs, inter-VLAN routing, DHCP, DNS, ACLs, and a repeatable test matrix.</p>
+            <div class="tag-row"><span class="tag">Packet Tracer</span><span class="tag">Cisco IOS</span><span class="tag">TCP/IP</span></div>
+            <div class="project-footer"><span class="status">Build first</span><span class="arrow" aria-hidden="true">↗</span></div>
+          </a>
+          <a class="card project-card" href="projects/linux-monitoring.html" data-reveal>
+            <span class="project-number">PROJECT 02</span><h3>Linux Server Operations Lab</h3><p>Operate two Linux servers, secure remote access, manage services and storage, centralize logs, monitor health, and recover from controlled failures.</p>
+            <div class="tag-row"><span class="tag">Ubuntu Server</span><span class="tag">SSH</span><span class="tag">Systemd</span></div>
+            <div class="project-footer"><span class="status">Build second</span><span class="arrow" aria-hidden="true">↗</span></div>
+          </a>
+          <a class="card project-card" href="projects/incident-response.html" data-reveal>
+            <span class="project-number">PROJECT 03</span><h3>Break/Fix Incident Simulation</h3><p>Create and resolve realistic incidents involving DNS, interfaces, disk capacity, services, cabling, and incorrect network configuration.</p>
+            <div class="tag-row"><span class="tag">Troubleshooting</span><span class="tag">RCA</span><span class="tag">Ticketing</span></div>
+            <div class="project-footer"><span class="status">Build third</span><span class="arrow" aria-hidden="true">↗</span></div>
+          </a>
+          <a class="card project-card" href="projects/rack-inventory.html" data-reveal>
+            <span class="project-number">PROJECT 04</span><h3>Rack, Cabling & Asset Plan</h3><p>Produce a rack elevation, port map, labeling standard, asset inventory, power estimate, maintenance checklist, and decommission plan.</p>
+            <div class="tag-row"><span class="tag">DC operations</span><span class="tag">Inventory</span><span class="tag">Safety</span></div>
+            <div class="project-footer"><span class="status">Build fourth</span><span class="arrow" aria-hidden="true">↗</span></div>
+          </a>
+        </div>
+        <div class="honesty" data-reveal><div class="icon-box">!</div><div><strong>Do not let AI invent your evidence.</strong><p>ChatGPT can draft a lab plan, explain commands, review configurations, and turn your actual notes into clean documentation. You must run the lab, capture the outputs, explain failures, and verify the final result yourself.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section alt" id="skills">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div><span class="eyebrow">Skills inventory</span><h2>Label your level honestly.</h2></div>
+          <p>Recruiters trust precise language. “Practicing in labs” is stronger than claiming expert knowledge you cannot demonstrate during an interview.</p>
+        </div>
+        <div class="grid three">
+          <article class="card skill-group" data-reveal><h3>Networking</h3><div class="skill-list">
+            <div class="skill-item"><span>IPv4 subnetting</span><span class="skill-level">Practicing</span></div>
+            <div class="skill-item"><span>VLANs & trunks</span><span class="skill-level">Planned lab</span></div>
+            <div class="skill-item"><span>Routing & ACLs</span><span class="skill-level">Planned lab</span></div>
+            <div class="skill-item"><span>DNS & DHCP</span><span class="skill-level">Planned lab</span></div>
+          </div></article>
+          <article class="card skill-group" data-reveal><h3>Systems</h3><div class="skill-list">
+            <div class="skill-item"><span>PC/server components</span><span class="skill-level">Learning</span></div>
+            <div class="skill-item"><span>Linux administration</span><span class="skill-level">Planned lab</span></div>
+            <div class="skill-item"><span>Logs & monitoring</span><span class="skill-level">Planned lab</span></div>
+            <div class="skill-item"><span>Virtualization</span><span class="skill-level">Planned lab</span></div>
+          </div></article>
+          <article class="card skill-group" data-reveal><h3>Operations</h3><div class="skill-list">
+            <div class="skill-item"><span>Incident notes</span><span class="skill-level">Template ready</span></div>
+            <div class="skill-item"><span>Runbooks & SOPs</span><span class="skill-level">Template ready</span></div>
+            <div class="skill-item"><span>Asset inventory</span><span class="skill-level">Template ready</span></div>
+            <div class="skill-item"><span>Change validation</span><span class="skill-level">Template ready</span></div>
+          </div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <div><span class="eyebrow">90-day roadmap</span><h2>Build, document, apply.</h2></div>
+          <p>A small completed portfolio beats ten unfinished ideas. Aim for one publishable deliverable every two weeks and begin applying before everything is perfect.</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item" data-reveal><div class="timeline-date">Days 1–30</div><div class="timeline-copy"><h3>Foundations + Project 01</h3><p>Set up GitHub, Packet Tracer, your documentation folders, and complete the enterprise network lab. Practice subnetting, cable types, core hardware, DNS, DHCP, and the OSI/TCP-IP troubleshooting flow.</p></div></div>
+          <div class="timeline-item" data-reveal><div class="timeline-date">Days 31–60</div><div class="timeline-copy"><h3>Linux operations + incident evidence</h3><p>Build the Linux lab, capture clean logs and screenshots, then run at least five break/fix scenarios. Publish one full incident report and one short runbook.</p></div></div>
+          <div class="timeline-item" data-reveal><div class="timeline-date">Days 61–90</div><div class="timeline-copy"><h3>Rack plan + applications</h3><p>Finish the operations project, update the resume, practice behavioral and technical interviews, and apply weekly to data center technician, deployment technician, network support, NOC, and field technician roles.</p></div></div>
+        </div>
+        <div class="button-row" style="margin-top: 1.5rem" data-reveal>
+          <a class="button primary" href="ROADMAP.md">Open the weekly roadmap</a>
+          <a class="button" href="CHATGPT_WORKFLOW.md">Open the ChatGPT prompt pack</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="contact">
+      <div class="container">
+        <div class="cta" data-reveal>
+          <div><span class="eyebrow">Contact</span><h2>Let the evidence do the talking.</h2><p>Follow the GitHub profile now, then add a professional email or LinkedIn URL in <code>config.js</code> when you are ready to publish those details.</p></div>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/wfazli52" data-profile-href="github">View GitHub</a>
+            <a class="button" href="#" data-profile-href="linkedin" data-hide-empty>LinkedIn</a>
+            <a class="button" href="#" data-profile-href="email" data-hide-empty>Email me</a>
+            <button class="button" type="button" data-copy-email data-hide-empty>Copy email</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span>© <span data-year></span> <span data-profile="name">wfazli52</span>. Built as a proof-based technical portfolio.</span>
+      <div class="footer-links"><a href="https://github.com/wfazli52" data-profile-href="github">GitHub</a><a href="#" data-profile-href="linkedin" data-hide-empty>LinkedIn</a><a href="resume.html" data-resume-link>Resume</a></div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Enterprise VLAN & Routing Lab portfolio project plan.">
+  <title>Enterprise VLAN & Routing Lab | DC//NET Portfolio</title>
+  <link rel="stylesheet" href="../styles.css"><script src="../config.js" defer></script><script src="../script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container nav-wrap"><a class="brand" href="../index.html"><span class="brand-mark" data-profile="initials">WF</span><span>DC//NET Portfolio</span></a><nav class="nav-links" style="display:flex"><a href="../index.html#projects">All projects</a><a href="../resume.html">Resume</a></nav></div></header>
+  <main id="main">
+    <section class="page-hero"><div class="container" data-reveal><a class="breadcrumb" href="../index.html#projects">← Back to portfolio</a><p class="eyebrow" style="margin-top:1.5rem">PROJECT 01</p><h1>Enterprise VLAN & Routing Lab</h1><p class="page-summary">A small enterprise network that proves you can turn requirements into a topology, configure core services, validate connectivity, and document the result.</p><div class="tag-row"><span class="tag">Cisco Packet Tracer</span><span class="tag">VLANs</span><span class="tag">Routing</span><span class="tag">DHCP</span><span class="tag">DNS</span><span class="tag">ACLs</span><span class="status">Planned — update after completion</span></div></div></section>
+    <section class="section" style="padding-top:1rem"><div class="container content-grid">
+      <article class="article" data-reveal>
+        <section><h2>Objective</h2><p>Design and configure a two-switch, one-router or multilayer-switch network for four departments: Operations, Engineering, Guest, and Management. Separate traffic with VLANs, assign subnets, automate client addressing, and restrict access with clear policy rules.</p></section>
+        <section><h2>Why this matters</h2><p>Data center technicians routinely trace links, verify addressing, isolate layer-1 through layer-3 faults, replace network components, and communicate exact test results. This project creates evidence of that troubleshooting discipline.</p></section>
+        <section><h2>Lab design</h2><ul><li>Two access switches and one routing device; add a second switch uplink for trunking practice.</li><li>Four VLANs with a written purpose, subnet, gateway, DHCP scope, and reserved-address range.</li><li>At least eight client devices plus one server providing a simple DNS or web test service.</li><li>One ACL requirement, such as Guest users reaching the test web service but not the Management subnet.</li><li>A topology diagram, port map, IP address plan, configuration backup, and test matrix.</li></ul></section>
+        <section><h2>Build sequence</h2><ol><li>Write requirements first: users, departments, allowed traffic, naming standard, and success criteria.</li><li>Create the IP plan and confirm that every subnet has enough usable addresses.</li><li>Build and label the physical and logical topology in Packet Tracer.</li><li>Configure access ports, VLANs, trunks, gateways, and routing.</li><li>Configure DHCP and DNS, then verify leases and name resolution.</li><li>Apply the ACL and test both permitted and denied traffic.</li><li>Introduce three faults—wrong VLAN, bad gateway, and disabled interface—then document how you isolate each fault.</li><li>Export configurations and complete the project write-up.</li></ol></section>
+        <section><h2>Acceptance tests</h2><ul><li>Every client receives the correct address, mask, gateway, and DNS server.</li><li>Clients can reach permitted destinations across VLANs.</li><li>Guest-to-Management traffic is denied while the approved service remains reachable.</li><li>DNS resolves the lab hostname to the correct IP address.</li><li>The test matrix contains expected result, actual result, evidence, and final status for every test.</li></ul></section>
+        
+        <section><h2>Resume bullet — use only after completion</h2><div class="code-block">Designed and validated a segmented Cisco lab network with four VLANs, inter-VLAN routing, DHCP, DNS, and access-control policy; documented topology, IP addressing, configurations, and fault-isolation tests.</div></section>
+      </article>
+      <aside class="sidebar" data-reveal>
+        <div class="card"><h3>Evidence checklist</h3><ul class="checklist"><li>Final Packet Tracer file (.pkt)</li><li>Topology screenshot with device and port labels</li><li>IP address plan</li><li>Sanitized device configurations</li><li>Completed test matrix</li><li>Three troubleshooting notes</li><li>A 60–90 second walkthrough video or GIF</li></ul></div>
+        <div class="card"><h3>Documentation files</h3><p><a href="../docs/PROJECT_WRITEUP_TEMPLATE.md">Project write-up</a><br><a href="../docs/TEST_MATRIX.csv">Test matrix</a><br><a href="../docs/INCIDENT_REPORT_TEMPLATE.md">Incident report</a></p></div>
+      </aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-row"><span>© <span data-year></span> <span data-profile="name">wfazli52</span></span><a href="../index.html">Portfolio home</a></div></footer>
+</body></html>
