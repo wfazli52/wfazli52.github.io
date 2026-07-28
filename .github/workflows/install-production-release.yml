@@ -23,6 +23,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up isolated Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Reassemble and verify production release
         shell: bash
         run: |
@@ -45,8 +50,8 @@ jobs:
         run: |
           set -euo pipefail
           tar -xJf production-text-overlay.tar.xz -C .
-          python3 -m pip install --disable-pip-version-check --quiet pillow
-          python3 scripts/generate-assets.py
+          python -m pip install --disable-pip-version-check --quiet pillow
+          python scripts/generate-assets.py
 
       - name: Validate release
         shell: bash
@@ -64,7 +69,7 @@ jobs:
           node --check sw.js
           node --check command-center.js
           node --check fx.js
-          python3 -m py_compile scripts/generate-assets.py
+          python -m py_compile scripts/generate-assets.py
           test -s assets/icon-32.png
           test -s assets/icon-192.png
           test -s assets/icon-512.png
@@ -97,5 +102,3 @@ jobs:
           fi
           git commit -m "Launch complete production portfolio suite"
           git push
-
-# Triggered through a same-repository merge so the main-branch push event is explicit.
