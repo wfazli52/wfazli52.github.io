@@ -1,0 +1,64 @@
+name: Install recruiter Proof Mode
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".proof-mode/**"
+      - ".github/workflows/install-proof-mode.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Reassemble and verify package
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .proof-mode/part-*.b64 | base64 --decode > proof-mode-package.tar.gz
+          echo "24f2a995519770e9e3e8377a22367889dc468631541ff05586000d038090dac1  proof-mode-package.tar.gz" | sha256sum --check --strict
+
+      - name: Install Proof Mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -xzf proof-mode-package.tar.gz -C .
+          rm proof-mode-package.tar.gz
+          echo "7aebbd14cece8c0f49152fd7c27545b8b8da3929257867ab285d481b3f638046  proof-data.js" | sha256sum --check --strict
+          echo "7783af4e01830f9241a0e31341b25176ee9ec06a0d1d9939a5e9c61c77661e68  proof-mode.css" | sha256sum --check --strict
+          echo "e71be7b096ebabef83c3796de224f6a542920af7ac91885090008b35ad4b7131  proof-mode.js" | sha256sum --check --strict
+          echo "c5792c25e4133991710b8bb610901ebf512d7f28577f0d86caf4b3b6d167af74  script.js" | sha256sum --check --strict
+          echo "9cf76d16f25ea4484cb5026c7d27ef6eee7308906e3c0302b3ed91ee57ec3a6c  PROOF_MODE.md" | sha256sum --check --strict
+          node --check script.js
+          node --check proof-data.js
+          node --check proof-mode.js
+          test -s proof-mode.css
+
+      - name: Remove temporary installer files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .proof-mode
+          rm .github/workflows/install-proof-mode.yml
+
+      - name: Commit Proof Mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Launch verified evidence Proof Mode"
+          git push
