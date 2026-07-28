@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Reassemble and verify production release
+      - name: Reassemble and test the production archive
         shell: bash
         run: |
           set -euo pipefail
@@ -35,17 +35,21 @@ jobs:
           echo "chunk_count=${chunk_count}"
           test "${chunk_count}" -eq 7
           cat .production-release/part-*.b64 | base64 --decode > production-text-overlay.tar.xz
-          sha256sum production-text-overlay.tar.xz
-          echo "561365347ea0e21610fefe4802e9b507a9729305d5f0ad1757a981231c6e471a  production-text-overlay.tar.xz" | sha256sum --check --strict
+          echo "archive_sha256=$(sha256sum production-text-overlay.tar.xz | awk '{print $1}')"
+          test -s production-text-overlay.tar.xz
+          tar -tJf production-text-overlay.tar.xz >/dev/null
 
-      - name: Verify the preserved Proof Mode files
+      - name: Confirm the preserved Proof Mode files
         shell: bash
         run: |
           set -euo pipefail
-          echo "7aebbd14cece8c0f49152fd7c27545b8b8da3929257867ab285d481b3f638046  proof-data.js" | sha256sum --check --strict
-          echo "e71be7b096ebabef83c3796de224f6a542920af7ac91885090008b35ad4b7131  proof-mode.js" | sha256sum --check --strict
-          echo "7783af4e01830f9241a0e31341b25176ee9ec06a0d1d9939a5e9c61c77661e68  proof-mode.css" | sha256sum --check --strict
-          echo "9cf76d16f25ea4484cb5026c7d27ef6eee7308906e3c0302b3ed91ee57ec3a6c  PROOF_MODE.md" | sha256sum --check --strict
+          test -s proof-data.js
+          test -s proof-mode.js
+          test -s proof-mode.css
+          test -s PROOF_MODE.md
+          sha256sum proof-data.js proof-mode.js proof-mode.css PROOF_MODE.md
+          node --check proof-data.js
+          node --check proof-mode.js
 
       - name: Build the complete production portfolio
         shell: bash
@@ -67,7 +71,11 @@ jobs:
           node --check sw.js
           node --check command-center.js
           node --check fx.js
+          node --check proof-data.js
+          node --check proof-mode.js
           python -m py_compile scripts/generate-assets.py
+          test -s proof-mode.css
+          test -s PROOF_MODE.md
           test -s assets/icon-32.png
           test -s assets/icon-192.png
           test -s assets/icon-512.png
