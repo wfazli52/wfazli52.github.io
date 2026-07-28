@@ -96,7 +96,7 @@ jobs:
           rm -f .github/workflows/install-production-release.yml
           rm -f .github/workflows/diagnose-actions.yml
 
-      - name: Commit the validated production release to the PR branch
+      - name: Commit the validated production release to the temporary PR branch
         shell: bash
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
@@ -108,4 +108,4 @@ jobs:
           git diff --cached --check
           git status --short
           git commit -m "Launch complete production portfolio suite"
-          git push origin "HEAD:${HEAD_BRANCH}"
+          git push --force origin "HEAD:${HEAD_BRANCH}"
