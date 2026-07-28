@@ -47,17 +47,29 @@
     const menu = document.querySelector('[data-menu]');
     if (!button || !menu) return;
 
+    const closeMenu = () => {
+      button.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('is-open');
+    };
+
     button.addEventListener('click', () => {
       const expanded = button.getAttribute('aria-expanded') === 'true';
       button.setAttribute('aria-expanded', String(!expanded));
       menu.classList.toggle('is-open', !expanded);
     });
 
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        button.setAttribute('aria-expanded', 'false');
-        menu.classList.remove('is-open');
-      });
+    menu.addEventListener('click', (event) => {
+      if (event.target.closest('a')) closeMenu();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!menu.classList.contains('is-open')) return;
+      if (menu.contains(event.target) || button.contains(event.target)) return;
+      closeMenu();
     });
   }
 
