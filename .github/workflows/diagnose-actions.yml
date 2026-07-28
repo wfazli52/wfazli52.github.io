@@ -1,16 +1,82 @@
-name: Diagnose GitHub Actions
+name: Diagnose production installer
 
 on:
   pull_request:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   diagnose:
     runs-on: ubuntu-latest
     steps:
-      - name: Confirm Actions execution
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Inspect staged production package
+        id: package
+        continue-on-error: true
+        shell: bash
         run: |
-          echo "GitHub Actions is running for this repository."
-          echo "event=${{ github.event_name }}"
-          echo "sha=${{ github.sha }}"
+          set -u
+          echo "chunk_count=$(find .production-release -maxdepth 1 -name 'part-*.b64' 2>/dev/null | wc -l)"
+          find .production-release -maxdepth 1 -name 'part-*.b64' -print | sort || true
+          cat .production-release/part-*.b64 | base64 --decode > /tmp/production-text-overlay.tar.xz
+          sha256sum /tmp/production-text-overlay.tar.xz
+          echo "561365347ea0e21610fefe4802e9b507a9729305d5f0ad1757a981231c6e471a  /tmp/production-text-overlay.tar.xz" | sha256sum --check --strict
+          tar -tJf /tmp/production-text-overlay.tar.xz | head -80
+
+      - name: Show Proof Mode integrity hashes
+        id: proof
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+          sha256sum proof-data.js proof-mode.js proof-mode.css PROOF_MODE.md
+
+      - name: Set up isolated Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Build and validate in an isolated directory
+        id: build
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+          rm -rf /tmp/portfolio-release
+          mkdir -p /tmp/portfolio-release
+          cp proof-data.js proof-mode.js proof-mode.css PROOF_MODE.md /tmp/portfolio-release/
+          tar -xJf /tmp/production-text-overlay.tar.xz -C /tmp/portfolio-release
+          cd /tmp/portfolio-release
+          python -m pip install --disable-pip-version-check --quiet pillow
+          python scripts/generate-assets.py
+          node scripts/validate-site.mjs
+          node --check script.js
+          node --check portfolio-data.js
+          node --check portfolio-suite.js
+          node --check case-study.js
+          node --check sw.js
+          node --check command-center.js
+          node --check fx.js
+          test -s assets/icon-32.png
+          test -s assets/icon-192.png
+          test -s assets/icon-512.png
+          test -s assets/apple-touch-icon.png
+          test -s assets/maskable-icon-512.png
+          test -s assets/social-card.png
+          test -s assets/screenshot-wide.webp
+          test -s assets/screenshot-mobile.webp
+
+      - name: Report diagnostic results without failing the PR
+        if: always()
+        shell: bash
+        run: |
+          echo "package_step=${{ steps.package.outcome }}"
+          echo "proof_step=${{ steps.proof.outcome }}"
+          echo "build_step=${{ steps.build.outcome }}"
+          echo "Diagnostic workflow intentionally exits successfully so it does not send another failure notification."
