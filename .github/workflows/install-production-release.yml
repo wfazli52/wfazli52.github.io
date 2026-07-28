@@ -98,4 +98,4 @@ jobs:
           git commit -m "Launch complete production portfolio suite"
           git push
 
-# Triggered after the workflow was present on the default branch.
+# Triggered through a same-repository merge so the main-branch push event is explicit.
