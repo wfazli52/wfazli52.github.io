@@ -1,4 +1,4 @@
-name: Install production release through pull request
+name: Capture production archive diagnostics
 
 on:
   pull_request:
@@ -8,12 +8,8 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: install-production-through-pr
-  cancel-in-progress: false
-
 jobs:
-  install:
+  diagnose:
     if: github.head_ref == 'agent/diagnose-production-installer'
     runs-on: ubuntu-latest
     steps:
@@ -22,91 +18,74 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up isolated Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Reassemble and test the production archive
-        shell: bash
-        run: |
-          set -euo pipefail
-          chunk_count="$(find .production-release -maxdepth 1 -name 'part-*.b64' | wc -l)"
-          echo "chunk_count=${chunk_count}"
-          test "${chunk_count}" -eq 7
-          cat .production-release/part-*.b64 | base64 --decode --ignore-garbage > production-text-overlay.tar.xz
-          echo "archive_sha256=$(sha256sum production-text-overlay.tar.xz | awk '{print $1}')"
-          test -s production-text-overlay.tar.xz
-          tar -tJf production-text-overlay.tar.xz >/dev/null
-
-      - name: Confirm the preserved Proof Mode files
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -s proof-data.js
-          test -s proof-mode.js
-          test -s proof-mode.css
-          test -s PROOF_MODE.md
-          sha256sum proof-data.js proof-mode.js proof-mode.css PROOF_MODE.md
-          node --check proof-data.js
-          node --check proof-mode.js
-
-      - name: Build the complete production portfolio
-        shell: bash
-        run: |
-          set -euo pipefail
-          tar -xJf production-text-overlay.tar.xz -C .
-          python -m pip install --disable-pip-version-check --quiet pillow
-          python scripts/generate-assets.py
-
-      - name: Validate every production component
-        shell: bash
-        run: |
-          set -euo pipefail
-          node scripts/validate-site.mjs
-          node --check script.js
-          node --check portfolio-data.js
-          node --check portfolio-suite.js
-          node --check case-study.js
-          node --check sw.js
-          node --check command-center.js
-          node --check fx.js
-          node --check proof-data.js
-          node --check proof-mode.js
-          python -m py_compile scripts/generate-assets.py
-          test -s proof-mode.css
-          test -s PROOF_MODE.md
-          test -s assets/icon-32.png
-          test -s assets/icon-192.png
-          test -s assets/icon-512.png
-          test -s assets/apple-touch-icon.png
-          test -s assets/maskable-icon-512.png
-          test -s assets/social-card.png
-          test -s assets/screenshot-wide.webp
-          test -s assets/screenshot-mobile.webp
-
-      - name: Remove temporary deployment machinery
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -f production-text-overlay.tar.xz
-          rm -rf .production-release
-          rm -rf .ultimate-package
-          rm -rf .ultimate-suite
-          rm -f .github/diagnostic-trigger.txt
-          rm -f .github/workflows/install-production-release.yml
-          rm -f .github/workflows/diagnose-actions.yml
-
-      - name: Commit the validated production release to the PR branch
+      - name: Capture exact archive diagnostics
         shell: bash
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          set -euo pipefail
+          set +e
+          report=.github/production-diagnostic-report.txt
+          mkdir -p .github
+          : > "$report"
+          {
+            echo "Production archive diagnostic"
+            echo "============================="
+            echo "date_utc=$(date -u +%FT%TZ)"
+            echo "checked_out_commit=$(git rev-parse HEAD)"
+            echo "head_branch=${HEAD_BRANCH}"
+            echo
+            echo "[staging directory]"
+            find .production-release -maxdepth 1 -type f -printf '%f %s bytes\n' 2>&1 | sort
+            echo
+            chunk_count="$(find .production-release -maxdepth 1 -name 'part-*.b64' 2>/dev/null | wc -l)"
+            echo "chunk_count=${chunk_count}"
+            cat .production-release/part-*.b64 > /tmp/combined-release.b64 2>/tmp/cat-error.txt
+            cat_status=$?
+            echo "cat_status=${cat_status}"
+            echo "combined_base64_bytes=$(wc -c < /tmp/combined-release.b64 2>/dev/null)"
+            echo "cat_stderr=$(tr '\n' ' ' < /tmp/cat-error.txt 2>/dev/null)"
+            base64 --decode --ignore-garbage /tmp/combined-release.b64 > /tmp/production-text-overlay.tar.xz 2>/tmp/base64-error.txt
+            decode_status=$?
+            echo "gnu_decode_status=${decode_status}"
+            echo "gnu_decode_stderr=$(tr '\n' ' ' < /tmp/base64-error.txt 2>/dev/null)"
+            echo "archive_bytes=$(wc -c < /tmp/production-text-overlay.tar.xz 2>/dev/null)"
+            echo "archive_sha256=$(sha256sum /tmp/production-text-overlay.tar.xz 2>/dev/null | awk '{print $1}')"
+            tar -tJf /tmp/production-text-overlay.tar.xz >/tmp/tar-list.txt 2>/tmp/tar-error.txt
+            tar_status=$?
+            echo "tar_status=${tar_status}"
+            echo "tar_stderr=$(tr '\n' ' ' < /tmp/tar-error.txt 2>/dev/null)"
+            echo "tar_entry_count=$(wc -l < /tmp/tar-list.txt 2>/dev/null)"
+            echo
+            echo "[Python decoder]"
+            python3 - <<'PY'
+          from pathlib import Path
+          import base64, hashlib, lzma, tarfile
+          source = Path('/tmp/combined-release.b64').read_bytes()
+          filtered = bytes(ch for ch in source if ch in b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=')
+          print(f'raw_bytes={len(source)}')
+          print(f'filtered_bytes={len(filtered)}')
+          try:
+              decoded = base64.b64decode(filtered, validate=False)
+              Path('/tmp/python-production-text-overlay.tar.xz').write_bytes(decoded)
+              print(f'decoded_bytes={len(decoded)}')
+              print(f'decoded_sha256={hashlib.sha256(decoded).hexdigest()}')
+              try:
+                  with tarfile.open('/tmp/python-production-text-overlay.tar.xz', mode='r:xz') as archive:
+                      members = archive.getmembers()
+                  print(f'tar_members={len(members)}')
+                  print('python_tar_status=success')
+              except Exception as exc:
+                  print(f'python_tar_status=failure: {type(exc).__name__}: {exc}')
+          except Exception as exc:
+              print(f'python_decode_status=failure: {type(exc).__name__}: {exc}')
+          PY
+            echo
+            echo "[first archive entries]"
+            head -30 /tmp/tar-list.txt 2>/dev/null
+          } >> "$report" 2>&1
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --check
-          git status --short
-          git commit -m "Launch complete production portfolio suite"
+          git add "$report"
+          git commit -m "Record production archive diagnostic results" || true
           git push origin "HEAD:${HEAD_BRANCH}"
