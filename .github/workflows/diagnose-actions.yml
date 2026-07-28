@@ -1,0 +1,16 @@
+name: Diagnose GitHub Actions
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm Actions execution
+        run: |
+          echo "GitHub Actions is running for this repository."
+          echo "event=${{ github.event_name }}"
+          echo "sha=${{ github.sha }}"
