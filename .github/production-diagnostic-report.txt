@@ -1,7 +1,7 @@
 Production archive diagnostic
 =============================
-date_utc=2026-07-28T09:24:22Z
-checked_out_commit=a9d58728e35aa5dbb463371876f29f5384c3f983
+date_utc=2026-07-28T09:24:40Z
+checked_out_commit=0c6f124232f66d429ce59810f6b3653bf9647dfd
 head_branch=agent/diagnose-production-installer
 
 [staging directory]
@@ -13,26 +13,28 @@ part-04.b64 20000 bytes
 part-05a.b64 8000 bytes
 part-05b.b64 8000 bytes
 part-05c1.b64 2000 bytes
+part-05c2.b64 2000 bytes
 part-06.b64 9196 bytes
 
-chunk_count=9
+chunk_count=10
 cat_status=0
-combined_base64_bytes=127196
+combined_base64_bytes=129196
 cat_stderr=
 gnu_decode_status=0
 gnu_decode_stderr=
-archive_bytes=95396
-archive_sha256=8f93b379fd867fa7b122ac16d71f288258afb995692b4ac1acbf119148e055f2
-tar_status=2
-tar_stderr=xz: (stdin): Compressed data is corrupt tar: Unexpected EOF in archive tar: Error is not recoverable: exiting now 
-tar_entry_count=52
+archive_bytes=96896
+archive_sha256=561365347ea0e21610fefe4802e9b507a9729305d5f0ad1757a981231c6e471a
+tar_status=0
+tar_stderr=
+tar_entry_count=59
 
 [Python decoder]
-raw_bytes=127196
-filtered_bytes=127196
-decoded_bytes=95396
-decoded_sha256=8f93b379fd867fa7b122ac16d71f288258afb995692b4ac1acbf119148e055f2
-python_tar_status=failure: LZMAError: Corrupt input data
+raw_bytes=129196
+filtered_bytes=129196
+decoded_bytes=96896
+decoded_sha256=561365347ea0e21610fefe4802e9b507a9729305d5f0ad1757a981231c6e471a
+tar_members=59
+python_tar_status=success
 
 [first archive entries]
 ./
