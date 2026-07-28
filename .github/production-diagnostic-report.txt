@@ -1,0 +1,66 @@
+Production archive diagnostic
+=============================
+date_utc=2026-07-28T09:24:06Z
+checked_out_commit=f811a129cdd3652a384f20867ea391f1dfc2f6ac
+head_branch=agent/diagnose-production-installer
+
+[staging directory]
+part-00.b64 20000 bytes
+part-01.b64 20000 bytes
+part-02.b64 20000 bytes
+part-03.b64 20000 bytes
+part-04.b64 20000 bytes
+part-05a.b64 8000 bytes
+part-05b.b64 8000 bytes
+part-06.b64 9196 bytes
+
+chunk_count=8
+cat_status=0
+combined_base64_bytes=125196
+cat_stderr=
+gnu_decode_status=0
+gnu_decode_stderr=
+archive_bytes=93896
+archive_sha256=212ad6d8231ad7658a616ec47ed438ea6ea009dc9230b9382b379b06a8327ca4
+tar_status=2
+tar_stderr=xz: (stdin): Compressed data is corrupt tar: Unexpected EOF in archive tar: Error is not recoverable: exiting now 
+tar_entry_count=49
+
+[Python decoder]
+raw_bytes=125196
+filtered_bytes=125196
+decoded_bytes=93896
+decoded_sha256=212ad6d8231ad7658a616ec47ed438ea6ea009dc9230b9382b379b06a8327ca4
+python_tar_status=failure: LZMAError: Corrupt input data
+
+[first archive entries]
+./
+./command-center.css
+./manifest.webmanifest
+./.nojekyll
+./command-center.js
+./fx.css
+./ROADMAP.md
+./fx.js
+./SITE_SYSTEM.md
+./script.js
+./.well-known/
+./.well-known/security.txt
+./case-study.js
+./case-study.css
+./portfolio-suite.css
+./sitemap.xml
+./recruiter.css
+./404.html
+./scripts/
+./scripts/validate-site.mjs
+./scripts/generate-assets.py
+./assets/
+./assets/portfolio-qr.svg
+./assets/social-card.svg
+./assets/maskable-icon.svg
+./assets/brand-mark.svg
+./assets/icon.svg
+./README.md
+./CHATGPT_WORKFLOW.md
+./portfolio-data.js
