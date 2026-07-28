@@ -483,3 +483,112 @@ h1 {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* Progressive cinematic navigation between portfolio and project pages. */
+@view-transition {
+  navigation: auto;
+}
+
+.page-hero > .container {
+  view-transition-name: project-hero;
+}
+
+::view-transition-old(root) {
+  animation: page-cinematic-out 260ms cubic-bezier(.4, 0, 1, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: page-cinematic-in 460ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+::view-transition-group(project-hero) {
+  animation-duration: 560ms;
+  animation-timing-function: cubic-bezier(.16, 1, .3, 1);
+}
+
+::view-transition-old(project-hero) {
+  animation: project-card-out 420ms cubic-bezier(.4, 0, .2, 1) both;
+}
+
+::view-transition-new(project-hero) {
+  animation: project-hero-in 560ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes page-cinematic-out {
+  to { opacity: 0; transform: scale(0.985) translateY(-10px); filter: blur(5px); }
+}
+
+@keyframes page-cinematic-in {
+  from { opacity: 0; transform: scale(1.015) translateY(18px); filter: blur(7px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes project-card-out {
+  to { opacity: 0.35; transform: scale(1.04); filter: blur(3px); }
+}
+
+@keyframes project-hero-in {
+  from { opacity: 0.45; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(project-hero),
+  ::view-transition-new(project-hero) {
+    animation-duration: 1ms !important;
+  }
+}
+
+
+/* Reliable cinematic fallback for browsers/pages without cross-document transitions. */
+.page-transition-wipe {
+  position: fixed;
+  z-index: 5000;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, transparent 0 9%, rgba(99, 211, 255, 0.14) 9.5% 10%, transparent 10.5%),
+    linear-gradient(135deg, #06101d, #0d2943 52%, #081522);
+  transform: translate3d(-112%, 0, 0) skewX(-8deg);
+  opacity: 0;
+}
+.page-transition-wipe::before {
+  content: "OPENING PROJECT // LOADING EVIDENCE";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: var(--accent-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(0.72rem, 1.5vw, 0.94rem);
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  transform: translate(-50%, -50%) skewX(8deg);
+  text-shadow: 0 0 18px rgba(128, 240, 192, 0.48);
+}
+.page-transition-wipe.is-active {
+  animation: cinematic-wipe-in 460ms cubic-bezier(.7, 0, .2, 1) forwards;
+}
+.cinematic-leaving > header,
+.cinematic-leaving > main,
+.cinematic-leaving > footer {
+  animation: cinematic-content-out 420ms cubic-bezier(.4, 0, 1, 1) forwards;
+}
+.project-card.is-launching {
+  z-index: 20;
+  border-color: rgba(128, 240, 192, 0.72);
+  box-shadow: 0 0 0 1px rgba(128, 240, 192, 0.2), 0 28px 90px rgba(0, 0, 0, 0.45), 0 0 46px rgba(99, 211, 255, 0.12);
+}
+@keyframes cinematic-wipe-in {
+  0% { transform: translate3d(-112%, 0, 0) skewX(-8deg); opacity: 0.9; }
+  100% { transform: translate3d(0, 0, 0) skewX(0deg); opacity: 1; }
+}
+@keyframes cinematic-content-out {
+  to { opacity: 0.15; transform: scale(0.975); filter: blur(8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-wipe { display: none; }
+  .cinematic-leaving > header, .cinematic-leaving > main, .cinematic-leaving > footer { animation: none; }
+}

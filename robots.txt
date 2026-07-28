@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://wfazli52.github.io/sitemap.xml

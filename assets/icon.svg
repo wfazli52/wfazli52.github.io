@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">DC NET Portfolio app icon</title>
+  <defs>
+    <radialGradient id="glow" cx="30%" cy="20%" r="90%"><stop stop-color="#153b5d"/><stop offset=".48" stop-color="#0a1b2f"/><stop offset="1" stop-color="#030b14"/></radialGradient>
+    <linearGradient id="accent" x1=".1" y1=".1" x2=".9" y2=".9"><stop stop-color="#63d3ff"/><stop offset="1" stop-color="#80f0c0"/></linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#glow)"/>
+  <g opacity=".13" stroke="#63d3ff" stroke-width="2"><path d="M0 96h512M0 160h512M0 224h512M0 288h512M0 352h512M0 416h512"/><path d="M96 0v512M160 0v512M224 0v512M288 0v512M352 0v512M416 0v512"/></g>
+  <circle cx="156" cy="148" r="55" fill="#63d3ff" opacity=".12" filter="url(#soft)"/><circle cx="370" cy="358" r="70" fill="#80f0c0" opacity=".1" filter="url(#soft)"/>
+  <rect x="96" y="92" width="320" height="328" rx="48" fill="#06111f" stroke="#9fe8ff" stroke-opacity=".28" stroke-width="4"/>
+  <g fill="#122a43" stroke="#63d3ff" stroke-opacity=".3" stroke-width="2">
+    <rect x="126" y="128" width="260" height="50" rx="12"/><rect x="126" y="194" width="260" height="50" rx="12"/><rect x="126" y="260" width="260" height="50" rx="12"/><rect x="126" y="326" width="260" height="50" rx="12"/>
+  </g>
+  <g fill="url(#accent)"><circle cx="151" cy="153" r="8"/><circle cx="151" cy="219" r="8"/><circle cx="151" cy="285" r="8"/><circle cx="151" cy="351" r="8"/></g>
+  <path d="M202 154h150M202 220h120M202 286h150M202 352h105" stroke="#a7c6df" stroke-opacity=".46" stroke-width="8" stroke-linecap="round"/>
+  <path d="M91 437h330" stroke="url(#accent)" stroke-width="8" stroke-linecap="round"/>
+</svg>
