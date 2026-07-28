@@ -131,7 +131,6 @@
     });
   }
 
-
   function setupCinematicNavigationFallback() {
     const links = Array.from(document.querySelectorAll('.project-card[href]'));
     if (!links.length) return;
@@ -162,6 +161,20 @@
     });
   }
 
+  function setupCommandCenterLoader() {
+    if (!document.querySelector('#dashboard')) return;
+    if (document.querySelector('script[data-command-center-loader]')) return;
+
+    const script = document.createElement('script');
+    script.src = 'command-center.js?v=3';
+    script.dataset.commandCenterLoader = '';
+    script.async = true;
+    script.addEventListener('error', () => {
+      console.error('The interactive command center could not be loaded.');
+    });
+    document.body.appendChild(script);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     setProfileContent();
     setYear();
@@ -171,5 +184,6 @@
     setupPrint();
     setupPageTransitions();
     setupCinematicNavigationFallback();
+    setupCommandCenterLoader();
   });
 })();
