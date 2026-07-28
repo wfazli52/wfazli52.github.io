@@ -34,7 +34,7 @@ jobs:
           chunk_count="$(find .production-release -maxdepth 1 -name 'part-*.b64' | wc -l)"
           echo "chunk_count=${chunk_count}"
           test "${chunk_count}" -eq 7
-          cat .production-release/part-*.b64 | base64 --decode > production-text-overlay.tar.xz
+          cat .production-release/part-*.b64 | base64 --decode --ignore-garbage > production-text-overlay.tar.xz
           echo "archive_sha256=$(sha256sum production-text-overlay.tar.xz | awk '{print $1}')"
           test -s production-text-overlay.tar.xz
           tar -tJf production-text-overlay.tar.xz >/dev/null
