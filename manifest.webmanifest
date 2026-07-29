@@ -1,26 +1,17 @@
 {
   "id": "/",
-  "name": "DC//NET Proof-First Portfolio",
-  "short_name": "DC//NET",
-  "description": "An interactive, proof-first data center and networking portfolio with verified evidence, project case studies, and clearly labeled training simulations.",
-  "start_url": "./?source=pwa",
+  "name": "Network & Data Center Specimen Portfolio",
+  "short_name": "Specimen",
+  "description": "An editorial, proof-first portfolio for an aspiring data center technician and network engineer.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
-  ],
   "orientation": "any",
-  "background_color": "#07111f",
-  "theme_color": "#07111f",
+  "background_color": "#f6f5f1",
+  "theme_color": "#f6f5f1",
   "lang": "en-US",
   "dir": "ltr",
-  "categories": [
-    "education",
-    "productivity",
-    "utilities"
-  ],
+  "categories": ["education", "portfolio", "productivity"],
   "icons": [
     {
       "src": "assets/icon-192.png",
@@ -45,82 +36,20 @@
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "assets/maskable-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "Verified evidence",
-      "short_name": "Proof",
-      "description": "Open the recruiter-facing verified evidence ledger.",
-      "url": "./?proof=verified#verified-proof",
-      "icons": [
-        {
-          "src": "assets/brand-mark.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Incident simulator",
-      "short_name": "Simulator",
-      "description": "Open the clearly labeled infrastructure training simulator.",
-      "url": "./?proof=simulation#command-center",
-      "icons": [
-        {
-          "src": "assets/brand-mark.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Project case studies",
+      "name": "Selected projects",
       "short_name": "Projects",
-      "description": "Open the technical project pipeline.",
-      "url": "./#projects",
-      "icons": [
-        {
-          "src": "assets/brand-mark.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
-        }
-      ]
+      "description": "Open the technical project index.",
+      "url": "./#projects"
     },
     {
-      "name": "Resume",
-      "short_name": "Resume",
-      "description": "Open the printable resume.",
-      "url": "./resume.html",
-      "icons": [
-        {
-          "src": "assets/brand-mark.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
-        }
-      ]
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/screenshot-wide.webp",
-      "sizes": "1440x900",
-      "type": "image/webp",
-      "form_factor": "wide",
-      "label": "Interactive data center command center"
-    },
-    {
-      "src": "assets/screenshot-mobile.webp",
-      "sizes": "390x844",
-      "type": "image/webp",
-      "form_factor": "narrow",
-      "label": "Mobile proof-first portfolio experience"
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Open the portfolio contact sheet.",
+      "url": "./#contact"
     }
   ]
 }
