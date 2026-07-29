@@ -66,6 +66,19 @@ jobs:
         working-directory: _reference/app
         run: npm run build
 
+      - name: Make cinematic carbon the first-visit theme
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('_reference/app/dist/index.html')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('<html lang="en" data-theme="paper">', '<html lang="en" data-theme="carbon">')
+          text = text.replace("if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'carbon';", "if (!t) t = 'carbon';")
+          text = text.replace('<meta name="theme-color" content="#fbfbfc" />', '<meta name="theme-color" content="#101014" />')
+          path.write_text(text, encoding='utf-8')
+          PY
+
       - name: Validate production output
         shell: bash
         run: |
@@ -76,6 +89,7 @@ jobs:
           test "$(find _reference/app/dist/assets -type f -name '*.css' | wc -l)" -ge 1
           grep -q "Specimen Sheet" _reference/app/dist/index.html
           grep -q "YOUR NAME" _reference/app/dist/index.html
+          grep -q 'data-theme="carbon"' _reference/app/dist/index.html
           ! grep -R -I -n -E "contact@imranwafa\.com|703.?364.?9357|Petromax LLC|Instawire LLC|Mgtwell LLC" _reference/app/dist
 
       - name: Replace the live GitHub Pages site
