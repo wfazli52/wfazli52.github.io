@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'dcnet-specimen-v2.1.0-webgl';
+const CACHE_VERSION = 'dcnet-specimen-v3.0.0-cinematic';
 const OFFLINE_URL = './offline.html';
 const CORE_ASSETS = [
   './',
@@ -8,14 +8,14 @@ const CORE_ASSETS = [
   './resume.html',
   './offline.html',
   './specimen.css',
-  './specimen-3d.css',
+  './specimen-3d.css?v=3',
   './site-content.js',
-  './specimen.js',
-  './specimen-3d.js',
-  './specimen-runtime/part-1.txt',
-  './specimen-runtime/part-2.txt',
-  './specimen-runtime/part-3.txt',
-  './specimen-runtime/part-4.txt',
+  './specimen.js?v=3',
+  './specimen-3d.js?v=3',
+  './specimen-runtime/part-1.txt?v=1',
+  './specimen-runtime/part-2.txt?v=1',
+  './specimen-runtime/part-3.txt?v=1',
+  './specimen-runtime/part-4.txt?v=1',
   './manifest.webmanifest',
   './assets/icon.svg',
   './assets/icon-32.png',
@@ -44,7 +44,12 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter((key) => key.startsWith('dcnet-') || key.startsWith('specimen-portfolio-')).filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key)));
+    await Promise.all(
+      keys
+        .filter((key) => key.startsWith('dcnet-') || key.startsWith('specimen-portfolio-'))
+        .filter((key) => key !== CACHE_VERSION)
+        .map((key) => caches.delete(key))
+    );
     await self.clients.claim();
     const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
     await Promise.all(windows.map(async (client) => {
