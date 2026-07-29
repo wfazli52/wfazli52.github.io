@@ -83,7 +83,7 @@
 
     const moduleScript = document.createElement('script');
     moduleScript.type = 'module';
-    moduleScript.src = 'hero-3d.js?v=1';
+    moduleScript.src = 'hero-3d.js?v=6';
     moduleScript.dataset.futureHero3d = '';
     moduleScript.addEventListener('error', () => {
       hud.remove();
@@ -125,7 +125,7 @@
   }
 
   function setupSpotlights() {
-    const selector = '.kpi, .skill-group, .about-stat, .metric-panel, .project-row, .timeline-entry';
+    const selector = '.kpi, .skill-group, .about-stat, .panel, .proj-row, .project-row, .timeline-entry';
     document.addEventListener('pointermove', (event) => {
       const target = event.target.closest?.(selector);
       if (!target) return;
@@ -137,7 +137,7 @@
 
   function setupMagneticControls() {
     if (!finePointer.matches || reduceMotion.matches) return;
-    const selector = 'a.index-link, .theme-toggle, .hero-3d-controls button, .future-scene-fullscreen, .showcase-3d-pause';
+    const selector = 'a.idx-link, a.index-link, .theme-toggle, .hero-3d-controls button, .future-scene-fullscreen, .showcase-3d-pause';
     document.addEventListener('pointermove', (event) => {
       const target = event.target.closest?.(selector);
       if (!target) return;
@@ -153,7 +153,7 @@
   }
 
   function setupProgressRail() {
-    const sections = Array.from(document.querySelectorAll('main > section[id]'));
+    const sections = Array.from(document.querySelectorAll('section[id]'));
     if (!sections.length) return;
 
     sections.forEach((section, index) => {
@@ -215,7 +215,7 @@
   }
 
   function setupShowcaseEnhancements() {
-    const sticky = document.querySelector('.showcase-sticky');
+    const sticky = document.querySelector('.sc-sticky, .showcase-sticky');
     if (!sticky) return;
 
     if (!sticky.querySelector('.future-scene-fullscreen')) {
@@ -241,25 +241,20 @@
       });
     }
 
-    const rail = sticky.querySelector('.showcase-stage-rail');
-    if (!rail) {
-      const observer = new MutationObserver(() => setupShowcaseEnhancements());
-      observer.observe(sticky, { childList: true, subtree: true });
-      setTimeout(() => observer.disconnect(), 12000);
-      return;
+    const panel = sticky.querySelector('.sc-panel, .showcase-panel');
+    if (panel) {
+      let previousText = panel.textContent;
+      const observer = new MutationObserver(() => {
+        const currentText = panel.textContent;
+        if (currentText === previousText) return;
+        previousText = currentText;
+        sticky.classList.remove('stage-flash');
+        void sticky.offsetWidth;
+        sticky.classList.add('stage-flash');
+        setTimeout(() => sticky.classList.remove('stage-flash'), 760);
+      });
+      observer.observe(panel, { childList: true, subtree: true, characterData: true });
     }
-
-    let previousStage = rail.querySelector('.is-active')?.textContent || '';
-    const observer = new MutationObserver(() => {
-      const current = rail.querySelector('.is-active')?.textContent || '';
-      if (!current || current === previousStage) return;
-      previousStage = current;
-      sticky.classList.remove('stage-flash');
-      void sticky.offsetWidth;
-      sticky.classList.add('stage-flash');
-      setTimeout(() => sticky.classList.remove('stage-flash'), 760);
-    });
-    observer.observe(rail, { attributes: true, subtree: true, attributeFilter: ['class'] });
   }
 
   function setupKeyboard() {
@@ -280,7 +275,7 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function init() {
     document.body.classList.add('futurescape');
     injectFonts();
     setupHero3D();
@@ -291,5 +286,11 @@
     setupScrollEffects();
     setupShowcaseEnhancements();
     setupKeyboard();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })();

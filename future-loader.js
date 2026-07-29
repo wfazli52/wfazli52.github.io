@@ -6,7 +6,7 @@
     if (document.querySelector('.hero')) {
       if (document.querySelector('script[data-future-ui]')) return;
       const script = document.createElement('script');
-      script.src = '/future-ui.js?v=5';
+      script.src = '/future-ui.js?v=6';
       script.defer = true;
       script.dataset.futureUi = '';
       document.body.appendChild(script);
