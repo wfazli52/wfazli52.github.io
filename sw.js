@@ -1,21 +1,28 @@
 'use strict';
 
-const CACHE_VERSION = 'specimen-portfolio-v1.0.0';
+const CACHE_VERSION = 'dcnet-specimen-v2.1.0-webgl';
 const OFFLINE_URL = './offline.html';
 const CORE_ASSETS = [
   './',
   './index.html',
+  './resume.html',
+  './offline.html',
   './specimen.css',
+  './specimen-3d.css',
   './site-content.js',
   './specimen.js',
+  './specimen-3d.js',
   './specimen-runtime/part-1.txt',
   './specimen-runtime/part-2.txt',
   './specimen-runtime/part-3.txt',
   './specimen-runtime/part-4.txt',
-  './resume.html',
-  './offline.html',
-  './assets/icon.svg',
   './manifest.webmanifest',
+  './assets/icon.svg',
+  './assets/icon-32.png',
+  './assets/icon-192.png',
+  './assets/icon-512.png',
+  './assets/apple-touch-icon.png',
+  './assets/maskable-icon-512.png',
   './projects/enterprise-network.html',
   './projects/linux-monitoring.html',
   './projects/incident-response.html',
@@ -37,27 +44,41 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key)));
+    await Promise.all(keys.filter((key) => key.startsWith('dcnet-') || key.startsWith('specimen-portfolio-')).filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key)));
     await self.clients.claim();
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    await Promise.all(windows.map(async (client) => {
+      try {
+        const url = new URL(client.url);
+        if (url.origin === self.location.origin && !url.searchParams.has('sw-refreshed')) {
+          url.searchParams.set('sw-refreshed', '1');
+          await client.navigate(url.href);
+        }
+      } catch {}
+    }));
   })());
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_VERSION);
   try {
-    const response = await fetch(request, { cache: 'no-store' });
-    if (response.ok) await cache.put(request, response.clone());
+    const response = await fetch(request);
+    if (response.ok) cache.put(request, response.clone());
     return response;
   } catch {
-    return (await cache.match(request)) || (await cache.match(OFFLINE_URL)) || Response.error();
+    return (await cache.match(request)) || (await cache.match(OFFLINE_URL));
   }
 }
 
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(CACHE_VERSION);
   const cached = await cache.match(request);
-  const network = fetch(request).then(async (response) => {
-    if (response.ok) await cache.put(request, response.clone());
+  const network = fetch(request).then((response) => {
+    if (response.ok) cache.put(request, response.clone());
     return response;
   }).catch(() => null);
   return cached || (await network) || new Response('', { status: 504, statusText: 'Offline' });
@@ -74,7 +95,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (/\.(?:css|js|txt|svg|png|jpg|jpeg|webp|woff2?|json|webmanifest)$/i.test(url.pathname)) {
+  if (/\.(?:css|js|svg|png|jpg|jpeg|webp|woff2?|json|webmanifest|txt)$/i.test(url.pathname)) {
     event.respondWith(staleWhileRevalidate(request));
     return;
   }
