@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/build-permitted-specimen.yml"
+      - ".github/overlay/**"
       - "scripts/prepare-permitted-specimen.py"
   workflow_dispatch:
 
@@ -59,8 +60,11 @@ jobs:
         run: |
           set -euo pipefail
           git show b07c71435cac80b01443a4407647589650bb21fa:future-ui.css > _reference/app/public/future-ui.css
-          git show a0c3af1e2ac0098d0534fc58d683a969c0fe4c74:future-ui.js > _reference/app/public/future-ui.js
+          cp .github/overlay/future-ui.js _reference/app/public/future-ui.js
           git show 7c3adb82ce402c83f9729b23756dde88fd72336f:hero-3d.js > _reference/app/public/hero-3d.js
+
+          node --check _reference/app/public/future-ui.js
+          node --check _reference/app/public/hero-3d.js
 
           cat > _reference/app/public/future-loader.js <<'JS'
           (() => {
@@ -71,7 +75,7 @@ jobs:
               if (document.querySelector('.hero')) {
                 if (document.querySelector('script[data-future-ui]')) return;
                 const script = document.createElement('script');
-                script.src = '/future-ui.js?v=5';
+                script.src = '/future-ui.js?v=6';
                 script.defer = true;
                 script.dataset.futureUi = '';
                 document.body.appendChild(script);
@@ -88,7 +92,7 @@ jobs:
           from pathlib import Path
           path = Path('_reference/app/index.html')
           text = path.read_text(encoding='utf-8')
-          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=5" />\n  <script defer src="/future-loader.js?v=5"></script>\n</head>')
+          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=6" />\n  <script defer src="/future-loader.js?v=6"></script>\n</head>')
           path.write_text(text, encoding='utf-8')
           PY
 
@@ -132,7 +136,7 @@ jobs:
           grep -q "Specimen Sheet" _reference/app/dist/index.html
           grep -q "YOUR NAME" _reference/app/dist/index.html
           grep -q 'data-theme="carbon"' _reference/app/dist/index.html
-          grep -q 'future-ui.css' _reference/app/dist/index.html
+          grep -q 'future-ui.css?v=6' _reference/app/dist/index.html
           ! grep -R -I -n -E "contact@imranwafa\.com|703.?364.?9357|Petromax LLC|Instawire LLC|Mgtwell LLC" _reference/app/dist
 
       - name: Replace the live GitHub Pages site
