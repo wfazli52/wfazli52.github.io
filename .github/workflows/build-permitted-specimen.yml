@@ -54,6 +54,44 @@ jobs:
           REFERENCE_APP: _reference/app
         run: python scripts/prepare-permitted-specimen.py
 
+      - name: Add the futuristic hero and interaction layer
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show b07c71435cac80b01443a4407647589650bb21fa:future-ui.css > _reference/app/public/future-ui.css
+          git show a0c3af1e2ac0098d0534fc58d683a969c0fe4c74:future-ui.js > _reference/app/public/future-ui.js
+          git show 7c3adb82ce402c83f9729b23756dde88fd72336f:hero-3d.js > _reference/app/public/hero-3d.js
+
+          cat > _reference/app/public/future-loader.js <<'JS'
+          (() => {
+            'use strict';
+            let attempts = 0;
+            const load = () => {
+              attempts += 1;
+              if (document.querySelector('.hero')) {
+                if (document.querySelector('script[data-future-ui]')) return;
+                const script = document.createElement('script');
+                script.src = '/future-ui.js?v=5';
+                script.defer = true;
+                script.dataset.futureUi = '';
+                document.body.appendChild(script);
+                return;
+              }
+              if (attempts < 600) requestAnimationFrame(load);
+            };
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load, { once: true });
+            else load();
+          })();
+          JS
+
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('_reference/app/index.html')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=5" />\n  <script defer src="/future-loader.js?v=5"></script>\n</head>')
+          path.write_text(text, encoding='utf-8')
+          PY
+
       - name: Install exact application dependencies
         working-directory: _reference/app
         run: npm ci --no-audit --no-fund
@@ -87,9 +125,14 @@ jobs:
           test -d _reference/app/dist/assets
           test "$(find _reference/app/dist/assets -type f -name '*.js' | wc -l)" -ge 3
           test "$(find _reference/app/dist/assets -type f -name '*.css' | wc -l)" -ge 1
+          test -s _reference/app/dist/future-ui.css
+          test -s _reference/app/dist/future-ui.js
+          test -s _reference/app/dist/hero-3d.js
+          test -s _reference/app/dist/future-loader.js
           grep -q "Specimen Sheet" _reference/app/dist/index.html
           grep -q "YOUR NAME" _reference/app/dist/index.html
           grep -q 'data-theme="carbon"' _reference/app/dist/index.html
+          grep -q 'future-ui.css' _reference/app/dist/index.html
           ! grep -R -I -n -E "contact@imranwafa\.com|703.?364.?9357|Petromax LLC|Instawire LLC|Mgtwell LLC" _reference/app/dist
 
       - name: Replace the live GitHub Pages site
@@ -124,5 +167,5 @@ jobs:
           tree_sha="$(git write-tree)"
           git fetch origin main
           parent_sha="$(git rev-parse origin/main)"
-          commit_sha="$(printf '%s\n' 'Launch permitted cinematic specimen portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
+          commit_sha="$(printf '%s\n' 'Launch permitted futuristic specimen portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
           git push origin "$commit_sha:main"
