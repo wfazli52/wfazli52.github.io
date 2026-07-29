@@ -1,6 +1,29 @@
 (() => {
   'use strict';
 
+  try {
+    const url = new URL(location.href);
+    if (url.searchParams.has('sw-refreshed')) {
+      url.searchParams.delete('sw-refreshed');
+      history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+  } catch {}
+
+  const style = document.createElement('link');
+  style.rel = 'stylesheet';
+  style.href = 'specimen-3d.css?v=2';
+  style.dataset.specimen3dStyle = '';
+  document.head.appendChild(style);
+
+  const moduleScript = document.createElement('script');
+  moduleScript.type = 'module';
+  moduleScript.src = 'specimen-3d.js?v=2';
+  moduleScript.dataset.specimen3d = '';
+  moduleScript.addEventListener('error', () => {
+    console.warn('The WebGL showcase could not load; the lightweight canvas fallback remains active.');
+  });
+  document.head.appendChild(moduleScript);
+
   const parts = [1, 2, 3, 4].map((number) => `specimen-runtime/part-${number}.txt?v=1`);
 
   Promise.all(parts.map(async (url) => {
