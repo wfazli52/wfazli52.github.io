@@ -19,14 +19,14 @@
     If you're a dev... PRs welcome!
 
 -->
-<html lang="en" data-theme="paper">
+<html lang="en" data-theme="carbon">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
     content="[YOUR NAME] · Aspiring data center technician and network engineer building proof-first networking, Linux, hardware, and operations projects." />
-  <meta name="theme-color" content="#fbfbfc" />
+  <meta name="theme-color" content="#101014" />
   <script>
     // Restore the persisted theme before first paint (no light-flash).
     // ?theme=carbon|paper overrides for sharing/testing (not persisted);
@@ -35,7 +35,7 @@
     try {
       var m = location.search.match(/[?&]theme=(carbon|paper)/);
       var t = m ? m[1] : localStorage.getItem('portfolio_theme');
-      if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'carbon';
+      if (!t) t = 'carbon';
       if (t === 'carbon') {
         document.documentElement.dataset.theme = 'carbon';
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#101014');
