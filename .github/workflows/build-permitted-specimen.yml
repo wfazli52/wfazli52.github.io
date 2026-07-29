@@ -1,0 +1,109 @@
+name: Build permitted cinematic specimen
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/build-permitted-specimen.yml"
+      - "scripts/prepare-permitted-specimen.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: permitted-cinematic-specimen
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out portfolio repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check out permitted reference architecture
+        uses: actions/checkout@v4
+        with:
+          repository: imranhwafa/Imranwafacom
+          ref: main
+          path: _reference
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: _reference/app/package-lock.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Adapt personal content into honest placeholders
+        env:
+          REFERENCE_APP: _reference/app
+        run: python scripts/prepare-permitted-specimen.py
+
+      - name: Install exact application dependencies
+        working-directory: _reference/app
+        run: npm ci --no-audit --no-fund
+
+      - name: Run showcase choreography tests
+        working-directory: _reference/app
+        run: npm run test:showcase
+
+      - name: Build the production React and Three.js site
+        working-directory: _reference/app
+        run: npm run build
+
+      - name: Validate production output
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s _reference/app/dist/index.html
+          test -d _reference/app/dist/assets
+          test "$(find _reference/app/dist/assets -type f -name '*.js' | wc -l)" -ge 3
+          test "$(find _reference/app/dist/assets -type f -name '*.css' | wc -l)" -ge 1
+          grep -q "Specimen Sheet" _reference/app/dist/index.html
+          grep -q "YOUR NAME" _reference/app/dist/index.html
+          ! grep -R -I -n -E "contact@imranwafa\.com|703.?364.?9357|Petromax LLC|Instawire LLC|Mgtwell LLC" _reference/app/dist
+
+      - name: Replace the live GitHub Pages site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/permitted-specimen-site
+          mkdir -p /tmp/permitted-specimen-site
+          cp -a _reference/app/dist/. /tmp/permitted-specimen-site/
+          cp /tmp/permitted-specimen-site/index.html /tmp/permitted-specimen-site/404.html
+          touch /tmp/permitted-specimen-site/.nojekyll
+
+          cp scripts/prepare-permitted-specimen.py /tmp/prepare-permitted-specimen.py
+          rm -rf _reference
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github -exec rm -rf {} +
+          mkdir -p scripts
+          cp /tmp/prepare-permitted-specimen.py scripts/prepare-permitted-specimen.py
+          cp -a /tmp/permitted-specimen-site/. .
+
+      - name: Commit the compiled cinematic site
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The compiled site already matches the permitted source."
+            exit 0
+          fi
+          git commit -m "Launch permitted cinematic specimen portfolio"
+          git push
