@@ -1,273 +1,180 @@
 <!doctype html>
+<!--
+
+    ██╗███╗   ███╗██████╗  █████╗ ███╗   ██╗
+    ██║████╗ ████║██╔══██╗██╔══██╗████╗  ██║
+    ██║██╔████╔██║██████╔╝███████║██╔██╗ ██║
+    ██║██║╚██╔╝██║██╔══██╗██╔══██║██║╚██╗██║
+    ██║██║ ╚═╝ ██║██║  ██║██║  ██║██║ ╚████║
+    ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+
+    Hey, you're looking at my source code!
+    No worries I keep it open source.
+
+    Check out the full repo:
+    https://github.com/wfazli52
+
+    Built with React and TypeScript
+
+    If you're a dev... PRs welcome!
+
+-->
 <html lang="en" data-theme="paper">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An editorial, proof-first portfolio for an aspiring data center technician and network engineer.">
-  <meta name="theme-color" content="#f6f5f1">
-  <meta name="color-scheme" content="light dark">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://wfazli52.github.io/">
-  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="manifest" href="manifest.webmanifest">
-  <title>Network & Data Center Specimen | Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="[YOUR NAME] · Aspiring data center technician and network engineer building proof-first networking, Linux, hardware, and operations projects." />
+  <meta name="theme-color" content="#fbfbfc" />
   <script>
-    (() => {
-      try {
-        const param = new URLSearchParams(location.search).get('theme');
-        const stored = localStorage.getItem('specimen-theme');
-        const systemDark = matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = param === 'carbon' || param === 'paper' ? param : stored || (systemDark ? 'carbon' : 'paper');
-        document.documentElement.dataset.theme = theme;
-        document.querySelector('meta[name="theme-color"]').content = theme === 'carbon' ? '#111216' : '#f6f5f1';
-      } catch {}
-    })();
+    // Restore the persisted theme before first paint (no light-flash).
+    // ?theme=carbon|paper overrides for sharing/testing (not persisted);
+    // with no stored choice, follow the system preference.
+    // Keep the colors in sync with --paper in specimen.css.
+    try {
+      var m = location.search.match(/[?&]theme=(carbon|paper)/);
+      var t = m ? m[1] : localStorage.getItem('portfolio_theme');
+      if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'carbon';
+      if (t === 'carbon') {
+        document.documentElement.dataset.theme = 'carbon';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#101014');
+      }
+    } catch (e) { /* private mode */ }
   </script>
-  <link rel="stylesheet" href="specimen.css?v=1">
-  <script src="site-content.js?v=1" defer></script>
-  <script src="specimen.js?v=1" defer></script>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>[YOUR NAME] · A Specimen Sheet</title>
+  <link rel="canonical" href="https://wfazli52.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wfazli52.github.io/" />
+  <meta property="og:title" content="[YOUR NAME] · A Specimen Sheet" />
+  <meta property="og:description"
+    content="Data center, networking, Linux, hardware operations, and proof-first technical projects — set like an interactive specimen sheet." />
+  <meta property="og:site_name" content="wfazli52.github.io" />
+  <meta property="og:image" content="https://wfazli52.github.io/og.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://wfazli52.github.io/og.svg" />
+  <meta name="twitter:title" content="[YOUR NAME] · A Specimen Sheet" />
+  <meta name="twitter:description"
+    content="Data center, networking, Linux, hardware operations, and proof-first technical projects — set like an interactive specimen sheet." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "[YOUR NAME]",
+    "url": "https://wfazli52.github.io/",
+    "email": "mailto:your.email@example.com",
+    "jobTitle": "Aspiring Data Center Technician and Network Engineer",
+    "sameAs": [
+      "https://github.com/wfazli52",
+      "https://www.linkedin.com/in/your-handle"
+    ]
+  }
+  </script>
+  <!-- Fonts are self-hosted (see @font-face in specimen.css); preload the
+       three above-the-fold families so text settles immediately. The
+       experiment fonts (Archivo, Familjen Grotesk, Syne) are lazy-loaded
+       from Google on demand by ensureFontLoaded() in motion.tsx. -->
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/space-grotesk.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/hanken-grotesk.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin />
+  <script type="module" crossorigin src="/assets/index-CGL1xIJu.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-scSNr3IC.css">
 </head>
+
 <body>
-  <div class="startup" data-startup aria-hidden="true">
-    <div class="startup-corners"><span></span><span></span><span></span><span></span></div>
-    <div class="startup-copy">
-      <span class="mono" data-startup-name>PORTFOLIO SPECIMEN</span>
-      <strong><span>I build</span><em>systems.</em></strong>
-      <div class="startup-meter"><i></i></div>
-      <small class="mono">ASSEMBLING THE SHEET</small>
+  <!--  You found the secret layer. Go check the console too ;) -->
+  <div id="root"></div>
+
+  <!-- Slow-load fallback (JS on, but slow connection): if the app hasn't booted
+       within 3s, show a tiny critical hero + contact so the page is never blank.
+       main.tsx sets window.__appReady on boot and removes the .slow class. -->
+  <style>
+    /* Fallback-chrome tokens, kept in sync with --paper/--ink/--accent in
+       specimen.css but declared here so they exist BEFORE that stylesheet
+       loads (the whole point of the slow-load path). Carbon overrides below. */
+    :root {
+      --lite-bg: #fbfbfc;
+      --lite-ink: #0b0d13;
+      --lite-mute: #777a82;
+      --lite-accent: #194fe3;
+      --lite-rule: rgba(11, 13, 19, 0.16);
+    }
+    html[data-theme="carbon"] {
+      --lite-bg: #101014;
+      --lite-ink: #e6e8ec;
+      --lite-mute: #71747b;
+      --lite-accent: #6097ff;
+      --lite-rule: rgba(230, 232, 236, 0.18);
+    }
+    html { background: var(--lite-bg); color: var(--lite-ink); }
+
+    #root { transition: opacity 0.5s ease; opacity: 1; }
+    html.slow #root { opacity: 0 !important; pointer-events: none; }
+
+    #lite {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 24px; opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html.slow #lite { opacity: 1; pointer-events: auto; }
+
+    .lite-inner { max-width: 640px; width: 100%; }
+    .lite-inner .mono {
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--lite-mute); margin-bottom: 24px;
+    }
+    .lite-inner h1 {
+      font-size: clamp(48px, 10vw, 88px); line-height: 0.95; letter-spacing: -0.04em;
+      margin: 0; font-weight: 500;
+    }
+    .lite-inner h1 em { font-style: italic; color: var(--lite-accent); font-weight: 400; }
+
+    .lite-inner p {
+      font-size: 18px; color: var(--lite-mute); margin: 24px 0 32px; max-width: 48ch; line-height: 1.5;
+    }
+    .lite-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .lite-links a {
+      font-size: 15px; color: var(--lite-ink); text-decoration: none;
+      border-bottom: 1px solid var(--lite-rule); padding-bottom: 2px; transition: border-color 0.2s;
+    }
+    .lite-links a:hover { border-bottom-color: var(--lite-accent); }
+  </style>
+  <div id="lite" aria-hidden="true">
+    <div class="lite-inner">
+      <div class="mono">[YOUR NAME] · infrastructure specimen</div>
+      <h1>I build<br><em>systems.</em></h1>
+      <p id="lite-msg">One sec, the full interactive version is still loading. Here are the essentials in the meantime.</p>
+      <div class="lite-links">
+        <a href="mailto:your.email@example.com">your.email@example.com</a>
+        <a href="https://github.com/wfazli52">GitHub</a>
+        <a href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+      </div>
     </div>
   </div>
-
-  <canvas class="ambient-grid" data-ambient-grid aria-hidden="true"></canvas>
-  <div class="paper-grain" aria-hidden="true"></div>
-  <div class="scroll-rule" data-scroll-rule aria-hidden="true"></div>
-  <div class="crosshair" data-crosshair aria-hidden="true"><i></i><i></i></div>
-
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="masthead shell" aria-label="Portfolio masthead">
-    <div class="masthead-left mono">
-      <button class="text-button" type="button" data-copy="version" data-meta="version">Vol. 01 / Iss. 01</button>
-      <button class="text-button" type="button" data-copy="location"><span data-identity="location">[YOUR CITY, STATE]</span> · <span data-identity="coordinate">[00.000° N]</span></button>
-      <button class="greeting text-button" type="button" data-greeting>good evening</button>
-    </div>
-    <a class="masthead-center mono" href="#top"><span>A SPECIMEN SHEET</span><b>·</b><span data-identity="name">[YOUR NAME]</span></a>
-    <div class="masthead-right mono">
-      <button class="text-button" type="button" data-copy-date><span data-date>MON · JUL 27 · 2026</span></button>
-      <button class="text-button" type="button" data-toggle-clock><span data-clock>21:06:00</span></button>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false"><i></i><span data-theme-label>dark</span></button>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero shell" id="top" aria-labelledby="hero-title">
-      <div class="corner-marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-
-      <div class="template-notice mono" data-template-notice>
-        <span>TEMPLATE MODE</span>
-        <p>Replace every bracketed field in <a href="https://github.com/wfazli52/wfazli52.github.io/edit/main/site-content.js">site-content.js</a>.</p>
-        <button type="button" data-dismiss-template aria-label="Dismiss template notice">×</button>
-      </div>
-
-      <div class="hero-grid">
-        <div class="meta-column hero-meta-left" data-reveal>
-          <div class="meta-block"><span>SUBJECT</span><strong data-identity="name">[YOUR NAME]</strong></div>
-          <div class="meta-block"><span>DISCIPLINE</span><strong data-identity="discipline">Data Center · Networking · Systems</strong></div>
-          <div class="meta-block"><span>EST.</span><strong data-meta="established">2026</strong></div>
-        </div>
-
-        <h1 class="wordmark" id="hero-title" data-reveal>
-          <span data-identity="heroLineOne">I build</span>
-          <em data-identity="heroLineTwo">systems.</em>
-          <small data-identity="heroSub">and I learn how to keep them running</small>
-        </h1>
-
-        <div class="meta-column hero-meta-right" data-reveal>
-          <div class="meta-block"><span>FOLIO N°</span><strong data-meta="folio">001 / 008</strong></div>
-          <div class="meta-block"><span>EDITION</span><strong data-meta="edition">v1.0 · 2026</strong></div>
-          <div class="meta-block"><span>FORMAT</span><strong data-meta="format">Specimen sheet</strong></div>
-        </div>
-      </div>
-
-      <div class="hero-foot">
-        <p class="hero-tagline" data-identity="tagline" data-reveal>I am building hands-on evidence in networking, Linux, server operations, hardware troubleshooting, and technical documentation while completing my network engineering degree.</p>
-
-        <dl class="dossier" data-reveal>
-          <div><dt>Currently</dt><dd data-current="degree">WGU · B.S. Network Engineering · Cisco track</dd></div>
-          <div><dt>Stack</dt><dd data-current="stack">Cisco IOS · Linux · Git</dd></div>
-          <div><dt>Focus</dt><dd data-current="focus">VLANs · routing · break/fix</dd></div>
-          <div><dt>Homelab</dt><dd data-current="homelab">[ADD YOUR HOME LAB HARDWARE OR SOFTWARE]</dd></div>
-        </dl>
-
-        <dl class="dossier" data-reveal>
-          <div><dt>Status</dt><dd data-current="status">Open to entry-level roles</dd></div>
-          <div><dt>Replies</dt><dd data-current="response">Within 48 hours</dd></div>
-          <div><dt>Detail</dt><dd data-current="personalDetail">[ADD A SMALL PERSONAL DETAIL]</dd></div>
-          <div><dt>Resume</dt><dd><a data-link="resume" href="resume.html">Open the folio ↗</a></dd></div>
-        </dl>
-      </div>
-
-      <div class="kpi-strip" data-kpi-strip data-reveal></div>
-    </section>
-
-    <div class="ticker" aria-label="Current focus">
-      <div class="ticker-track" data-ticker-track></div>
-    </div>
-
-    <section class="section shell" id="about" aria-labelledby="about-title">
-      <header class="section-head" data-reveal>
-        <span class="section-number mono">§ 01 / DOSSIER</span>
-        <h2 id="about-title">A quick <em>introduction.</em></h2>
-        <span class="section-meta mono">SUBJECT FILE</span>
-      </header>
-
-      <div class="about-layout">
-        <div class="about-copy" data-reveal>
-          <p class="lead" data-identity="bio">[WRITE A 3–5 SENTENCE INTRODUCTION ABOUT YOUR BACKGROUND, THE KIND OF PROBLEMS YOU ENJOY SOLVING, AND THE ROLE YOU ARE TARGETING. KEEP IT PERSONAL AND SPECIFIC.]</p>
-          <div class="availability-line mono"><i></i><span data-contact="availability">Available for data center technician, deployment technician, NOC, and network-support opportunities.</span></div>
-        </div>
-        <div class="about-stats" data-about-stats data-reveal></div>
-      </div>
-
-      <div class="skills-matrix" data-skills data-reveal></div>
-    </section>
-
-    <section class="section showcase-section" id="featured" aria-labelledby="featured-title" data-showcase-section>
-      <div class="shell showcase-intro">
-        <header class="section-head" data-reveal>
-          <span class="section-number mono">§ 02 / FEATURED</span>
-          <h2 id="featured-title">Systems in <em>motion.</em></h2>
-          <span class="section-meta mono">SCROLL · 09 STAGES</span>
-        </header>
-        <p class="section-deck" data-reveal>An original scroll-driven infrastructure study: three projects, three operating phases each. The scenes are illustrative until real evidence replaces them.</p>
-      </div>
-
-      <div class="showcase-scroll" data-showcase-scroll>
-        <div class="showcase-sticky">
-          <canvas data-showcase-canvas aria-label="Animated infrastructure project illustration"></canvas>
-          <div class="showcase-progress" aria-hidden="true"><span data-showcase-progress></span></div>
-          <article class="showcase-panel" data-showcase-panel aria-live="polite">
-            <span class="showcase-kicker mono" data-showcase-kicker>FEATURED 01 · NETWORKING</span>
-            <h3 data-showcase-title>Enterprise VLAN & Routing Lab</h3>
-            <p class="showcase-phase mono" data-showcase-phase>01 / 03 · MAP THE NETWORK</p>
-            <p data-showcase-body>Create the requirements, subnet plan, device names, VLAN boundaries, and physical/logical topology before touching configuration.</p>
-            <dl data-showcase-specs></dl>
-            <div class="showcase-dots" data-showcase-dots></div>
-            <a class="index-link" data-showcase-link href="projects/enterprise-network.html">Open project plan ↗</a>
-          </article>
-          <div class="showcase-hint mono">SCROLL — THE SCENE ADVANCES</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section shell" id="projects" aria-labelledby="projects-title">
-      <header class="section-head" data-reveal>
-        <span class="section-number mono">§ 03 / PERSONAL</span>
-        <h2 id="projects-title">Selected <em>projects.</em></h2>
-        <span class="section-meta mono" data-project-meta>04 ENTRIES</span>
-      </header>
-
-      <div class="project-summary" data-reveal>
-        <p>Four proof-first technical blueprints. Open a row for scope, evidence status, and the plan behind the work.</p>
-        <div class="project-filter mono" data-project-filters></div>
-      </div>
-
-      <div class="project-index" data-project-index data-reveal></div>
-    </section>
-
-    <section class="section shell" id="education" aria-labelledby="education-title">
-      <header class="section-head" data-reveal>
-        <span class="section-number mono">§ 04 / EDUCATION</span>
-        <h2 id="education-title">Where I’m <em>learning.</em></h2>
-        <span class="section-meta mono">ACADEMIC</span>
-      </header>
-      <div class="timeline" data-education data-reveal></div>
-    </section>
-
-    <section class="section shell" id="experience" aria-labelledby="experience-title">
-      <header class="section-head" data-reveal>
-        <span class="section-number mono">§ 05 / EXPERIENCE</span>
-        <h2 id="experience-title">Where I’ve <em>worked.</em></h2>
-        <span class="section-meta mono">WORK HISTORY</span>
-      </header>
-      <div class="timeline" data-experience data-reveal></div>
-    </section>
-
-    <section class="section shell" id="metrics" aria-labelledby="metrics-title">
-      <header class="section-head" data-reveal>
-        <span class="section-number mono">§ 06 / METRICS</span>
-        <h2 id="metrics-title">By the <em>numbers.</em></h2>
-        <span class="section-meta mono">LEARNING SYSTEM</span>
-      </header>
-
-      <div class="metrics-grid">
-        <article class="metric-panel metric-panel-wide" data-reveal>
-          <header><h3>Career build cadence</h3><span class="mono">12-WEEK PLAN</span></header>
-          <div class="line-chart" data-line-chart aria-label="Career build cadence chart"></div>
-          <footer class="mono">PLANNED DELIVERABLES · REPLACE WITH ACTUAL PROGRESS</footer>
-        </article>
-        <article class="metric-panel" data-reveal>
-          <header><h3>Capability profile</h3><span class="mono">SELF-ASSESSMENT</span></header>
-          <canvas class="radar-chart" data-radar-chart width="520" height="420" aria-label="Skills radar chart"></canvas>
-          <footer class="mono">LEARNING LABELS, NOT EXPERT CLAIMS</footer>
-        </article>
-        <article class="metric-panel" data-reveal>
-          <header><h3>Activity · 26 weeks</h3><span class="mono">LAB LOG</span></header>
-          <div class="heatmap" data-heatmap aria-label="Activity heatmap"></div>
-          <footer class="mono">DEMO DATA UNTIL YOUR LAB LOG EXISTS</footer>
-        </article>
-        <article class="metric-panel metric-panel-wide" data-reveal>
-          <header><h3>Portfolio evidence model</h3><span class="mono">PROOF FIRST</span></header>
-          <div class="evidence-flow">
-            <div><b>01</b><strong>Build it</strong><span>Configure the lab yourself.</span></div>
-            <i></i>
-            <div><b>02</b><strong>Test it</strong><span>Record expected and actual results.</span></div>
-            <i></i>
-            <div><b>03</b><strong>Break it</strong><span>Capture a real troubleshooting path.</span></div>
-            <i></i>
-            <div><b>04</b><strong>Publish it</strong><span>Link sanitized evidence.</span></div>
-          </div>
-          <footer class="mono">NO FABRICATED METRICS · NO INVENTED EXPERIENCE</footer>
-        </article>
-      </div>
-    </section>
-
-    <section class="section contact-section shell" id="contact" aria-labelledby="contact-title">
-      <header class="section-head" data-reveal>
-        <span class="section-number mono">§ 07 / CORRESPOND</span>
-        <h2 id="contact-title">Drop a <em>line.</em></h2>
-        <span class="section-meta mono">INBOX OPEN</span>
-      </header>
-      <div class="contact-layout">
-        <div data-reveal>
-          <p class="contact-display" data-contact="heading">Let’s build the next system.</p>
-          <p class="contact-copy" data-contact="body">[ADD A SHORT, DIRECT CALL TO ACTION FOR RECRUITERS OR HIRING MANAGERS.]</p>
-        </div>
-        <div class="contact-list" data-reveal>
-          <a data-link="email" href="#"><span class="mono">EMAIL</span><strong data-link-label="email">[YOUR PROFESSIONAL EMAIL]</strong><b>↗</b></a>
-          <a data-link="github" href="https://github.com/wfazli52"><span class="mono">GITHUB</span><strong>wfazli52</strong><b>↗</b></a>
-          <a data-link="linkedin" href="#"><span class="mono">LINKEDIN</span><strong data-link-label="linkedin">[YOUR LINKEDIN URL]</strong><b>↗</b></a>
-          <a data-link="resume" href="resume.html"><span class="mono">RESUME</span><strong>Open the folio</strong><b>↗</b></a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer shell mono">
-    <span>© <span data-year></span> <span data-identity="name">[YOUR NAME]</span></span>
-    <span>DESIGNED AS AN ORIGINAL EDITORIAL SPECIMEN</span>
-    <button class="text-button" type="button" data-open-palette>PRESS / FOR INDEX</button>
-  </footer>
-
-  <dialog class="command-palette" data-command-palette aria-label="Site command palette">
-    <form method="dialog">
-      <header><span class="mono">NAVIGATE THE SPECIMEN</span><button value="cancel" aria-label="Close command palette">×</button></header>
-      <label><span class="sr-only">Search commands</span><input data-command-input autocomplete="off" placeholder="Type a section or action…"></label>
-      <div class="command-results" data-command-results role="listbox"></div>
-      <footer class="mono"><span>↑↓ SELECT</span><span>ENTER OPEN</span><span>ESC CLOSE</span></footer>
-    </form>
-  </dialog>
-
-  <div class="micro-toast mono" data-toast role="status" aria-live="polite"></div>
+  <script>
+    // 3s: still not booted → show the lightweight critical version.
+    setTimeout(function () {
+      if (!window.__appReady) document.documentElement.classList.add('slow');
+    }, 3000);
+    // 6s: still not booted → add a second line below the first so it doesn't feel stuck.
+    setTimeout(function () {
+      var first = document.getElementById('lite-msg');
+      if (!window.__appReady && first && !document.getElementById('lite-msg2')) {
+        var m2 = document.createElement('p');
+        m2.id = 'lite-msg2';
+        m2.textContent = "Almost there, one more minute. Thanks for hanging on.";
+        first.insertAdjacentElement('afterend', m2);
+      }
+    }, 6000);
+  </script>
+  <noscript><main style="max-width:760px;margin:0 auto;padding:64px 24px;font-family:system-ui,sans-serif"><p style="font:12px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#777">Infrastructure specimen · JavaScript disabled</p><h1 style="font-size:clamp(48px,10vw,96px);line-height:.92;margin:28px 0">I build<br><em style="color:#557cff">systems.</em></h1><p style="font-size:18px;line-height:1.6;color:#666">[ADD YOUR 3–5 SENTENCE INTRODUCTION.] This portfolio is designed for data center, deployment, NOC, and network-support opportunities.</p><hr style="border:0;border-top:1px solid #ccc;margin:36px 0"><h2>Projects</h2><p>Enterprise VLAN Lab · Linux Operations Lab · Rack & Cabling Operations · [YOUR NEXT PROJECT]</p><h2>Education</h2><p>WGU · B.S. Network Engineering · Cisco track · In progress</p><h2>Contact</h2><p><a href="https://github.com/wfazli52">GitHub</a> · <a href="mailto:your.email@example.com">your.email@example.com</a> · <a href="https://www.linkedin.com/in/your-handle">LinkedIn</a></p></main></noscript>
 </body>
+
 </html>

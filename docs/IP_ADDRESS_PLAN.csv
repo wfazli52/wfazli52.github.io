@@ -1,5 +1,0 @@
-VLAN_ID,VLAN_Name,Purpose,Network_CIDR,Gateway,DHCP_Range,Reserved_Range,DNS,Notes
-10,Operations,,,,,,,
-20,Engineering,,,,,,,
-30,Guest,,,,,,,
-99,Management,,,,,,,

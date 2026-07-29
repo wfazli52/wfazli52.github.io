@@ -1,19 +1,180 @@
 <!doctype html>
-<html lang="en">
+<!--
+
+    ██╗███╗   ███╗██████╗  █████╗ ███╗   ██╗
+    ██║████╗ ████║██╔══██╗██╔══██╗████╗  ██║
+    ██║██╔████╔██║██████╔╝███████║██╔██╗ ██║
+    ██║██║╚██╔╝██║██╔══██╗██╔══██║██║╚██╗██║
+    ██║██║ ╚═╝ ██║██║  ██║██║  ██║██║ ╚████║
+    ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+
+    Hey, you're looking at my source code!
+    No worries I keep it open source.
+
+    Check out the full repo:
+    https://github.com/wfazli52
+
+    Built with React and TypeScript
+
+    If you're a dev... PRs welcome!
+
+-->
+<html lang="en" data-theme="paper">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="The requested portfolio page could not be found." name="description"/>
-<meta content="noindex,follow" name="robots"/>
-<title>Page Not Found | DC//NET Portfolio</title>
-<link href="styles.css" rel="stylesheet"/>
-<script defer="" src="config.js"></script>
-<script defer="" src="script.js"></script>
-<meta content="#07111f" name="theme-color"/><meta content="dark" name="color-scheme"/><meta content="wfazli52" name="author"/><meta content="DC//NET Portfolio" name="application-name"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><meta content="DC//NET" name="apple-mobile-web-app-title"/><link href="https://wfazli52.github.io/404.html" rel="canonical"/><link href="manifest.webmanifest" rel="manifest"/><link href="assets/icon.svg" rel="icon" type="image/svg+xml"/><link href="assets/icon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="assets/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><meta content="DC//NET Portfolio" property="og:site_name"/><meta content="website" property="og:type"/><meta content="Page Not Found | DC//NET Portfolio" property="og:title"/><meta content="The requested portfolio page could not be found." property="og:description"/><meta content="https://wfazli52.github.io/404.html" property="og:url"/><meta content="https://wfazli52.github.io/assets/social-card.png" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/><meta content="DC//NET proof-first data center and networking portfolio" property="og:image:alt"/><meta content="summary_large_image" name="twitter:card"/><meta content="Page Not Found | DC//NET Portfolio" name="twitter:title"/><meta content="The requested portfolio page could not be found." name="twitter:description"/><meta content="https://wfazli52.github.io/assets/social-card.png" name="twitter:image"/></head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="[YOUR NAME] · Aspiring data center technician and network engineer building proof-first networking, Linux, hardware, and operations projects." />
+  <meta name="theme-color" content="#fbfbfc" />
+  <script>
+    // Restore the persisted theme before first paint (no light-flash).
+    // ?theme=carbon|paper overrides for sharing/testing (not persisted);
+    // with no stored choice, follow the system preference.
+    // Keep the colors in sync with --paper in specimen.css.
+    try {
+      var m = location.search.match(/[?&]theme=(carbon|paper)/);
+      var t = m ? m[1] : localStorage.getItem('portfolio_theme');
+      if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'carbon';
+      if (t === 'carbon') {
+        document.documentElement.dataset.theme = 'carbon';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#101014');
+      }
+    } catch (e) { /* private mode */ }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>[YOUR NAME] · A Specimen Sheet</title>
+  <link rel="canonical" href="https://wfazli52.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wfazli52.github.io/" />
+  <meta property="og:title" content="[YOUR NAME] · A Specimen Sheet" />
+  <meta property="og:description"
+    content="Data center, networking, Linux, hardware operations, and proof-first technical projects — set like an interactive specimen sheet." />
+  <meta property="og:site_name" content="wfazli52.github.io" />
+  <meta property="og:image" content="https://wfazli52.github.io/og.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://wfazli52.github.io/og.svg" />
+  <meta name="twitter:title" content="[YOUR NAME] · A Specimen Sheet" />
+  <meta name="twitter:description"
+    content="Data center, networking, Linux, hardware operations, and proof-first technical projects — set like an interactive specimen sheet." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "[YOUR NAME]",
+    "url": "https://wfazli52.github.io/",
+    "email": "mailto:your.email@example.com",
+    "jobTitle": "Aspiring Data Center Technician and Network Engineer",
+    "sameAs": [
+      "https://github.com/wfazli52",
+      "https://www.linkedin.com/in/your-handle"
+    ]
+  }
+  </script>
+  <!-- Fonts are self-hosted (see @font-face in specimen.css); preload the
+       three above-the-fold families so text settles immediately. The
+       experiment fonts (Archivo, Familjen Grotesk, Syne) are lazy-loaded
+       from Google on demand by ensureFontLoaded() in motion.tsx. -->
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/space-grotesk.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/hanken-grotesk.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin />
+  <script type="module" crossorigin src="/assets/index-CGL1xIJu.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-scSNr3IC.css">
+</head>
+
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="container nav-wrap"><a class="brand" href="./"><span class="brand-mark" data-profile="initials">WF</span><span>DC//NET Portfolio</span></a><nav class="nav-links" style="display:flex"><a href="./#projects">Projects</a><a href="resume.html">Resume</a></nav></div></header>
-<main id="main"><section class="page-hero"><div class="container"><span class="eyebrow">HTTP 404 · route unavailable</span><h1>This path is not in the rack.</h1><p class="page-summary">The link may be outdated or incomplete. Return to the portfolio, open a project case study, or use the command palette to find a destination.</p><div class="button-row"><a class="button primary" href="./">Portfolio home</a><a class="button" href="./#projects">Project case studies</a><button class="button" onclick="window.dispatchEvent(new KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true}))" type="button">Open command palette</button></div></div></section></main>
-<footer class="site-footer"><div class="container footer-row"><span>© <span data-year=""></span> <span data-profile="name">wfazli52</span></span><a href="./">Home</a></div></footer>
+  <!--  You found the secret layer. Go check the console too ;) -->
+  <div id="root"></div>
+
+  <!-- Slow-load fallback (JS on, but slow connection): if the app hasn't booted
+       within 3s, show a tiny critical hero + contact so the page is never blank.
+       main.tsx sets window.__appReady on boot and removes the .slow class. -->
+  <style>
+    /* Fallback-chrome tokens, kept in sync with --paper/--ink/--accent in
+       specimen.css but declared here so they exist BEFORE that stylesheet
+       loads (the whole point of the slow-load path). Carbon overrides below. */
+    :root {
+      --lite-bg: #fbfbfc;
+      --lite-ink: #0b0d13;
+      --lite-mute: #777a82;
+      --lite-accent: #194fe3;
+      --lite-rule: rgba(11, 13, 19, 0.16);
+    }
+    html[data-theme="carbon"] {
+      --lite-bg: #101014;
+      --lite-ink: #e6e8ec;
+      --lite-mute: #71747b;
+      --lite-accent: #6097ff;
+      --lite-rule: rgba(230, 232, 236, 0.18);
+    }
+    html { background: var(--lite-bg); color: var(--lite-ink); }
+
+    #root { transition: opacity 0.5s ease; opacity: 1; }
+    html.slow #root { opacity: 0 !important; pointer-events: none; }
+
+    #lite {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 24px; opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html.slow #lite { opacity: 1; pointer-events: auto; }
+
+    .lite-inner { max-width: 640px; width: 100%; }
+    .lite-inner .mono {
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--lite-mute); margin-bottom: 24px;
+    }
+    .lite-inner h1 {
+      font-size: clamp(48px, 10vw, 88px); line-height: 0.95; letter-spacing: -0.04em;
+      margin: 0; font-weight: 500;
+    }
+    .lite-inner h1 em { font-style: italic; color: var(--lite-accent); font-weight: 400; }
+
+    .lite-inner p {
+      font-size: 18px; color: var(--lite-mute); margin: 24px 0 32px; max-width: 48ch; line-height: 1.5;
+    }
+    .lite-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .lite-links a {
+      font-size: 15px; color: var(--lite-ink); text-decoration: none;
+      border-bottom: 1px solid var(--lite-rule); padding-bottom: 2px; transition: border-color 0.2s;
+    }
+    .lite-links a:hover { border-bottom-color: var(--lite-accent); }
+  </style>
+  <div id="lite" aria-hidden="true">
+    <div class="lite-inner">
+      <div class="mono">[YOUR NAME] · infrastructure specimen</div>
+      <h1>I build<br><em>systems.</em></h1>
+      <p id="lite-msg">One sec, the full interactive version is still loading. Here are the essentials in the meantime.</p>
+      <div class="lite-links">
+        <a href="mailto:your.email@example.com">your.email@example.com</a>
+        <a href="https://github.com/wfazli52">GitHub</a>
+        <a href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 3s: still not booted → show the lightweight critical version.
+    setTimeout(function () {
+      if (!window.__appReady) document.documentElement.classList.add('slow');
+    }, 3000);
+    // 6s: still not booted → add a second line below the first so it doesn't feel stuck.
+    setTimeout(function () {
+      var first = document.getElementById('lite-msg');
+      if (!window.__appReady && first && !document.getElementById('lite-msg2')) {
+        var m2 = document.createElement('p');
+        m2.id = 'lite-msg2';
+        m2.textContent = "Almost there, one more minute. Thanks for hanging on.";
+        first.insertAdjacentElement('afterend', m2);
+      }
+    }, 6000);
+  </script>
+  <noscript><main style="max-width:760px;margin:0 auto;padding:64px 24px;font-family:system-ui,sans-serif"><p style="font:12px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#777">Infrastructure specimen · JavaScript disabled</p><h1 style="font-size:clamp(48px,10vw,96px);line-height:.92;margin:28px 0">I build<br><em style="color:#557cff">systems.</em></h1><p style="font-size:18px;line-height:1.6;color:#666">[ADD YOUR 3–5 SENTENCE INTRODUCTION.] This portfolio is designed for data center, deployment, NOC, and network-support opportunities.</p><hr style="border:0;border-top:1px solid #ccc;margin:36px 0"><h2>Projects</h2><p>Enterprise VLAN Lab · Linux Operations Lab · Rack & Cabling Operations · [YOUR NEXT PROJECT]</p><h2>Education</h2><p>WGU · B.S. Network Engineering · Cisco track · In progress</p><h2>Contact</h2><p><a href="https://github.com/wfazli52">GitHub</a> · <a href="mailto:your.email@example.com">your.email@example.com</a> · <a href="https://www.linkedin.com/in/your-handle">LinkedIn</a></p></main></noscript>
 </body>
+
 </html>

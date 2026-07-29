@@ -1,0 +1,19 @@
+{
+  "name": "[YOUR NAME] \u00b7 Infrastructure Specimen",
+  "short_name": "Infra Specimen",
+  "description": "An interactive data center and networking portfolio template.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#101014",
+  "theme_color": "#101014",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "scope": "/"
+}
