@@ -1,0 +1,164 @@
+      const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      width = Math.max(1, rect.width); height = Math.max(1, rect.height);
+      canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    function stageData(index) {
+      const projectIndex = Math.min(projects.length - 1, Math.floor(index / 3));
+      const phaseIndex = index % 3;
+      return { project: projects[projectIndex], projectIndex, phaseIndex, phase: projects[projectIndex].phases?.[phaseIndex] || { title: 'Build the evidence.', body: projects[projectIndex].description } };
+    }
+
+    function updatePanel(index) {
+      const item = stageData(index);
+      if (kicker) kicker.textContent = `FEATURED ${String(item.projectIndex + 1).padStart(2, '0')} · ${text(item.project.type).toUpperCase()}`;
+      if (title) title.textContent = item.project.title;
+      if (phase) phase.textContent = `${String(item.phaseIndex + 1).padStart(2, '0')} / 03 · ${text(item.phase.title).toUpperCase()}`;
+      if (body) body.textContent = item.phase.body;
+      if (link) link.href = item.project.link || '#';
+      if (specs) specs.innerHTML = Object.entries(item.project.metrics || {}).map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('');
+      if (dots) dots.innerHTML = Array.from({ length: 9 }, (_, dotIndex) => `<i class="${dotIndex === index ? 'is-active' : ''}"></i>`).join('');
+      panel?.classList.toggle('side-right', item.projectIndex === 1);
+      panel?.classList.toggle('side-top', item.projectIndex === 2 && item.phaseIndex === 2);
+    }
+
+    function roundedRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+    }
+
+    function palette() {
+      const dark = root.dataset.theme === 'carbon';
+      return dark ? { bg: '#111216', ink: '#eceef2', muted: '#858994', accent: '#78a2ff', surface: '#1a1c22', rule: 'rgba(236,238,242,.18)', green: '#70d49b', red: '#ff7d72' }
+        : { bg: '#f6f5f1', ink: '#11131a', muted: '#737680', accent: '#1c52df', surface: '#ecebe5', rule: 'rgba(17,19,26,.18)', green: '#149253', red: '#db3c30' };
+    }
+
+    function drawGrid(p) {
+      ctx.strokeStyle = p.rule; ctx.lineWidth = 1;
+      const step = 54;
+      for (let x = -step; x < width + step; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke(); }
+      for (let y = -step; y < height + step; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke(); }
+    }
+
+    function drawNetwork(item, t, p) {
+      const cx = width * .62, cy = height * .54;
+      const nodes = [
+        { x: cx - 260, y: cy, label: 'EDGE', type: 'router' },
+        { x: cx - 80, y: cy, label: 'CORE', type: 'switch' },
+        { x: cx + 115, y: cy - 120, label: 'OPS', type: 'client' },
+        { x: cx + 230, y: cy - 35, label: 'ENG', type: 'client' },
+        { x: cx + 180, y: cy + 105, label: 'GUEST', type: 'client' },
+        { x: cx + 5, y: cy + 150, label: 'DNS', type: 'server' }
+      ];
+      const edges = [[0,1],[1,2],[1,3],[1,4],[1,5]];
+      edges.forEach(([a,b], i) => {
+        const from = nodes[a], to = nodes[b];
+        ctx.strokeStyle = item.phaseIndex === 2 && i === 2 ? p.red : p.rule;
+        ctx.lineWidth = item.phaseIndex === 1 ? 2 : 1;
+        ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke();
+        if (item.phaseIndex > 0) {
+          const q = (t * .00025 + i * .17) % 1;
+          const x = from.x + (to.x - from.x) * q, y = from.y + (to.y - from.y) * q;
+          ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fillStyle = item.phaseIndex === 2 && i === 2 ? p.red : p.accent; ctx.shadowBlur = 16; ctx.shadowColor = ctx.fillStyle; ctx.fill(); ctx.shadowBlur = 0;
+        }
+      });
+      nodes.forEach((node, i) => {
+        ctx.save(); ctx.translate(node.x, node.y);
+        roundedRect(-38, -24, 76, 48, 8); ctx.fillStyle = p.surface; ctx.fill(); ctx.strokeStyle = i === 3 && item.phaseIndex === 2 ? p.red : p.ink; ctx.lineWidth = 1.4; ctx.stroke();
+        ctx.fillStyle = i === 3 && item.phaseIndex === 2 ? p.red : p.green; ctx.beginPath(); ctx.arc(-25, -13, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = p.ink; ctx.textAlign = 'center'; ctx.font = '600 10px ui-monospace, monospace'; ctx.fillText(node.label, 0, 4);
+        ctx.fillStyle = p.muted; ctx.font = '9px ui-monospace, monospace'; ctx.fillText(node.type.toUpperCase(), 0, 17);
+        ctx.restore();
+      });
+      ctx.fillStyle = p.muted; ctx.font = '10px ui-monospace, monospace'; ctx.fillText(item.phaseIndex === 0 ? 'LOGICAL TOPOLOGY / ADDRESS PLAN' : item.phaseIndex === 1 ? 'PACKET FLOW / POLICY PATHS' : 'FAULT INJECTION / VALIDATION', cx - 260, cy - 230);
+    }
+
+    function drawServers(item, t, p) {
+      const baseX = width * .61, baseY = height * .55;
+      const positions = [-105, 105];
+      positions.forEach((offset, index) => {
+        ctx.save(); ctx.translate(baseX + offset, baseY);
+        roundedRect(-95, -150, 190, 300, 14); ctx.fillStyle = p.surface; ctx.fill(); ctx.strokeStyle = p.ink; ctx.lineWidth = 1.4; ctx.stroke();
+        for (let u = 0; u < 5; u++) {
+          const y = -120 + u * 52;
+          roundedRect(-76, y, 152, 38, 6); ctx.fillStyle = p.bg; ctx.fill(); ctx.strokeStyle = p.rule; ctx.stroke();
+          ctx.fillStyle = (item.phaseIndex === 2 && index === 1 && u === 2) ? p.red : p.green; ctx.beginPath(); ctx.arc(-61, y + 12, 3, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = p.muted; ctx.font = '9px ui-monospace, monospace'; ctx.fillText(`${index ? 'MON' : 'APP'}-SRV-${u + 1}`, -50, y + 16);
+          for (let b = 0; b < 5; b++) { ctx.fillStyle = p.rule; ctx.fillRect(30 + b * 8, y + 9, 4, 20); }
+        }
+        ctx.fillStyle = p.ink; ctx.font = '600 11px ui-monospace, monospace'; ctx.fillText(index ? 'MONITORING NODE' : 'APPLICATION NODE', -76, -165);
+        ctx.restore();
+      });
+      const y = baseY + 190;
+      ctx.strokeStyle = p.rule; ctx.beginPath(); ctx.moveTo(baseX - 260, y); ctx.lineTo(baseX + 260, y); ctx.stroke();
+      ctx.strokeStyle = item.phaseIndex === 2 ? p.red : p.accent; ctx.lineWidth = 2; ctx.beginPath();
+      for (let x = -250; x <= 250; x += 10) {
+        const wave = Math.sin((x + t * .06) * .035) * (item.phaseIndex === 2 ? 28 : 12) + Math.sin((x - t * .04) * .08) * 5;
+        const px = baseX + x, py = y - 32 - wave;
+        if (x === -250) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.fillStyle = p.muted; ctx.font = '10px ui-monospace, monospace'; ctx.fillText(item.phaseIndex === 0 ? 'SECURE BUILD / BASELINE' : item.phaseIndex === 1 ? 'LOGS / SERVICES / HEALTH SIGNALS' : 'CONTROLLED FAILURE / RECOVERY', baseX - 250, baseY - 235);
+    }
+
+    function drawRack(item, t, p) {
+      const rackX = width * .64, rackY = height * .53;
+      roundedRect(rackX - 170, rackY - 260, 340, 520, 18); ctx.fillStyle = p.surface; ctx.fill(); ctx.strokeStyle = p.ink; ctx.lineWidth = 2; ctx.stroke();
+      ctx.strokeStyle = p.rule; ctx.beginPath(); ctx.moveTo(rackX - 145, rackY - 230); ctx.lineTo(rackX - 145, rackY + 230); ctx.moveTo(rackX + 145, rackY - 230); ctx.lineTo(rackX + 145, rackY + 230); ctx.stroke();
+      const units = [
+        { y: -210, h: 44, label: 'PATCH-01' }, { y: -155, h: 52, label: 'CORE-SW-01' }, { y: -90, h: 84, label: 'COMPUTE-01' },
+        { y: 6, h: 84, label: 'COMPUTE-02' }, { y: 102, h: 58, label: 'STORAGE-01' }, { y: 172, h: 42, label: 'PDU / UPS' }
+      ];
+      units.forEach((unit, index) => {
+        roundedRect(rackX - 128, rackY + unit.y, 256, unit.h, 6); ctx.fillStyle = p.bg; ctx.fill(); ctx.strokeStyle = item.phaseIndex === 2 && index === 3 ? p.red : p.rule; ctx.lineWidth = item.phaseIndex === 2 && index === 3 ? 2 : 1; ctx.stroke();
+        ctx.fillStyle = item.phaseIndex === 2 && index === 3 ? p.red : p.green; ctx.beginPath(); ctx.arc(rackX - 110, rackY + unit.y + 13, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = p.muted; ctx.font = '9px ui-monospace, monospace'; ctx.fillText(unit.label, rackX - 96, rackY + unit.y + 17);
+      });
+      if (item.phaseIndex > 0) {
+        const colors = [p.accent, p.green, '#e2a235'];
+        for (let i = 0; i < 9; i++) {
+          const startX = rackX - 125 + (i % 3) * 14;
+          const startY = rackY - 186 + (i % 4) * 17;
+          ctx.strokeStyle = colors[i % colors.length]; ctx.lineWidth = 1.5; ctx.globalAlpha = .7;
+          ctx.beginPath(); ctx.moveTo(startX, startY); ctx.bezierCurveTo(rackX - 250, startY + i * 12, rackX - 250, rackY + 180 - i * 14, rackX - 175, rackY + 190 - i * 10); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+      if (item.phaseIndex === 2) {
+        const pulse = reduceMotion.matches ? 1 : .5 + Math.sin(t * .004) * .5;
+        ctx.strokeStyle = p.red; ctx.lineWidth = 3; ctx.globalAlpha = .4 + pulse * .45; ctx.beginPath(); ctx.arc(rackX, rackY + 48, 88 + pulse * 10, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1;
+      }
+      ctx.fillStyle = p.muted; ctx.font = '10px ui-monospace, monospace'; ctx.fillText(item.phaseIndex === 0 ? 'RACK ELEVATION / RU PLAN' : item.phaseIndex === 1 ? 'CABLE / POWER TRACE' : 'REPLACEMENT / INCIDENT HANDOFF', rackX - 170, rackY - 290);
+    }
+
+    function draw(time = 0) {
+      const p = palette();
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = p.bg; ctx.fillRect(0, 0, width, height);
+      drawGrid(p);
+      const item = stageData(Math.max(0, stage));
+      if (item.projectIndex === 0) drawNetwork(item, time, p);
+      else if (item.projectIndex === 1) drawServers(item, time, p);
+      else drawRack(item, time, p);
+      if (!reduceMotion.matches) raf = requestAnimationFrame(draw);
+    }
+
+    function updateScroll() {
+      const rect = section.getBoundingClientRect();
+      const max = section.offsetHeight - innerHeight;
+      progress = Math.min(1, Math.max(0, -rect.top / Math.max(1, max)));
+      const next = Math.min(8, Math.floor(progress * 9));
+      if (next !== stage) { stage = next; updatePanel(stage); }
+      if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
+      if (reduceMotion.matches) draw(performance.now());
+    }
+
+    addEventListener('resize', () => { resize(); updateScroll(); draw(performance.now()); }, { passive: true });
+    addEventListener('scroll', updateScroll, { passive: true });
+    addEventListener('specimen:theme', () => draw(performance.now()));
+    resize(); updateScroll(); draw();
+  }
+
+  function renderMetrics() {
