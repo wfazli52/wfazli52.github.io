@@ -1,0 +1,125 @@
+    renderLineChart();
+    renderHeatmap();
+    renderRadar();
+  }
+
+  function renderLineChart() {
+    const host = document.querySelector('[data-line-chart]');
+    if (!host) return;
+    const values = [1, 2, 2, 3, 4, 5, 5, 7, 8, 9, 11, 12];
+    const w = 1000, h = 250, pad = 24;
+    const points = values.map((value, i) => `${pad + i * ((w - pad * 2) / (values.length - 1))},${h - pad - value / 12 * (h - pad * 2)}`).join(' ');
+    host.innerHTML = `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Planned deliverables rise across twelve weeks">
+      ${[0,1,2,3,4].map((i) => `<line x1="${pad}" x2="${w-pad}" y1="${pad + i * 50}" y2="${pad + i * 50}" stroke="var(--rule)"/>`).join('')}
+      <polyline points="${points}" fill="none" stroke="var(--accent)" stroke-width="4" vector-effect="non-scaling-stroke"/>
+      ${values.map((value, i) => `<circle cx="${pad + i * ((w - pad * 2) / (values.length - 1))}" cy="${h - pad - value / 12 * (h - pad * 2)}" r="5" fill="var(--paper)" stroke="var(--accent)" stroke-width="3"/>`).join('')}
+    </svg>`;
+  }
+
+  function renderHeatmap() {
+    const host = document.querySelector('[data-heatmap]');
+    if (!host) return;
+    let seed = 17;
+    const random = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    host.innerHTML = Array.from({ length: 182 }, (_, i) => `<i data-level="${i > 120 ? Math.floor(random() * 5) : Math.floor(random() * 3)}" title="Demo activity cell"></i>`).join('');
+  }
+
+  function renderRadar() {
+    const canvas = document.querySelector('[data-radar-chart]');
+    if (!canvas?.getContext) return;
+    const ctx = canvas.getContext('2d');
+    const labels = ['Networking', 'Linux', 'Hardware', 'Docs', 'Troubleshooting', 'Automation'];
+    const values = [.48, .38, .42, .66, .52, .28];
+    const draw = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const width = Math.max(280, rect.width), height = Math.max(260, rect.height);
+      canvas.width = width * dpr; canvas.height = height * dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      const cx = width / 2, cy = height / 2 + 10, radius = Math.min(width, height) * .34;
+      const dark = root.dataset.theme === 'carbon';
+      const ink = dark ? '#eceef2' : '#11131a', muted = dark ? '#858994' : '#737680', accent = dark ? '#78a2ff' : '#1c52df', rule = dark ? 'rgba(236,238,242,.16)' : 'rgba(17,19,26,.16)';
+      ctx.clearRect(0,0,width,height);
+      for (let ring = 1; ring <= 4; ring++) {
+        ctx.beginPath(); labels.forEach((_, i) => { const a = -Math.PI/2 + i * Math.PI*2/labels.length; const r = radius * ring/4; const x = cx + Math.cos(a)*r, y = cy + Math.sin(a)*r; i ? ctx.lineTo(x,y) : ctx.moveTo(x,y); }); ctx.closePath(); ctx.strokeStyle = rule; ctx.stroke();
+      }
+      labels.forEach((label, i) => { const a = -Math.PI/2 + i*Math.PI*2/labels.length; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*radius, cy+Math.sin(a)*radius); ctx.strokeStyle=rule; ctx.stroke(); ctx.fillStyle=muted; ctx.font='10px ui-monospace, monospace'; ctx.textAlign = Math.cos(a) > .2 ? 'left' : Math.cos(a) < -.2 ? 'right' : 'center'; ctx.fillText(label.toUpperCase(), cx+Math.cos(a)*(radius+18), cy+Math.sin(a)*(radius+18)); });
+      ctx.beginPath(); values.forEach((value,i)=>{const a=-Math.PI/2+i*Math.PI*2/labels.length;const x=cx+Math.cos(a)*radius*value,y=cy+Math.sin(a)*radius*value;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=accent+'33';ctx.fill();ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.stroke();
+      ctx.fillStyle=ink;
+    };
+    addEventListener('resize', draw, { passive: true });
+    addEventListener('specimen:theme', draw);
+    draw();
+  }
+
+  function setupCommandPalette() {
+    const dialog = document.querySelector('[data-command-palette]');
+    const input = document.querySelector('[data-command-input]');
+    const results = document.querySelector('[data-command-results]');
+    if (!dialog || !input || !results) return;
+    const commands = [
+      ['01', 'About', 'section', () => go('#about')],
+      ['02', 'Featured systems', 'section', () => go('#featured')],
+      ['03', 'Projects', 'section', () => go('#projects')],
+      ['04', 'Education', 'section', () => go('#education')],
+      ['05', 'Experience', 'section', () => go('#experience')],
+      ['06', 'Metrics', 'section', () => go('#metrics')],
+      ['07', 'Contact', 'section', () => go('#contact')],
+      ['R', 'Open resume', 'file', () => location.href = data.links?.resume || 'resume.html'],
+      ['G', 'Open GitHub', 'external', () => window.open(data.links?.github || 'https://github.com/wfazli52', '_blank', 'noopener')],
+      ['E', 'Edit placeholders', 'GitHub', () => window.open('https://github.com/wfazli52/wfazli52.github.io/edit/main/site-content.js', '_blank', 'noopener')],
+      ['T', 'Toggle theme', 'action', () => document.querySelector('[data-theme-toggle]')?.click()]
+    ];
+    let selected = 0, filtered = commands;
+    const render = () => {
+      const q = input.value.trim().toLowerCase();
+      filtered = commands.filter((command) => command[1].toLowerCase().includes(q) || command[2].toLowerCase().includes(q));
+      selected = Math.min(selected, Math.max(0, filtered.length - 1));
+      results.innerHTML = filtered.map((command, index) => `<button type="button" class="command-item ${index === selected ? 'is-selected' : ''}" data-command-index="${index}" role="option" aria-selected="${index === selected}"><i>${command[0]}</i><strong>${escapeHtml(command[1])}</strong><small>${escapeHtml(command[2])}</small></button>`).join('') || '<div class="command-item"><strong>No matching command.</strong></div>';
+      results.querySelectorAll('[data-command-index]').forEach((button) => button.addEventListener('click', () => run(Number(button.dataset.commandIndex))));
+    };
+    const open = () => { if (dialog.open) return; dialog.showModal(); input.value=''; selected=0; render(); setTimeout(()=>input.focus(),0); };
+    const run = (index) => { const command = filtered[index]; if (!command) return; dialog.close(); command[3](); };
+    input.addEventListener('input', render);
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') { event.preventDefault(); selected = Math.min(filtered.length - 1, selected + 1); render(); }
+      if (event.key === 'ArrowUp') { event.preventDefault(); selected = Math.max(0, selected - 1); render(); }
+      if (event.key === 'Enter') { event.preventDefault(); run(selected); }
+    });
+    document.querySelectorAll('[data-open-palette]').forEach((button) => button.addEventListener('click', open));
+    document.addEventListener('keydown', (event) => {
+      const typing = /INPUT|TEXTAREA|SELECT/.test(event.target.tagName) || event.target.isContentEditable;
+      if (!typing && (event.key === '/' || ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k'))) { event.preventDefault(); open(); }
+    });
+  }
+
+  function setupTemplateNotice() {
+    const notice = document.querySelector('[data-template-notice]');
+    if (!notice) return;
+    try { if (sessionStorage.getItem('template-notice-dismissed')) notice.hidden = true; } catch {}
+    document.querySelector('[data-dismiss-template]')?.addEventListener('click', () => { notice.hidden = true; try { sessionStorage.setItem('template-notice-dismissed', '1'); } catch {} });
+  }
+
+  function go(hash) { document.querySelector(hash)?.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' }); }
+  async function copyText(value, message) { try { await navigator.clipboard.writeText(value); showToast(message); } catch { showToast(value); } }
+  function showToast(message) { const toast = document.querySelector('[data-toast]'); if (!toast) return; clearTimeout(toastTimer); toast.textContent = message; toast.classList.add('is-on'); toastTimer = setTimeout(() => toast.classList.remove('is-on'), 1800); }
+
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
+    addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}), { once: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupContent();
+    setupTheme();
+    setupClock();
+    setupReveal();
+    setupStartup();
+    setupScrollRule();
+    setupCrosshair();
+    setupAmbientGrid();
+    setupShowcase();
+    setupCommandPalette();
+    setupTemplateNotice();
+    registerServiceWorker();
+  });
+})();
