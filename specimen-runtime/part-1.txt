@@ -1,0 +1,160 @@
+(() => {
+  'use strict';
+
+  const fallback = {
+    meta: { version: 'Vol. 01 / Iss. 01', edition: 'v1.0 · 2026', folio: '001 / 008', format: 'Specimen sheet', established: '2026' },
+    identity: { name: '[YOUR NAME]', discipline: 'Data Center · Networking · Systems', location: '[YOUR CITY, STATE]', coordinate: '[00.000° N]', role: 'Aspiring Data Center Technician & Network Engineer', heroLineOne: 'I build', heroLineTwo: 'systems.', heroSub: 'and I learn how to keep them running', tagline: 'I am building hands-on evidence in networking, Linux, server operations, hardware troubleshooting, and documentation.', bio: '[WRITE YOUR INTRODUCTION HERE.]' },
+    current: { degree: 'WGU · B.S. Network Engineering · Cisco track', stack: 'Cisco IOS · Linux · Git', focus: 'VLANs · routing · break/fix', homelab: '[ADD YOUR HOME LAB]', status: 'Open to entry-level roles', response: 'Within 48 hours', personalDetail: '[ADD A SMALL PERSONAL DETAIL]' },
+    links: { email: '[YOUR PROFESSIONAL EMAIL]', github: 'https://github.com/wfazli52', linkedin: '[YOUR LINKEDIN URL]', resume: 'resume.html' },
+    kpis: [], ticker: [], aboutStats: [], skills: [], projects: [], experience: [], education: [], contact: { heading: 'Let’s build the next system.', body: '[ADD A CALL TO ACTION.]', availability: 'Open to opportunities.' }
+  };
+
+  const data = window.PORTFOLIO_SPECIMEN || fallback;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const root = document.documentElement;
+  let toastTimer = 0;
+
+  function text(value) { return value == null ? '' : String(value); }
+  function isPlaceholder(value) { return /\[[^\]]+\]/.test(text(value)); }
+  function escapeHtml(value) { return text(value).replace(/[&<>'"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[c]); }
+
+  function hydrateMap(selector, source) {
+    document.querySelectorAll(selector).forEach((element) => {
+      const key = selector.includes('data-identity') ? element.dataset.identity
+        : selector.includes('data-current') ? element.dataset.current
+        : selector.includes('data-meta') ? element.dataset.meta
+        : selector.includes('data-contact') ? element.dataset.contact : '';
+      const value = source?.[key];
+      if (value !== undefined) element.textContent = text(value);
+    });
+  }
+
+  function markPlaceholders(scope = document) {
+    scope.querySelectorAll('*').forEach((element) => {
+      if (element.children.length || !element.textContent) return;
+      element.classList.toggle('placeholder', isPlaceholder(element.textContent.trim()));
+    });
+  }
+
+  function setupContent() {
+    hydrateMap('[data-identity]', data.identity);
+    hydrateMap('[data-current]', data.current);
+    hydrateMap('[data-meta]', data.meta);
+    hydrateMap('[data-contact]', data.contact);
+
+    document.title = `${data.identity?.name || 'Portfolio'} · Network & Data Center Specimen`;
+    document.querySelectorAll('[data-year]').forEach((element) => { element.textContent = String(new Date().getFullYear()); });
+    document.querySelectorAll('[data-startup-name]').forEach((element) => { element.textContent = `${data.identity?.name || 'PORTFOLIO'} · SPECIMEN`; });
+
+    document.querySelectorAll('[data-link]').forEach((element) => {
+      const key = element.dataset.link;
+      const value = data.links?.[key];
+      if (!value) return;
+      element.href = key === 'email' && !isPlaceholder(value) ? `mailto:${value}` : value;
+      if (isPlaceholder(value)) element.addEventListener('click', (event) => {
+        event.preventDefault();
+        showToast(`Replace ${value} in site-content.js first.`);
+      });
+    });
+    document.querySelectorAll('[data-link-label]').forEach((element) => {
+      const value = data.links?.[element.dataset.linkLabel];
+      if (value) element.textContent = value;
+    });
+
+    renderKpis();
+    renderTicker();
+    renderAboutStats();
+    renderSkills();
+    renderProjects();
+    renderTimeline('[data-education]', data.education || [], true);
+    renderTimeline('[data-experience]', data.experience || [], false);
+    renderMetrics();
+    markPlaceholders();
+  }
+
+  function renderKpis() {
+    const host = document.querySelector('[data-kpi-strip]');
+    if (!host) return;
+    host.innerHTML = (data.kpis || []).map((item) => `
+      <div class="kpi"><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong><small>${escapeHtml(item.unit)}</small></div>`).join('');
+  }
+
+  function renderTicker() {
+    const host = document.querySelector('[data-ticker-track]');
+    if (!host) return;
+    const items = (data.ticker || []).length ? data.ticker : ['Edit site-content.js', 'Build real projects', 'Publish verified evidence'];
+    const doubled = [...items, ...items];
+    host.innerHTML = doubled.map((item, index) => `<span ${index >= items.length ? 'aria-hidden="true"' : ''}>${escapeHtml(item)}</span>`).join('');
+  }
+
+  function renderAboutStats() {
+    const host = document.querySelector('[data-about-stats]');
+    if (!host) return;
+    host.innerHTML = (data.aboutStats || []).map((item) => `<div class="about-stat"><strong>${escapeHtml(item.value)}</strong><span>${escapeHtml(item.label)}</span></div>`).join('');
+  }
+
+  function renderSkills() {
+    const host = document.querySelector('[data-skills]');
+    if (!host) return;
+    host.innerHTML = (data.skills || []).map((group) => `
+      <article class="skill-group"><h3>${escapeHtml(group.group)}</h3><ul>${(group.items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul></article>`).join('');
+  }
+
+  let projectFilter = 'All';
+  function renderProjects() {
+    const projects = data.projects || [];
+    const filtersHost = document.querySelector('[data-project-filters]');
+    const indexHost = document.querySelector('[data-project-index]');
+    const meta = document.querySelector('[data-project-meta]');
+    if (!filtersHost || !indexHost) return;
+
+    const types = ['All', ...new Set(projects.map((project) => project.type).filter(Boolean))];
+    filtersHost.innerHTML = types.map((type) => `<button type="button" data-project-filter="${escapeHtml(type)}" aria-pressed="${type === projectFilter}">${escapeHtml(type)}</button>`).join('');
+
+    const visible = projectFilter === 'All' ? projects : projects.filter((project) => project.type === projectFilter);
+    if (meta) meta.textContent = `${String(visible.length).padStart(2, '0')} OF ${String(projects.length).padStart(2, '0')} ENTRIES`;
+
+    indexHost.innerHTML = visible.map((project) => `
+      <article class="project-row" data-project-row>
+        <button class="project-row-button" type="button" aria-expanded="false">
+          <span class="project-num">${escapeHtml(project.number)}</span>
+          <span class="project-title">${escapeHtml(project.title)}</span>
+          <span class="project-desc">${escapeHtml(project.description)}</span>
+          <span class="project-type">${escapeHtml(project.type)}</span>
+          <span class="project-status">${escapeHtml(project.status)}</span>
+          <span class="project-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="project-detail">
+          <div><h4>Stack</h4><div class="project-tags">${(project.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join('')}</div></div>
+          <div><h4>Plan</h4><p>${escapeHtml(project.phases?.map((phase) => phase.title).join(' → ') || 'Add the project plan.')}</p><a class="index-link" href="${escapeHtml(project.link || '#')}">Open project page ↗</a></div>
+          <div><h4>Evidence status</h4><dl class="project-metrics">${Object.entries(project.metrics || {}).map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl></div>
+        </div>
+      </article>`).join('');
+
+    filtersHost.querySelectorAll('[data-project-filter]').forEach((button) => button.addEventListener('click', () => {
+      projectFilter = button.dataset.projectFilter;
+      renderProjects();
+      markPlaceholders(indexHost);
+    }));
+
+    indexHost.querySelectorAll('[data-project-row]').forEach((row) => {
+      const button = row.querySelector('button');
+      button.addEventListener('click', () => {
+        const open = row.classList.toggle('is-open');
+        button.setAttribute('aria-expanded', String(open));
+      });
+    });
+  }
+
+  function renderTimeline(selector, entries, education) {
+    const host = document.querySelector(selector);
+    if (!host) return;
+    host.innerHTML = entries.map((entry) => `
+      <article class="timeline-entry">
+        <div><time>${escapeHtml(entry.dates || '')}</time><div class="location">${escapeHtml(entry.location || '')}</div></div>
+        <div><h3>${escapeHtml(education ? entry.degree : entry.role)}</h3><strong>${escapeHtml(education ? entry.school : entry.company)}</strong></div>
+        <p>${escapeHtml(education ? entry.note : entry.summary)}</p>
+      </article>`).join('');
+  }
+
+  function setupTheme() {
