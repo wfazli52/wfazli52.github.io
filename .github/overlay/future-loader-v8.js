@@ -21,14 +21,16 @@
   };
 
   const loadFocusIdentity = () => {
-    ensureStylesheet('/focus-themes.css?v=9', 'data-focus-themes-css');
-    ensureStylesheet('/focus-3d.css?v=9', 'data-focus-3d-css');
-    ensureStylesheet('/focus-worlds.css?v=9', 'data-focus-worlds-css');
-    ensureStylesheet('/focus-chrome.css?v=9', 'data-focus-chrome-css');
-    ensureStylesheet('/focus-refine.css?v=9', 'data-focus-refine-css');
-    loadScript('/focus-themes.js?v=9', 'data-focus-themes');
-    loadScript('/focus-effects.js?v=9', 'data-focus-effects');
-    loadScript('/focus-chrome.js?v=9', 'data-focus-chrome');
+    ensureStylesheet('/focus-themes.css?v=60', 'data-focus-themes-css');
+    ensureStylesheet('/focus-3d.css?v=60', 'data-focus-3d-css');
+    ensureStylesheet('/focus-worlds.css?v=60', 'data-focus-worlds-css');
+    ensureStylesheet('/focus-chrome.css?v=60', 'data-focus-chrome-css');
+    ensureStylesheet('/focus-refine.css?v=60', 'data-focus-refine-css');
+    ensureStylesheet('/focus-v60.css?v=60', 'data-focus-v60-css');
+    loadScript('/focus-themes.js?v=60', 'data-focus-themes');
+    loadScript('/focus-effects.js?v=60', 'data-focus-effects');
+    loadScript('/focus-chrome.js?v=60', 'data-focus-chrome');
+    loadScript('/focus-v60.js?v=60', 'data-focus-v60');
   };
 
   const loadQuality = () => {
