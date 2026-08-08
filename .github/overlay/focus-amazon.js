@@ -6,6 +6,9 @@
   const html = document.documentElement;
   const esc = (value = '') => String(value).replace(/[&<>'"]/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
   let observer;
+  let renderTimer = 0;
+  let activeSearch = null;
+  let slashBound = false;
 
   function app() { return document.querySelector('.focus-v60-app'); }
 
@@ -134,6 +137,7 @@
 
   function bind(target) {
     const search = target.querySelector('[data-amazon-search]');
+    activeSearch = search;
     const filter = target.querySelector('[data-amazon-filter]');
     const rows = Array.from(target.querySelectorAll('.amazon-focus-resource-row'));
     const empty = target.querySelector('[data-amazon-empty]');
@@ -160,11 +164,14 @@
       section.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     }));
 
-    document.addEventListener('keydown', function slash(event) {
-      if (html.dataset.focus !== 'amazon') return;
-      const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || '');
-      if (event.key === '/' && !typing) { event.preventDefault(); search?.focus(); }
-    });
+    if (!slashBound) {
+      slashBound = true;
+      document.addEventListener('keydown', (event) => {
+        if (html.dataset.focus !== 'amazon') return;
+        const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || '');
+        if (event.key === '/' && !typing) { event.preventDefault(); activeSearch?.focus(); }
+      });
+    }
 
     observer?.disconnect();
     const nav = Array.from(target.querySelectorAll('.amazon-focus-nav a[href^="#"]'));
@@ -176,11 +183,21 @@
     nav.forEach((link) => { const section = target.querySelector(link.getAttribute('href')); if (section) observer.observe(section); });
   }
 
-  function maybeRender() {
-    if (html.dataset.focus === 'amazon') requestAnimationFrame(render);
+  function scheduleRender() {
+    clearTimeout(renderTimer);
+    if (html.dataset.focus !== 'amazon') return;
+    renderTimer = setTimeout(render, 24);
   }
 
-  window.addEventListener('future:focus-theme', (event) => { if (event.detail?.name === 'amazon') setTimeout(render, 0); });
-  new MutationObserver(maybeRender).observe(html, { attributes: true, attributeFilter: ['data-focus'] });
-  maybeRender();
+  function stopAmazon() {
+    clearTimeout(renderTimer);
+    activeSearch = null;
+    observer?.disconnect();
+  }
+
+  window.addEventListener('amazon-focus:start', scheduleRender);
+  window.addEventListener('amazon-focus:stop', stopAmazon);
+  window.addEventListener('future:focus-theme', (event) => { if (event.detail?.name === 'amazon') scheduleRender(); });
+  new MutationObserver(scheduleRender).observe(html, { attributes: true, attributeFilter: ['data-focus'] });
+  scheduleRender();
 })();
