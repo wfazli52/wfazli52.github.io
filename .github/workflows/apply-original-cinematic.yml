@@ -1,0 +1,104 @@
+name: Apply original cinematic experience
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/overlay/cinematic-reel.css"
+      - ".github/overlay/cinematic-reel.js"
+      - ".github/overlay/future-loader-v8.js"
+      - ".github/workflows/apply-original-cinematic.yml"
+      - "index.html"
+      - "future-loader.js"
+  workflow_run:
+    workflows:
+      - Build permitted cinematic specimen
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: portfolio-original-cinematic
+  cancel-in-progress: true
+
+jobs:
+  apply-original-cinematic:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out latest live portfolio
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Restore Original-only cinematic runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cp .github/overlay/cinematic-reel.css cinematic-reel.css
+          cp .github/overlay/cinematic-reel.js cinematic-reel.js
+          cp .github/overlay/future-loader-v8.js future-loader.js
+
+          # Remove the retired multi-focus runtime from the deployed site only.
+          rm -f \
+            focus-themes.css focus-themes.js \
+            focus-v60.css focus-v60.js \
+            focus-amazon.css focus-amazon.js \
+            focus-performance.css focus-performance.js \
+            focus-active-effects.css focus-active-effects.js \
+            focus-functional.js focus-signatures.css focus-signatures.js \
+            focus-scroll.css focus-scroll.js \
+            focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js focus-refine.css focus-3d.css
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          for filename in ('index.html', '404.html'):
+              path = Path(filename)
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding='utf-8')
+              text = re.sub(r'future-loader\.js(?:\?[^"\']*)?', 'future-loader.js?build=original-cinematic', text)
+              path.write_text(text, encoding='utf-8')
+          PY
+
+          node --check cinematic-reel.js
+          node --check future-loader.js
+
+      - name: Validate Original-only release
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s cinematic-reel.css
+          test -s cinematic-reel.js
+          test -s future-loader.js
+          grep -q 'DIRECTOR CUT' cinematic-reel.js
+          grep -q '/cinematic-reel.css?build=original-cinematic' future-loader.js
+          grep -q '/cinematic-reel.js?build=original-cinematic' future-loader.js
+          grep -q 'future-loader.js?build=original-cinematic' index.html
+          ! grep -q 'focus-themes.js' future-loader.js
+          test ! -e focus-themes.js
+          test ! -e focus-v60.js
+          test ! -e focus-amazon.js
+
+      - name: Commit Original cinematic experience
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Original cinematic experience is already current."
+            exit 0
+          fi
+          git commit -m "Restore Original-only cinematic portfolio"
+          git push origin HEAD:main
