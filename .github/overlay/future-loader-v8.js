@@ -1,6 +1,7 @@
 (() => {
   'use strict';
   let attempts = 0;
+  let originalStarted = false;
 
   const ensureStylesheet = (href, marker) => {
     if (document.querySelector(`link[${marker}]`)) return;
@@ -11,71 +12,76 @@
     document.head.appendChild(link);
   };
 
-  const loadScript = (src, marker) => {
-    if (document.querySelector(`script[${marker}]`)) return;
+  const loadScript = (src, marker, onload) => {
+    if (document.querySelector(`script[${marker}]`)) {
+      onload?.();
+      return;
+    }
     const script = document.createElement('script');
     script.src = src;
-    script.defer = true;
+    script.async = true;
     script.setAttribute(marker, '');
+    if (onload) script.addEventListener('load', onload, { once: true });
     document.body.appendChild(script);
   };
 
-  const loadFocusIdentity = () => {
-    ensureStylesheet('/focus-themes.css?v=60', 'data-focus-themes-css');
-    ensureStylesheet('/focus-3d.css?v=60', 'data-focus-3d-css');
-    ensureStylesheet('/focus-worlds.css?v=60', 'data-focus-worlds-css');
-    ensureStylesheet('/focus-chrome.css?v=60', 'data-focus-chrome-css');
-    ensureStylesheet('/focus-refine.css?v=60', 'data-focus-refine-css');
-    ensureStylesheet('/focus-v60.css?v=60', 'data-focus-v60-css');
-    loadScript('/focus-themes.js?v=60', 'data-focus-themes');
-    loadScript('/focus-effects.js?v=60', 'data-focus-effects');
-    loadScript('/focus-chrome.js?v=60', 'data-focus-chrome');
-    loadScript('/focus-v60.js?v=60', 'data-focus-v60');
+  const loadFocusApp = () => {
+    ensureStylesheet('/focus-themes.css?build=focus', 'data-focus-themes-css');
+    ensureStylesheet('/focus-v60.css?build=focus', 'data-focus-app-css');
+    ensureStylesheet('/focus-amazon.css?build=focus', 'data-focus-amazon-css');
+    loadScript('/focus-themes.js?build=focus', 'data-focus-themes');
+    loadScript('/focus-v60.js?build=focus', 'data-focus-app');
+    loadScript('/focus-performance.js?build=focus', 'data-focus-performance');
+    loadScript('/focus-amazon.js?build=focus', 'data-focus-amazon');
   };
 
   const loadQuality = () => {
-    loadFocusIdentity();
     if (document.querySelector('script[data-future-quality]')) return;
-    const quality = document.createElement('script');
-    quality.src = '/future-quality.js?v=7';
-    quality.defer = true;
-    quality.dataset.futureQuality = '';
-    document.body.appendChild(quality);
+    loadScript('/future-quality.js?v=7', 'data-future-quality');
   };
 
   const loadPolish = () => {
-    loadFocusIdentity();
     if (document.querySelector('script[data-future-polish]')) {
       loadQuality();
       return;
     }
-    const polish = document.createElement('script');
-    polish.src = '/future-polish.js?v=7';
-    polish.defer = true;
-    polish.dataset.futurePolish = '';
-    polish.addEventListener('load', loadQuality, { once: true });
-    document.body.appendChild(polish);
+    loadScript('/future-polish.js?v=7', 'data-future-polish', loadQuality);
   };
 
-  const load = () => {
-    attempts += 1;
-    if (document.querySelector('.hero')) {
-      loadFocusIdentity();
-      if (document.querySelector('script[data-future-ui]')) {
-        loadPolish();
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = '/future-ui.js?v=7';
-      script.defer = true;
-      script.dataset.futureUi = '';
-      script.addEventListener('load', loadPolish, { once: true });
-      document.body.appendChild(script);
+  const loadOriginal = () => {
+    if (originalStarted) return;
+    originalStarted = true;
+    if (document.querySelector('script[data-future-ui]')) {
+      loadPolish();
       return;
     }
-    if (attempts < 600) requestAnimationFrame(load);
+    loadScript('/future-ui.js?v=7', 'data-future-ui', loadPolish);
+  };
+  window.__loadOriginalPortfolioEffects = loadOriginal;
+
+  const savedFocus = () => {
+    try {
+      const value = localStorage.getItem('af_focus_identity_v1');
+      return ['google', 'amazon', 'microsoft'].includes(value) ? value : 'original';
+    } catch {
+      return 'original';
+    }
   };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load, { once: true });
-  else load();
+  const boot = () => {
+    attempts += 1;
+    if (!document.querySelector('.hero')) {
+      if (attempts < 600) requestAnimationFrame(boot);
+      return;
+    }
+    loadFocusApp();
+    if (savedFocus() === 'original') loadOriginal();
+  };
+
+  window.addEventListener('future:focus-theme', (event) => {
+    if ((event.detail?.name || 'original') === 'original') loadOriginal();
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+  else boot();
 })();
