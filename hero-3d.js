@@ -667,7 +667,7 @@ let scrollProgress = 0;
 function resize() {
   const rect = hero.getBoundingClientRect();
   const mobile = rect.width < 760;
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.25 : 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.25 : 1.75, window.__FUTURE_DPR_CAP__ || Infinity));
   renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
   camera.aspect = rect.width / Math.max(1, rect.height);
   camera.fov = mobile ? 48 : 38;

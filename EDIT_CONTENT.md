@@ -6,7 +6,7 @@ Send ChatGPT your real details and ask it to update the source template and rebu
 
 Replace these first:
 
-- `[YOUR NAME]`, `[FIRST NAME]`, `[YOUR CITY]`, `[COORDINATE]`
+- `Abdul Fazli`, `Abdul`, `[YOUR CITY]`, `[COORDINATE]`
 - `your.email@example.com`
 - `https://www.linkedin.com/in/your-handle`
 - Experience and certification placeholders
