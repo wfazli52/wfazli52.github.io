@@ -1,0 +1,75 @@
+/* Native scrolling for Google / Amazon / Microsoft focus applications. */
+html.focus-native-scroll,
+html.focus-native-scroll body,
+body.focus-alt-active {
+  width: 100%;
+  min-height: 100%;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior-y: auto !important;
+  touch-action: pan-y !important;
+}
+
+body.focus-alt-active {
+  position: static !important;
+}
+
+body.focus-alt-active .focus-v60-app,
+.focus-v60-app[data-mode="google"],
+.focus-v60-app[data-mode="amazon"],
+.focus-v60-app[data-mode="microsoft"] {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  overscroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+body.focus-alt-active #root {
+  display: none !important;
+}
+
+/* Keep the active effects surface fixed to the viewport while content scrolls normally. */
+body.focus-alt-active .focus-active-effects {
+  position: fixed !important;
+  inset: 0 !important;
+}
+
+/* Anchor navigation should not land underneath sticky headers. */
+body.focus-mode-google .focus-v60-app section[id],
+body.focus-mode-microsoft .focus-v60-app section[id],
+body.focus-mode-amazon .focus-v60-app section[id] {
+  scroll-margin-top: 96px;
+}
+
+body.focus-mode-amazon .amazon-focus-main,
+body.focus-mode-google .v60-google-page,
+body.focus-mode-microsoft .v60-ms-page {
+  min-height: 100vh;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+@media (max-width: 760px) {
+  body.focus-alt-active .focus-v60-app {
+    min-height: 100svh !important;
+  }
+  body.focus-mode-google .focus-v60-app section[id],
+  body.focus-mode-microsoft .focus-v60-app section[id],
+  body.focus-mode-amazon .focus-v60-app section[id] {
+    scroll-margin-top: 76px;
+  }
+}
