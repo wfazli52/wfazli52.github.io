@@ -160,7 +160,7 @@ jobs:
         working-directory: _reference/app
         run: npm run build
 
-      - name: Make cinematic carbon the first-visit theme
+      - name: Finalize production shell and carbon theme
         shell: bash
         run: |
           python - <<'PY'
@@ -170,7 +170,11 @@ jobs:
           text = text.replace('<html lang="en" data-theme="paper">', '<html lang="en" data-theme="carbon">')
           text = text.replace("if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'carbon';", "if (!t) t = 'carbon';")
           text = text.replace('<meta name="theme-color" content="#fbfbfc" />', '<meta name="theme-color" content="#101014" />')
-          text = text.replace('WGU · Associate in Cybersecurity · In progress', 'Northern Virginia Community College · Associate in Cybersecurity · In progress')
+          text = text.replace('WGU · Associate in Cybersecurity · In progress', 'Northern Virginia Community College · Associate in Cybersecurity')
+          text = text.replace('[ADD YOUR 3–5 SENTENCE INTRODUCTION.] This portfolio is designed for data center, deployment, NOC, and network-support opportunities.', 'Cybersecurity education at Northern Virginia Community College, a planned WGU network-engineering bachelor path, and evidence-first labs focused on data center, networking, Linux, hardware, and infrastructure operations.')
+          text = text.replace('Enterprise VLAN Lab · Linux Operations Lab · Rack & Cabling Operations · [YOUR NEXT PROJECT]', 'Enterprise VLAN & Routing · NetBox DCIM/IPAM · BMC/IPMI Telemetry · SMART Storage Health · Bare-Metal Provisioning · Linux Operations · Rack & Cabling')
+          text = text.replace('Northern Virginia Community College · Associate in Cybersecurity · In progress', 'Northern Virginia Community College · Associate in Cybersecurity<br>Western Governors University · B.S. Network Engineering · Cisco track · Planned next')
+          text = text.replace('Northern Virginia Community College · Associate in Cybersecurity</p><h2>Contact</h2>', 'Northern Virginia Community College · Associate in Cybersecurity<br>Western Governors University · B.S. Network Engineering · Cisco track · Planned next</p><h2>Planned certifications</h2><p>CompTIA A+ · LPI Linux Essentials · ITIL 4 Foundation · Cisco CCNA · Cisco Certified Cybersecurity Associate · Cisco DevNet Associate / CCNA Automation · CompTIA Cloud+ · WGU Certified Network Technician Badge</p><h2>Contact</h2>')
           path.write_text(text, encoding='utf-8')
           PY
 
