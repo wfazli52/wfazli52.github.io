@@ -1,6 +1,5 @@
 (() => {
   'use strict';
-
   let attempts = 0;
 
   const ensureStylesheet = (href, marker) => {
@@ -12,15 +11,21 @@
     document.head.appendChild(link);
   };
 
+  const loadScript = (src, marker) => {
+    if (document.querySelector(`script[${marker}]`)) return;
+    const script = document.createElement('script');
+    script.src = src;
+    script.defer = true;
+    script.setAttribute(marker, '');
+    document.body.appendChild(script);
+  };
+
   const loadFocusIdentity = () => {
-    ensureStylesheet('/focus-themes.css?v=8', 'data-focus-themes-css');
-    ensureStylesheet('/focus-3d.css?v=8', 'data-focus-3d-css');
-    if (document.querySelector('script[data-focus-themes]')) return;
-    const focus = document.createElement('script');
-    focus.src = '/focus-themes.js?v=8';
-    focus.defer = true;
-    focus.dataset.focusThemes = '';
-    document.body.appendChild(focus);
+    ensureStylesheet('/focus-themes.css?v=9', 'data-focus-themes-css');
+    ensureStylesheet('/focus-3d.css?v=9', 'data-focus-3d-css');
+    ensureStylesheet('/focus-worlds.css?v=9', 'data-focus-worlds-css');
+    loadScript('/focus-themes.js?v=9', 'data-focus-themes');
+    loadScript('/focus-effects.js?v=9', 'data-focus-effects');
   };
 
   const loadQuality = () => {
@@ -66,9 +71,6 @@
     if (attempts < 600) requestAnimationFrame(load);
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', load, { once: true });
-  } else {
-    load();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load, { once: true });
+  else load();
 })();
