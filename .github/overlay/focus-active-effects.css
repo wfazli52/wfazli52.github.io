@@ -9,7 +9,7 @@
   opacity: 1;
   transition: opacity 180ms ease;
 }
-.focus-v60-app > * {
+.focus-v60-app > :not(.focus-active-effects) {
   position: relative;
   z-index: 1;
 }
