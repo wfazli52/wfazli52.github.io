@@ -1,4 +1,4 @@
-name: Apply portfolio focus themes
+name: Apply portfolio focus architecture
 
 on:
   push:
@@ -7,15 +7,19 @@ on:
     paths:
       - ".github/overlay/focus-themes.css"
       - ".github/overlay/focus-themes.js"
-      - ".github/overlay/focus-3d.css"
-      - ".github/overlay/focus-worlds.css"
-      - ".github/overlay/focus-effects.js"
-      - ".github/overlay/focus-chrome.css"
-      - ".github/overlay/focus-chrome.js"
-      - ".github/overlay/focus-refine.css"
       - ".github/overlay/focus-v60.css"
       - ".github/overlay/focus-v60.js"
+      - ".github/overlay/focus-amazon.css"
+      - ".github/overlay/focus-amazon.js"
+      - ".github/overlay/focus-performance.css"
+      - ".github/overlay/focus-performance.js"
+      - ".github/overlay/focus-active-effects.css"
+      - ".github/overlay/focus-active-effects.js"
+      - ".github/overlay/focus-functional.js"
+      - ".github/overlay/focus-signatures.css"
+      - ".github/overlay/focus-signatures.js"
       - ".github/overlay/future-loader-v8.js"
+      - ".github/signature-projects/**"
       - ".github/workflows/apply-focus-themes.yml"
       - "index.html"
       - "future-loader.js"
@@ -30,11 +34,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: portfolio-focus-themes-v60
+  group: portfolio-focus-architecture
   cancel-in-progress: true
 
 jobs:
-  apply-focus-themes:
+  apply-focus-architecture:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -46,70 +50,92 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Restore v60 alternate portfolio apps
+      - name: Restore active focus architecture
         shell: bash
         run: |
           set -euo pipefail
           cp .github/overlay/focus-themes.css focus-themes.css
           cp .github/overlay/focus-themes.js focus-themes.js
-          cp .github/overlay/focus-3d.css focus-3d.css
-          cp .github/overlay/focus-worlds.css focus-worlds.css
-          cp .github/overlay/focus-effects.js focus-effects.js
-          cp .github/overlay/focus-chrome.css focus-chrome.css
-          cp .github/overlay/focus-chrome.js focus-chrome.js
-          cp .github/overlay/focus-refine.css focus-refine.css
           cp .github/overlay/focus-v60.css focus-v60.css
           cp .github/overlay/focus-v60.js focus-v60.js
+          cp .github/overlay/focus-amazon.css focus-amazon.css
+          cp .github/overlay/focus-amazon.js focus-amazon.js
+          cp .github/overlay/focus-performance.css focus-performance.css
+          cp .github/overlay/focus-performance.js focus-performance.js
+          cp .github/overlay/focus-active-effects.css focus-active-effects.css
+          cp .github/overlay/focus-active-effects.js focus-active-effects.js
+          cp .github/overlay/focus-functional.js focus-functional.js
+          cp .github/overlay/focus-signatures.css focus-signatures.css
+          cp .github/overlay/focus-signatures.js focus-signatures.js
           cp .github/overlay/future-loader-v8.js future-loader.js
 
           python - <<'PY'
           from pathlib import Path
+          import re
           for filename in ('index.html', '404.html'):
               path = Path(filename)
               if not path.exists():
                   continue
               text = path.read_text(encoding='utf-8')
-              import re
-              text = re.sub(r'future-loader\.js\?v=\d+', 'future-loader.js?v=60', text)
+              text = re.sub(r'future-loader\.js(?:\?[^"\']*)?', 'future-loader.js?build=focus', text)
               path.write_text(text, encoding='utf-8')
           PY
 
           node --check focus-themes.js
-          node --check focus-effects.js
-          node --check focus-chrome.js
           node --check focus-v60.js
+          node --check focus-amazon.js
+          node --check focus-performance.js
+          node --check focus-active-effects.js
+          node --check focus-functional.js
+          node --check focus-signatures.js
           node --check future-loader.js
 
-      - name: Validate v60 release
+      - name: Validate focus release
         shell: bash
         run: |
           set -euo pipefail
-          for f in focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js focus-refine.css focus-v60.css focus-v60.js future-loader.js; do
+          for f in \
+            focus-themes.css focus-themes.js \
+            focus-v60.css focus-v60.js \
+            focus-amazon.css focus-amazon.js \
+            focus-performance.css focus-performance.js \
+            focus-active-effects.css focus-active-effects.js \
+            focus-functional.js focus-signatures.css focus-signatures.js \
+            future-loader.js; do
             test -s "$f"
           done
+
           grep -q 'Google Focus' focus-themes.js
           grep -q 'Amazon Focus' focus-themes.js
           grep -q 'Microsoft Focus' focus-themes.js
-          grep -q 'v60-google-page' focus-v60.css
-          grep -q 'v60-amazon-page' focus-v60.css
-          grep -q 'v60-ms-page' focus-v60.css
-          grep -q 'renderGoogle' focus-v60.js
-          grep -q 'renderAmazon' focus-v60.js
-          grep -q 'renderMicrosoft' focus-v60.js
-          grep -q '/focus-v60.css?v=60' future-loader.js
-          grep -q '/focus-v60.js?v=60' future-loader.js
-          grep -q 'future-loader.js?v=60' index.html
+          grep -q 'focus-mode-google' focus-performance.css
+          grep -q 'focus-mode-amazon' focus-performance.css
+          grep -q 'focus-mode-microsoft' focus-performance.css
+          grep -q 'amazon-focus-shell' focus-amazon.css
+          grep -q 'data-amazon-search' focus-amazon.js
+          grep -q 'GKE SRE Observability Lab' focus-signatures.js
+          grep -q 'Private EC2 Ops with Systems Manager' focus-signatures.js
+          grep -q 'Azure Arc Hybrid Server Operations' focus-signatures.js
+          grep -q '/focus-active-effects.js?build=focus-active' future-loader.js
+          grep -q 'future-loader.js?build=focus' index.html
 
-      - name: Commit v60 identity layer
+      - name: Commit focus architecture
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js focus-refine.css focus-v60.css focus-v60.js future-loader.js index.html 404.html
+          git add \
+            focus-themes.css focus-themes.js \
+            focus-v60.css focus-v60.js \
+            focus-amazon.css focus-amazon.js \
+            focus-performance.css focus-performance.js \
+            focus-active-effects.css focus-active-effects.js \
+            focus-functional.js focus-signatures.css focus-signatures.js \
+            future-loader.js index.html 404.html
           if git diff --cached --quiet; then
-            echo "v60 focus architecture is already current."
+            echo "Focus architecture is already current."
             exit 0
           fi
-          git commit -m "Restore v60 full-page focus architectures"
+          git commit -m "Restore single-active portfolio focus architecture"
           git push origin HEAD:main

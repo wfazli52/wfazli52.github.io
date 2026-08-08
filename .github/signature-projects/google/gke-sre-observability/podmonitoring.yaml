@@ -1,0 +1,12 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: demo-web
+  namespace: abdul-sre-lab
+spec:
+  selector:
+    matchLabels:
+      app: demo-web
+  endpoints:
+    - port: http
+      interval: 30s

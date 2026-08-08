@@ -1,0 +1,45 @@
+/* One high-fidelity effects surface runs only for the selected focus. */
+.focus-active-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+.focus-v60-app > :not(.focus-active-effects) {
+  position: relative;
+  z-index: 1;
+}
+body.focus-switching .focus-active-effects,
+body.focus-page-hidden .focus-active-effects {
+  opacity: 0;
+}
+body.focus-mode-google .focus-active-effects { mix-blend-mode: multiply; }
+body.focus-mode-amazon .focus-active-effects { mix-blend-mode: normal; opacity: .72; }
+body.focus-mode-microsoft .focus-active-effects { mix-blend-mode: screen; opacity: .72; }
+
+/* Extra depth that costs almost nothing compared with another renderer. */
+body.focus-mode-google .v60-g-card,
+body.focus-mode-microsoft .v60-m-card,
+body.focus-mode-amazon .amazon-focus-container {
+  will-change: transform;
+}
+body.focus-mode-google .v60-g-card:hover {
+  transform: translateY(-10px) scale(1.012) rotateX(.35deg) !important;
+}
+body.focus-mode-microsoft .v60-m-card:hover {
+  transform: translateY(-7px) translateZ(10px) rotateX(.45deg) rotateY(-.25deg) !important;
+}
+body.focus-mode-amazon .amazon-focus-container:hover {
+  box-shadow: 0 5px 16px rgba(0,0,0,.10);
+}
+
+@media (max-width: 760px) {
+  .focus-active-effects { opacity: .52; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .focus-active-effects { display: none !important; }
+}
