@@ -26,13 +26,20 @@
   };
 
   const loadFocusApp = () => {
-    ensureStylesheet('/focus-themes.css?build=focus', 'data-focus-themes-css');
-    ensureStylesheet('/focus-v60.css?build=focus', 'data-focus-app-css');
-    ensureStylesheet('/focus-amazon.css?build=focus', 'data-focus-amazon-css');
-    loadScript('/focus-themes.js?build=focus', 'data-focus-themes');
-    loadScript('/focus-v60.js?build=focus', 'data-focus-app');
-    loadScript('/focus-performance.js?build=focus', 'data-focus-performance');
-    loadScript('/focus-amazon.js?build=focus', 'data-focus-amazon');
+    ensureStylesheet('/focus-themes.css?build=focus-active', 'data-focus-themes-css');
+    ensureStylesheet('/focus-v60.css?build=focus-active', 'data-focus-app-css');
+    ensureStylesheet('/focus-amazon.css?build=focus-active', 'data-focus-amazon-css');
+    ensureStylesheet('/focus-performance.css?build=focus-active', 'data-focus-performance-css');
+    ensureStylesheet('/focus-active-effects.css?build=focus-active', 'data-focus-active-effects-css');
+    ensureStylesheet('/focus-signatures.css?build=focus-active', 'data-focus-signatures-css');
+
+    loadScript('/focus-themes.js?build=focus-active', 'data-focus-themes');
+    loadScript('/focus-v60.js?build=focus-active', 'data-focus-app');
+    loadScript('/focus-performance.js?build=focus-active', 'data-focus-performance');
+    loadScript('/focus-active-effects.js?build=focus-active', 'data-focus-active-effects');
+    loadScript('/focus-functional.js?build=focus-active', 'data-focus-functional');
+    loadScript('/focus-amazon.js?build=focus-active', 'data-focus-amazon');
+    loadScript('/focus-signatures.js?build=focus-active', 'data-focus-signatures');
   };
 
   const loadQuality = () => {
