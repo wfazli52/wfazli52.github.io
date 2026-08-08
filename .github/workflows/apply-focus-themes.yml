@@ -12,11 +12,13 @@ on:
       - ".github/overlay/focus-effects.js"
       - ".github/overlay/focus-chrome.css"
       - ".github/overlay/focus-chrome.js"
+      - ".github/overlay/focus-refine.css"
+      - ".github/overlay/focus-v60.css"
+      - ".github/overlay/focus-v60.js"
       - ".github/overlay/future-loader-v8.js"
       - ".github/workflows/apply-focus-themes.yml"
       - "index.html"
       - "future-loader.js"
-      - "hero-3d.js"
   workflow_run:
     workflows:
       - Build permitted cinematic specimen
@@ -28,7 +30,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: portfolio-focus-themes
+  group: portfolio-focus-themes-v60
   cancel-in-progress: true
 
 jobs:
@@ -44,7 +46,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Restore premium focus identity layer
+      - name: Restore v60 alternate portfolio apps
         shell: bash
         run: |
           set -euo pipefail
@@ -55,50 +57,59 @@ jobs:
           cp .github/overlay/focus-effects.js focus-effects.js
           cp .github/overlay/focus-chrome.css focus-chrome.css
           cp .github/overlay/focus-chrome.js focus-chrome.js
+          cp .github/overlay/focus-refine.css focus-refine.css
+          cp .github/overlay/focus-v60.css focus-v60.css
+          cp .github/overlay/focus-v60.js focus-v60.js
           cp .github/overlay/future-loader-v8.js future-loader.js
+
+          python - <<'PY'
+          from pathlib import Path
+          for filename in ('index.html', '404.html'):
+              path = Path(filename)
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding='utf-8')
+              import re
+              text = re.sub(r'future-loader\.js\?v=\d+', 'future-loader.js?v=60', text)
+              path.write_text(text, encoding='utf-8')
+          PY
+
           node --check focus-themes.js
           node --check focus-effects.js
           node --check focus-chrome.js
+          node --check focus-v60.js
           node --check future-loader.js
 
-      - name: Validate focus identity release
+      - name: Validate v60 release
         shell: bash
         run: |
           set -euo pipefail
-          test -s focus-themes.css
-          test -s focus-themes.js
-          test -s focus-3d.css
-          test -s focus-worlds.css
-          test -s focus-effects.js
-          test -s focus-chrome.css
-          test -s focus-chrome.js
-          test -s future-loader.js
+          for f in focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js focus-refine.css focus-v60.css focus-v60.js future-loader.js; do
+            test -s "$f"
+          done
           grep -q 'Google Focus' focus-themes.js
           grep -q 'Amazon Focus' focus-themes.js
           grep -q 'Microsoft Focus' focus-themes.js
-          grep -q 'Original' focus-themes.js
-          grep -q 'google-float-card' focus-worlds.css
-          grep -q 'amazon-rack-tower' focus-worlds.css
-          grep -q 'ms-floating-window' focus-worlds.css
-          grep -q 'google-search-shell' focus-chrome.css
-          grep -q 'amazon-console-shell' focus-chrome.css
-          grep -q 'ms-command-shell' focus-chrome.css
-          grep -q '/focus-themes.css?v=9' future-loader.js
-          grep -q '/focus-worlds.css?v=9' future-loader.js
-          grep -q '/focus-effects.js?v=9' future-loader.js
-          grep -q '/focus-chrome.css?v=9' future-loader.js
-          grep -q '/focus-chrome.js?v=9' future-loader.js
+          grep -q 'v60-google-page' focus-v60.css
+          grep -q 'v60-amazon-page' focus-v60.css
+          grep -q 'v60-ms-page' focus-v60.css
+          grep -q 'renderGoogle' focus-v60.js
+          grep -q 'renderAmazon' focus-v60.js
+          grep -q 'renderMicrosoft' focus-v60.js
+          grep -q '/focus-v60.css?v=60' future-loader.js
+          grep -q '/focus-v60.js?v=60' future-loader.js
+          grep -q 'future-loader.js?v=60' index.html
 
-      - name: Commit focus identity layer
+      - name: Commit v60 identity layer
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js future-loader.js
+          git add focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js focus-refine.css focus-v60.css focus-v60.js future-loader.js index.html 404.html
           if git diff --cached --quiet; then
-            echo "Focus identity layer is already current."
+            echo "v60 focus architecture is already current."
             exit 0
           fi
-          git commit -m "Restore distinct portfolio focus worlds"
+          git commit -m "Restore v60 full-page focus architectures"
           git push origin HEAD:main
