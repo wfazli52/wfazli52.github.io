@@ -164,6 +164,7 @@ jobs:
           text = text.replace('<html lang="en" data-theme="paper">', '<html lang="en" data-theme="carbon">')
           text = text.replace("if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'carbon';", "if (!t) t = 'carbon';")
           text = text.replace('<meta name="theme-color" content="#fbfbfc" />', '<meta name="theme-color" content="#101014" />')
+          text = text.replace('WGU · Associate in Cybersecurity · In progress', 'Northern Virginia Community College · Associate in Cybersecurity · In progress')
           path.write_text(text, encoding='utf-8')
           PY
 
@@ -188,7 +189,8 @@ jobs:
           test -s _reference/app/dist/labs/bare-metal-lifecycle.html
           grep -q "Specimen Sheet" _reference/app/dist/index.html
           grep -q "Abdul Fazli" _reference/app/dist/index.html
-          grep -q "Northern Virginia Community College" _reference/app/dist/index.html
+          grep -R -I -q "Northern Virginia Community College" _reference/app/dist
+          grep -R -I -q "NetBox DCIM & IPAM Source of Truth" _reference/app/dist
           grep -q 'data-theme="carbon"' _reference/app/dist/index.html
           grep -q 'future-ui.css?v=7' _reference/app/dist/index.html
           grep -q 'future-polish.css?v=7' _reference/app/dist/index.html
