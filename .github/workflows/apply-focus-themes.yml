@@ -8,6 +8,8 @@ on:
       - ".github/overlay/focus-themes.css"
       - ".github/overlay/focus-themes.js"
       - ".github/overlay/focus-3d.css"
+      - ".github/overlay/focus-worlds.css"
+      - ".github/overlay/focus-effects.js"
       - ".github/overlay/future-loader-v8.js"
       - ".github/workflows/apply-focus-themes.yml"
       - "index.html"
@@ -47,8 +49,11 @@ jobs:
           cp .github/overlay/focus-themes.css focus-themes.css
           cp .github/overlay/focus-themes.js focus-themes.js
           cp .github/overlay/focus-3d.css focus-3d.css
+          cp .github/overlay/focus-worlds.css focus-worlds.css
+          cp .github/overlay/focus-effects.js focus-effects.js
           cp .github/overlay/future-loader-v8.js future-loader.js
           node --check focus-themes.js
+          node --check focus-effects.js
           node --check future-loader.js
 
       - name: Validate focus identity release
@@ -58,14 +63,19 @@ jobs:
           test -s focus-themes.css
           test -s focus-themes.js
           test -s focus-3d.css
+          test -s focus-worlds.css
+          test -s focus-effects.js
           test -s future-loader.js
           grep -q 'Google Focus' focus-themes.js
           grep -q 'Amazon Focus' focus-themes.js
           grep -q 'Microsoft Focus' focus-themes.js
           grep -q 'Original' focus-themes.js
-          grep -q '/focus-themes.css?v=8' future-loader.js
-          grep -q '/focus-3d.css?v=8' future-loader.js
-          grep -q '/focus-themes.js?v=8' future-loader.js
+          grep -q 'google-float-card' focus-worlds.css
+          grep -q 'amazon-rack-tower' focus-worlds.css
+          grep -q 'ms-floating-window' focus-worlds.css
+          grep -q '/focus-themes.css?v=9' future-loader.js
+          grep -q '/focus-worlds.css?v=9' future-loader.js
+          grep -q '/focus-effects.js?v=9' future-loader.js
 
       - name: Commit focus identity layer
         shell: bash
@@ -73,10 +83,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add focus-themes.css focus-themes.js focus-3d.css future-loader.js
+          git add focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js future-loader.js
           if git diff --cached --quiet; then
             echo "Focus identity layer is already current."
             exit 0
           fi
-          git commit -m "Restore premium portfolio focus themes"
+          git commit -m "Restore distinct portfolio focus worlds"
           git push origin HEAD:main
