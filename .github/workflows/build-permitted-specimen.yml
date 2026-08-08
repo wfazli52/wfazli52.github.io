@@ -91,6 +91,8 @@ jobs:
           cp .github/overlay/focus-functional.js _reference/app/public/focus-functional.js
           cp .github/overlay/focus-signatures.css _reference/app/public/focus-signatures.css
           cp .github/overlay/focus-signatures.js _reference/app/public/focus-signatures.js
+          cp .github/overlay/focus-scroll.css _reference/app/public/focus-scroll.css
+          cp .github/overlay/focus-scroll.js _reference/app/public/focus-scroll.js
           cp .github/overlay/future-loader-v8.js _reference/app/public/future-loader.js
 
           python - <<'PY'
@@ -115,6 +117,7 @@ jobs:
           node --check _reference/app/public/focus-active-effects.js
           node --check _reference/app/public/focus-functional.js
           node --check _reference/app/public/focus-signatures.js
+          node --check _reference/app/public/focus-scroll.js
           node --check _reference/app/public/future-loader.js
 
           python - <<'PY'
@@ -170,7 +173,7 @@ jobs:
             focus-themes.css focus-themes.js focus-v60.css focus-v60.js \
             focus-amazon.css focus-amazon.js focus-performance.css focus-performance.js \
             focus-active-effects.css focus-active-effects.js focus-functional.js \
-            focus-signatures.css focus-signatures.js; do
+            focus-signatures.css focus-signatures.js focus-scroll.css focus-scroll.js; do
             test -s "_reference/app/dist/$f"
           done
 
@@ -192,6 +195,8 @@ jobs:
           grep -q 'future-loader.js?build=focus' _reference/app/dist/index.html
           grep -q '/focus-active-effects.js?build=focus-active' _reference/app/dist/future-loader.js
           grep -q '/focus-performance.js?build=focus-active' _reference/app/dist/future-loader.js
+          grep -q '/focus-scroll.js?build=focus-active' _reference/app/dist/future-loader.js
+          grep -q 'focus-native-scroll' _reference/app/dist/focus-scroll.css
           grep -q 'amazon-focus-shell' _reference/app/dist/focus-amazon.css
           grep -q 'GKE SRE Observability Lab' _reference/app/dist/focus-signatures.js
           grep -q 'Private EC2 Ops with Systems Manager' _reference/app/dist/focus-signatures.js
@@ -234,5 +239,5 @@ jobs:
           tree_sha="$(git write-tree)"
           git fetch origin main
           parent_sha="$(git rev-parse origin/main)"
-          commit_sha="$(printf '%s\n' 'Launch Abdul Fazli active-focus portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
+          commit_sha="$(printf '%s\n' 'Launch Abdul Fazli native-scroll focus portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
           git push origin "$commit_sha:main"
