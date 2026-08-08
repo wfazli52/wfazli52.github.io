@@ -1,6 +1,18 @@
 name: Apply portfolio focus themes
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/overlay/focus-themes.css"
+      - ".github/overlay/focus-themes.js"
+      - ".github/overlay/focus-3d.css"
+      - ".github/overlay/future-loader-v8.js"
+      - ".github/workflows/apply-focus-themes.yml"
+      - "index.html"
+      - "future-loader.js"
+      - "hero-3d.js"
   workflow_run:
     workflows:
       - Build permitted cinematic specimen
@@ -17,7 +29,7 @@ concurrency:
 
 jobs:
   apply-focus-themes:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -28,109 +40,16 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Install focus identity assets
+      - name: Restore premium focus identity layer
         shell: bash
         run: |
           set -euo pipefail
           cp .github/overlay/focus-themes.css focus-themes.css
           cp .github/overlay/focus-themes.js focus-themes.js
+          cp .github/overlay/focus-3d.css focus-3d.css
+          cp .github/overlay/future-loader-v8.js future-loader.js
           node --check focus-themes.js
-
-      - name: Inject switcher and synchronize 3D palettes
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          html_targets = [Path('index.html'), Path('404.html')]
-          head_injection = '''  <link rel="stylesheet" href="/focus-themes.css?v=8" />
-            <script defer src="/focus-themes.js?v=8"></script>
-          '''
-          for path in html_targets:
-              if not path.exists():
-                  continue
-              text = path.read_text(encoding='utf-8')
-              if 'focus-themes.css?v=8' not in text:
-                  text = text.replace('</head>', head_injection + '</head>', 1)
-              path.write_text(text, encoding='utf-8')
-
-          hero = Path('hero-3d.js')
-          if not hero.exists():
-              raise SystemExit('hero-3d.js is missing from the live site')
-          text = hero.read_text(encoding='utf-8')
-
-          if 'googlePaper:' not in text:
-              marker = "  }\n};\n\nlet paletteName = document.documentElement.dataset.theme === 'paper' ? 'paper' : 'carbon';"
-              if marker not in text:
-                  raise SystemExit('Could not find hero palette insertion marker')
-              replacement = '''  },
-            google: {
-              metal: 0x253047, metalDark: 0x0d1422, metalLight: 0x53647f, panel: 0x182238,
-              accent: 0x4285f4, cyan: 0x34a853, violet: 0xea4335, green: 0x34a853,
-              amber: 0xfbbc05, red: 0xea4335, white: 0xf7faff, grid: 0x193d79,
-              pcb: 0x123c2a, gold: 0xdab44b, fog: 0x080d18
-            },
-            googlePaper: {
-              metal: 0x56657c, metalDark: 0x273245, metalLight: 0x8b9bb2, panel: 0x3c4a61,
-              accent: 0x4285f4, cyan: 0x34a853, violet: 0xea4335, green: 0x34a853,
-              amber: 0xfbbc05, red: 0xea4335, white: 0xffffff, grid: 0x9bb6e8,
-              pcb: 0x27583b, gold: 0xc99e33, fog: 0xf8faff
-            },
-            amazon: {
-              metal: 0x28313e, metalDark: 0x0c121c, metalLight: 0x596575, panel: 0x1b2431,
-              accent: 0xff9900, cyan: 0x00a8e1, violet: 0xffb84d, green: 0x58c77b,
-              amber: 0xff9900, red: 0xff5964, white: 0xf7f8fb, grid: 0x14415b,
-              pcb: 0x173a28, gold: 0xddaa4a, fog: 0x080d14
-            },
-            amazonPaper: {
-              metal: 0x5d6671, metalDark: 0x303844, metalLight: 0x929ba7, panel: 0x444d59,
-              accent: 0xff9900, cyan: 0x00a8e1, violet: 0xffb84d, green: 0x58c77b,
-              amber: 0xff9900, red: 0xff5964, white: 0xffffff, grid: 0xa2b5c3,
-              pcb: 0x2a5338, gold: 0xc99537, fog: 0xfffaf3
-            },
-            microsoft: {
-              metal: 0x223244, metalDark: 0x0a1420, metalLight: 0x536b82, panel: 0x16283b,
-              accent: 0x0078d4, cyan: 0x00bcf2, violet: 0x7f58af, green: 0x107c10,
-              amber: 0xffb900, red: 0xd13438, white: 0xf4f9ff, grid: 0x124f78,
-              pcb: 0x143b2a, gold: 0xd0aa43, fog: 0x07101a
-            },
-            microsoftPaper: {
-              metal: 0x566b7e, metalDark: 0x2b3b49, metalLight: 0x8da2b5, panel: 0x3b5368,
-              accent: 0x0078d4, cyan: 0x00bcf2, violet: 0x7f58af, green: 0x107c10,
-              amber: 0xffb900, red: 0xd13438, white: 0xffffff, grid: 0x8fb8d4,
-              pcb: 0x28543b, gold: 0xc89f32, fog: 0xf7fbff
-            }
-          };
-
-          function resolvePaletteName() {
-            const focus = document.documentElement.dataset.focus || 'original';
-            const paper = document.documentElement.dataset.theme === 'paper';
-            if (focus !== 'original') {
-              const candidate = paper ? `${focus}Paper` : focus;
-              if (PALETTES[candidate]) return candidate;
-            }
-            return paper ? 'paper' : 'carbon';
-          }
-
-          let paletteName = resolvePaletteName();'''
-              text = text.replace(marker, replacement, 1)
-
-          old_apply = "  paletteName = document.documentElement.dataset.theme === 'paper' ? 'paper' : 'carbon';"
-          if old_apply in text:
-              text = text.replace(old_apply, "  paletteName = resolvePaletteName();", 1)
-
-          old_observer = "themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });"
-          if old_observer in text:
-              text = text.replace(old_observer, "themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-focus'] });", 1)
-
-          old_dust = "  dust.material.opacity = paletteName === 'carbon' ? .55 : .20;\n  renderer.toneMappingExposure = paletteName === 'carbon' ? 1.22 : 1.02;"
-          if old_dust in text:
-              text = text.replace(old_dust, "  const darkScene = document.documentElement.dataset.theme !== 'paper';\n  dust.material.opacity = darkScene ? .55 : .20;\n  renderer.toneMappingExposure = darkScene ? 1.22 : 1.02;", 1)
-
-          hero.write_text(text, encoding='utf-8')
-          PY
-          node --check hero-3d.js
+          node --check future-loader.js
 
       - name: Validate focus identity release
         shell: bash
@@ -138,16 +57,15 @@ jobs:
           set -euo pipefail
           test -s focus-themes.css
           test -s focus-themes.js
-          grep -q 'focus-themes.css?v=8' index.html
-          grep -q 'focus-themes.js?v=8' index.html
-          grep -q 'data-focus-option="google"' focus-themes.js
-          grep -q 'data-focus-option="amazon"' focus-themes.js
-          grep -q 'data-focus-option="microsoft"' focus-themes.js
-          grep -q 'data-focus-option="original"' focus-themes.js
-          grep -q 'googlePaper:' hero-3d.js
-          grep -q 'amazonPaper:' hero-3d.js
-          grep -q 'microsoftPaper:' hero-3d.js
-          grep -q "attributeFilter: \['data-theme', 'data-focus'\]" hero-3d.js
+          test -s focus-3d.css
+          test -s future-loader.js
+          grep -q 'Google Focus' focus-themes.js
+          grep -q 'Amazon Focus' focus-themes.js
+          grep -q 'Microsoft Focus' focus-themes.js
+          grep -q 'Original' focus-themes.js
+          grep -q '/focus-themes.css?v=8' future-loader.js
+          grep -q '/focus-3d.css?v=8' future-loader.js
+          grep -q '/focus-themes.js?v=8' future-loader.js
 
       - name: Commit focus identity layer
         shell: bash
@@ -155,10 +73,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html 404.html hero-3d.js focus-themes.css focus-themes.js
+          git add focus-themes.css focus-themes.js focus-3d.css future-loader.js
           if git diff --cached --quiet; then
             echo "Focus identity layer is already current."
             exit 0
           fi
-          git commit -m "Apply premium portfolio focus themes"
+          git commit -m "Restore premium portfolio focus themes"
           git push origin HEAD:main
