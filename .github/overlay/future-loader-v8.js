@@ -25,6 +25,7 @@
     ensureStylesheet('/focus-3d.css?v=9', 'data-focus-3d-css');
     ensureStylesheet('/focus-worlds.css?v=9', 'data-focus-worlds-css');
     ensureStylesheet('/focus-chrome.css?v=9', 'data-focus-chrome-css');
+    ensureStylesheet('/focus-refine.css?v=9', 'data-focus-refine-css');
     loadScript('/focus-themes.js?v=9', 'data-focus-themes');
     loadScript('/focus-effects.js?v=9', 'data-focus-effects');
     loadScript('/focus-chrome.js?v=9', 'data-focus-chrome');
