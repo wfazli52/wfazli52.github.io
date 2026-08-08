@@ -55,29 +55,44 @@ jobs:
           REFERENCE_APP: _reference/app
         run: python scripts/prepare-permitted-specimen.py
 
-      - name: Add the futuristic hero and interaction layer
+      - name: Add the futuristic hero and interaction layers
         shell: bash
         run: |
           set -euo pipefail
           git show b07c71435cac80b01443a4407647589650bb21fa:future-ui.css > _reference/app/public/future-ui.css
           cp .github/overlay/future-ui.js _reference/app/public/future-ui.js
           git show 7c3adb82ce402c83f9729b23756dde88fd72336f:hero-3d.js > _reference/app/public/hero-3d.js
+          cp .github/overlay/future-polish.css _reference/app/public/future-polish.css
+          cp .github/overlay/future-polish.js _reference/app/public/future-polish.js
 
           node --check _reference/app/public/future-ui.js
           node --check _reference/app/public/hero-3d.js
+          node --check _reference/app/public/future-polish.js
 
           cat > _reference/app/public/future-loader.js <<'JS'
           (() => {
             'use strict';
             let attempts = 0;
+            const loadPolish = () => {
+              if (document.querySelector('script[data-future-polish]')) return;
+              const polish = document.createElement('script');
+              polish.src = '/future-polish.js?v=7';
+              polish.defer = true;
+              polish.dataset.futurePolish = '';
+              document.body.appendChild(polish);
+            };
             const load = () => {
               attempts += 1;
               if (document.querySelector('.hero')) {
-                if (document.querySelector('script[data-future-ui]')) return;
+                if (document.querySelector('script[data-future-ui]')) {
+                  loadPolish();
+                  return;
+                }
                 const script = document.createElement('script');
-                script.src = '/future-ui.js?v=6';
+                script.src = '/future-ui.js?v=7';
                 script.defer = true;
                 script.dataset.futureUi = '';
+                script.addEventListener('load', loadPolish, { once: true });
                 document.body.appendChild(script);
                 return;
               }
@@ -92,7 +107,7 @@ jobs:
           from pathlib import Path
           path = Path('_reference/app/index.html')
           text = path.read_text(encoding='utf-8')
-          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=6" />\n  <script defer src="/future-loader.js?v=6"></script>\n</head>')
+          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=7" />\n  <link rel="stylesheet" href="/future-polish.css?v=7" />\n  <script defer src="/future-loader.js?v=7"></script>\n</head>')
           path.write_text(text, encoding='utf-8')
           PY
 
@@ -132,11 +147,14 @@ jobs:
           test -s _reference/app/dist/future-ui.css
           test -s _reference/app/dist/future-ui.js
           test -s _reference/app/dist/hero-3d.js
+          test -s _reference/app/dist/future-polish.css
+          test -s _reference/app/dist/future-polish.js
           test -s _reference/app/dist/future-loader.js
           grep -q "Specimen Sheet" _reference/app/dist/index.html
           grep -q "YOUR NAME" _reference/app/dist/index.html
           grep -q 'data-theme="carbon"' _reference/app/dist/index.html
-          grep -q 'future-ui.css?v=6' _reference/app/dist/index.html
+          grep -q 'future-ui.css?v=7' _reference/app/dist/index.html
+          grep -q 'future-polish.css?v=7' _reference/app/dist/index.html
           ! grep -R -I -n -E "contact@imranwafa\.com|703.?364.?9357|Petromax LLC|Instawire LLC|Mgtwell LLC" _reference/app/dist
 
       - name: Replace the live GitHub Pages site
@@ -171,5 +189,5 @@ jobs:
           tree_sha="$(git write-tree)"
           git fetch origin main
           parent_sha="$(git rev-parse origin/main)"
-          commit_sha="$(printf '%s\n' 'Launch permitted futuristic specimen portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
+          commit_sha="$(printf '%s\n' 'Launch recruiter-ready futuristic portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
           git push origin "$commit_sha:main"
