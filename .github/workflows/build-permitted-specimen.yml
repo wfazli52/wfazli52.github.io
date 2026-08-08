@@ -8,6 +8,7 @@ on:
       - ".github/workflows/build-permitted-specimen.yml"
       - ".github/overlay/**"
       - "scripts/prepare-permitted-specimen.py"
+      - "scripts/personalize-abdul.py"
   workflow_dispatch:
 
 permissions:
@@ -55,6 +56,11 @@ jobs:
           REFERENCE_APP: _reference/app
         run: python scripts/prepare-permitted-specimen.py
 
+      - name: Personalize Abdul and generate data-center lab plans
+        env:
+          REFERENCE_APP: _reference/app
+        run: python scripts/personalize-abdul.py
+
       - name: Add the futuristic hero and interaction layers
         shell: bash
         run: |
@@ -64,21 +70,46 @@ jobs:
           git show 7c3adb82ce402c83f9729b23756dde88fd72336f:hero-3d.js > _reference/app/public/hero-3d.js
           cp .github/overlay/future-polish.css _reference/app/public/future-polish.css
           cp .github/overlay/future-polish.js _reference/app/public/future-polish.js
+          cp .github/overlay/future-quality.js _reference/app/public/future-quality.js
+
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('_reference/app/public/hero-3d.js')
+          text = path.read_text(encoding='utf-8')
+          old = "renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.25 : 1.75));"
+          new = "renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.25 : 1.75, window.__FUTURE_DPR_CAP__ || Infinity));"
+          if old not in text:
+              raise SystemExit('hero DPR hook target not found')
+          path.write_text(text.replace(old, new), encoding='utf-8')
+          PY
 
           node --check _reference/app/public/future-ui.js
           node --check _reference/app/public/hero-3d.js
           node --check _reference/app/public/future-polish.js
+          node --check _reference/app/public/future-quality.js
 
           cat > _reference/app/public/future-loader.js <<'JS'
           (() => {
             'use strict';
             let attempts = 0;
+            const loadQuality = () => {
+              if (document.querySelector('script[data-future-quality]')) return;
+              const quality = document.createElement('script');
+              quality.src = '/future-quality.js?v=7';
+              quality.defer = true;
+              quality.dataset.futureQuality = '';
+              document.body.appendChild(quality);
+            };
             const loadPolish = () => {
-              if (document.querySelector('script[data-future-polish]')) return;
+              if (document.querySelector('script[data-future-polish]')) {
+                loadQuality();
+                return;
+              }
               const polish = document.createElement('script');
               polish.src = '/future-polish.js?v=7';
               polish.defer = true;
               polish.dataset.futurePolish = '';
+              polish.addEventListener('load', loadQuality, { once: true });
               document.body.appendChild(polish);
             };
             const load = () => {
@@ -149,9 +180,15 @@ jobs:
           test -s _reference/app/dist/hero-3d.js
           test -s _reference/app/dist/future-polish.css
           test -s _reference/app/dist/future-polish.js
+          test -s _reference/app/dist/future-quality.js
           test -s _reference/app/dist/future-loader.js
+          test -s _reference/app/dist/labs/netbox-dcim.html
+          test -s _reference/app/dist/labs/ipmi-telemetry.html
+          test -s _reference/app/dist/labs/storage-health.html
+          test -s _reference/app/dist/labs/bare-metal-lifecycle.html
           grep -q "Specimen Sheet" _reference/app/dist/index.html
-          grep -q "YOUR NAME" _reference/app/dist/index.html
+          grep -q "Abdul Fazli" _reference/app/dist/index.html
+          grep -q "Northern Virginia Community College" _reference/app/dist/index.html
           grep -q 'data-theme="carbon"' _reference/app/dist/index.html
           grep -q 'future-ui.css?v=7' _reference/app/dist/index.html
           grep -q 'future-polish.css?v=7' _reference/app/dist/index.html
@@ -168,10 +205,12 @@ jobs:
           touch /tmp/permitted-specimen-site/.nojekyll
 
           cp scripts/prepare-permitted-specimen.py /tmp/prepare-permitted-specimen.py
+          cp scripts/personalize-abdul.py /tmp/personalize-abdul.py
           rm -rf _reference
           find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github -exec rm -rf {} +
           mkdir -p scripts
           cp /tmp/prepare-permitted-specimen.py scripts/prepare-permitted-specimen.py
+          cp /tmp/personalize-abdul.py scripts/personalize-abdul.py
           cp -a /tmp/permitted-specimen-site/. .
 
       - name: Commit the compiled cinematic site on top of latest main
@@ -189,5 +228,5 @@ jobs:
           tree_sha="$(git write-tree)"
           git fetch origin main
           parent_sha="$(git rev-parse origin/main)"
-          commit_sha="$(printf '%s\n' 'Launch recruiter-ready futuristic portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
+          commit_sha="$(printf '%s\n' 'Launch Abdul Fazli recruiter-ready data-center portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
           git push origin "$commit_sha:main"
