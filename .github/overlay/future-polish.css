@@ -1,0 +1,338 @@
+/* Recruiter-mode and performance polish layered over the permitted specimen. */
+.recruiter-toggle,
+.performance-control {
+  position: fixed;
+  z-index: 2100;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid rgba(172, 190, 231, .18);
+  background: rgba(7, 10, 16, .72);
+  color: rgba(236, 241, 252, .86);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 14px 50px rgba(0, 0, 0, .22);
+  font: 700 9px "JetBrains Mono", monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.recruiter-toggle { left: 18px; bottom: 18px; }
+.performance-control { right: 18px; bottom: 18px; }
+.recruiter-toggle:hover,
+.recruiter-toggle:focus-visible,
+.performance-control:hover,
+.performance-control:focus-visible,
+.recruiter-toggle[aria-pressed="true"],
+.performance-control[aria-pressed="true"] {
+  border-color: rgba(61, 230, 255, .72);
+  color: #fff;
+  box-shadow: 0 0 28px rgba(61, 230, 255, .12), 0 14px 50px rgba(0,0,0,.24);
+}
+.recruiter-toggle i,
+.performance-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #69f0ad;
+  box-shadow: 0 0 0 4px rgba(105,240,173,.08), 0 0 12px rgba(105,240,173,.75);
+}
+.recruiter-toggle[aria-pressed="true"] i { background: #3de6ff; box-shadow: 0 0 0 4px rgba(61,230,255,.08), 0 0 14px rgba(61,230,255,.85); }
+.performance-control[aria-pressed="true"] .performance-dot { background: #ffc85e; box-shadow: 0 0 0 4px rgba(255,200,94,.08), 0 0 14px rgba(255,200,94,.8); }
+.recruiter-toggle kbd,
+.performance-control kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  border: 1px solid rgba(205,217,246,.18);
+  color: rgba(224,232,250,.52);
+  font: 700 8px "JetBrains Mono", monospace;
+}
+
+.recruiter-dock {
+  position: fixed;
+  z-index: 2050;
+  left: 50%;
+  top: 82px;
+  width: min(1100px, calc(100vw - 36px));
+  display: grid;
+  grid-template-columns: minmax(230px, .75fr) minmax(400px, 1.5fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid rgba(174,193,237,.18);
+  background: rgba(7,10,16,.83);
+  color: #eef3ff;
+  -webkit-backdrop-filter: blur(20px) saturate(1.35);
+  backdrop-filter: blur(20px) saturate(1.35);
+  box-shadow: 0 24px 90px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.025);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -14px) scale(.985);
+  transition: opacity .28s ease, transform .38s cubic-bezier(.22,.61,.36,1);
+}
+body.recruiter-mode .recruiter-dock {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+}
+.recruiter-dock::before {
+  content: "";
+  position: absolute;
+  inset: -1px auto -1px -1px;
+  width: 2px;
+  background: linear-gradient(#3de6ff, #557cff, #a66cff);
+  box-shadow: 0 0 18px rgba(85,124,255,.65);
+}
+.recruiter-dock-copy { min-width: 0; }
+.recruiter-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: #66ecff;
+  font: 700 8px "JetBrains Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.recruiter-dock-copy strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.recruiter-dock-copy small {
+  display: block;
+  margin-top: 3px;
+  color: rgba(224,232,250,.52);
+  font-size: 10px;
+}
+.recruiter-path {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-left: 1px solid rgba(185,201,238,.12);
+}
+.recruiter-path button {
+  min-width: 0;
+  min-height: 46px;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr);
+  gap: 7px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 0;
+  border-right: 1px solid rgba(185,201,238,.12);
+  background: transparent;
+  color: rgba(228,235,250,.62);
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.recruiter-path button b {
+  color: rgba(105,134,255,.72);
+  font: 700 8px "JetBrains Mono", monospace;
+}
+.recruiter-path button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 600;
+}
+.recruiter-path button:hover,
+.recruiter-path button:focus-visible,
+.recruiter-path button.is-active {
+  background: linear-gradient(90deg, rgba(85,124,255,.12), rgba(61,230,255,.035));
+  color: #fff;
+  box-shadow: inset 0 -1px rgba(61,230,255,.45);
+}
+.recruiter-actions { display: flex; gap: 6px; }
+.recruiter-actions button {
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid rgba(179,197,239,.17);
+  background: rgba(255,255,255,.025);
+  color: rgba(232,238,250,.72);
+  font: 700 8px "JetBrains Mono", monospace;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.recruiter-actions button:hover,
+.recruiter-actions button:focus-visible { color: #fff; border-color: rgba(61,230,255,.58); }
+
+.polish-toast {
+  position: fixed;
+  z-index: 2600;
+  left: 50%;
+  bottom: 74px;
+  max-width: min(520px, calc(100vw - 32px));
+  padding: 10px 13px;
+  border: 1px solid rgba(61,230,255,.26);
+  background: rgba(6,9,14,.90);
+  color: #edf3ff;
+  box-shadow: 0 18px 70px rgba(0,0,0,.34), 0 0 26px rgba(61,230,255,.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  font: 700 9px "JetBrains Mono", monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.polish-toast.is-on { opacity: 1; transform: translate(-50%,0); }
+
+/* Recruiter mode shortens the cinematic detour and emphasizes scannable proof. */
+body.recruiter-mode {
+  --recruiter-accent: #67eaff;
+}
+body.recruiter-mode .future-site-progress,
+body.recruiter-mode .future-cursor-orb,
+body.recruiter-mode .scroll-toasts,
+body.recruiter-mode .idle-sequence,
+body.recruiter-mode .loupe-toggle,
+body.recruiter-mode .hero-hud,
+body.recruiter-mode .hero-3d-controls {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+body.recruiter-mode .hero-3d-canvas,
+body.recruiter-mode .bg-canvas {
+  filter: saturate(.68) brightness(.72) !important;
+  opacity: .38 !important;
+}
+body.recruiter-mode .hero {
+  min-height: 76svh;
+}
+body.recruiter-mode .wordmark {
+  transform: none !important;
+}
+body.recruiter-mode .section {
+  padding-top: clamp(62px, 7vw, 100px);
+  padding-bottom: clamp(62px, 7vw, 100px);
+}
+body.recruiter-mode .section::before { opacity: .38; }
+body.recruiter-mode #work > div[style*="height"] {
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+body.recruiter-mode #work .sc-sticky,
+body.recruiter-mode #work .showcase-loading,
+body.recruiter-mode #work .showcase-static {
+  display: none !important;
+}
+body.recruiter-mode .panel,
+body.recruiter-mode .idx-detail-inner,
+body.recruiter-mode .timeline-row,
+body.recruiter-mode .skill {
+  box-shadow: none !important;
+}
+body.recruiter-mode .section-head {
+  scroll-margin-top: 154px;
+}
+body.recruiter-mode section[id] { scroll-margin-top: 150px; }
+
+/* Manual power-save mode leaves content intact while cutting decorative GPU work. */
+body.power-save .future-cursor-orb,
+body.power-save .bg-canvas,
+body.power-save .hero-hud,
+body.power-save .paper-grain { display: none !important; }
+body.power-save *,
+body.performance-low * {
+  animation-duration: .001ms !important;
+  animation-iteration-count: 1 !important;
+}
+body.power-save .hero-3d-canvas,
+body.performance-low .hero-3d-canvas { filter: saturate(.82) contrast(1.02) !important; }
+body.power-save .sc-stage canvas,
+body.performance-low .sc-stage canvas { filter: saturate(.86) !important; }
+body.power-save .panel,
+body.performance-low .panel,
+body.power-save .recruiter-dock,
+body.performance-low .recruiter-dock {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Extra focus treatment for the project index. */
+body.project-focus .index-table tbody tr:not(.idx-detail) { opacity: .64; transition: opacity .18s ease; }
+body.project-focus .index-table tbody tr:not(.idx-detail):hover { opacity: 1; }
+.index-table tbody tr:not(.idx-detail) { position: relative; }
+.index-table tbody tr:not(.idx-detail):hover .idx-title {
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+html[data-theme="paper"] .recruiter-toggle,
+html[data-theme="paper"] .performance-control,
+html[data-theme="paper"] .recruiter-dock,
+html[data-theme="paper"] .polish-toast {
+  background: rgba(246,247,251,.88);
+  color: #111722;
+  border-color: rgba(36,65,126,.18);
+  box-shadow: 0 18px 70px rgba(46,55,77,.14);
+}
+html[data-theme="paper"] .recruiter-dock-copy small,
+html[data-theme="paper"] .recruiter-path button,
+html[data-theme="paper"] .recruiter-actions button { color: rgba(17,23,34,.58); }
+html[data-theme="paper"] .recruiter-path button:hover,
+html[data-theme="paper"] .recruiter-path button:focus-visible,
+html[data-theme="paper"] .recruiter-path button.is-active { color: #101722; }
+
+@media (max-width: 980px) {
+  .recruiter-dock {
+    top: 68px;
+    grid-template-columns: 1fr auto;
+  }
+  .recruiter-dock-copy { grid-column: 1 / -1; display: none; }
+  .recruiter-path { grid-template-columns: repeat(5, minmax(64px,1fr)); overflow-x: auto; }
+  .recruiter-actions button:first-child { display: none; }
+}
+
+@media (max-width: 760px) {
+  .recruiter-toggle,
+  .performance-control {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    min-height: 40px;
+  }
+  .recruiter-toggle { left: 12px; }
+  .performance-control { right: 12px; }
+  .recruiter-toggle kbd,
+  .performance-control kbd { display: none; }
+  .recruiter-dock {
+    top: auto;
+    left: 10px;
+    right: 10px;
+    bottom: calc(max(62px, env(safe-area-inset-bottom) + 52px));
+    width: auto;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 8px;
+    transform: translateY(14px) scale(.985);
+  }
+  body.recruiter-mode .recruiter-dock { transform: none; }
+  .recruiter-path {
+    grid-template-columns: repeat(5, minmax(76px,1fr));
+    overflow-x: auto;
+    border-left: 0;
+  }
+  .recruiter-path button { min-height: 42px; border: 1px solid rgba(185,201,238,.11); }
+  .recruiter-actions { display: none; }
+  .polish-toast { bottom: 68px; }
+  body.recruiter-mode section[id] { scroll-margin-top: 70px; }
+  body.recruiter-mode .hero { min-height: 68svh; }
+  body.device-constrained .future-site-progress { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recruiter-toggle,
+  .performance-control,
+  .recruiter-dock,
+  .polish-toast,
+  .recruiter-path button { transition: none !important; }
+}
