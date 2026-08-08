@@ -19,7 +19,7 @@
     }
     const script = document.createElement('script');
     script.src = src;
-    script.async = true;
+    script.async = false;
     script.setAttribute(marker, '');
     if (onload) script.addEventListener('load', onload, { once: true });
     document.body.appendChild(script);
