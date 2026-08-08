@@ -10,6 +10,8 @@ on:
       - ".github/overlay/focus-3d.css"
       - ".github/overlay/focus-worlds.css"
       - ".github/overlay/focus-effects.js"
+      - ".github/overlay/focus-chrome.css"
+      - ".github/overlay/focus-chrome.js"
       - ".github/overlay/future-loader-v8.js"
       - ".github/workflows/apply-focus-themes.yml"
       - "index.html"
@@ -51,9 +53,12 @@ jobs:
           cp .github/overlay/focus-3d.css focus-3d.css
           cp .github/overlay/focus-worlds.css focus-worlds.css
           cp .github/overlay/focus-effects.js focus-effects.js
+          cp .github/overlay/focus-chrome.css focus-chrome.css
+          cp .github/overlay/focus-chrome.js focus-chrome.js
           cp .github/overlay/future-loader-v8.js future-loader.js
           node --check focus-themes.js
           node --check focus-effects.js
+          node --check focus-chrome.js
           node --check future-loader.js
 
       - name: Validate focus identity release
@@ -65,6 +70,8 @@ jobs:
           test -s focus-3d.css
           test -s focus-worlds.css
           test -s focus-effects.js
+          test -s focus-chrome.css
+          test -s focus-chrome.js
           test -s future-loader.js
           grep -q 'Google Focus' focus-themes.js
           grep -q 'Amazon Focus' focus-themes.js
@@ -73,9 +80,14 @@ jobs:
           grep -q 'google-float-card' focus-worlds.css
           grep -q 'amazon-rack-tower' focus-worlds.css
           grep -q 'ms-floating-window' focus-worlds.css
+          grep -q 'google-search-shell' focus-chrome.css
+          grep -q 'amazon-console-shell' focus-chrome.css
+          grep -q 'ms-command-shell' focus-chrome.css
           grep -q '/focus-themes.css?v=9' future-loader.js
           grep -q '/focus-worlds.css?v=9' future-loader.js
           grep -q '/focus-effects.js?v=9' future-loader.js
+          grep -q '/focus-chrome.css?v=9' future-loader.js
+          grep -q '/focus-chrome.js?v=9' future-loader.js
 
       - name: Commit focus identity layer
         shell: bash
@@ -83,7 +95,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js future-loader.js
+          git add focus-themes.css focus-themes.js focus-3d.css focus-worlds.css focus-effects.js focus-chrome.css focus-chrome.js future-loader.js
           if git diff --cached --quiet; then
             echo "Focus identity layer is already current."
             exit 0
