@@ -1,0 +1,67 @@
+/* v9 mode-specific chrome. Visual inspiration only; no company affiliation. */
+.focus-mode-chrome { position:fixed; inset:0; z-index:1800; pointer-events:none; font-family:"Space Grotesk",sans-serif; }
+.focus-mode-chrome[data-chrome="original"] { display:none; }
+
+/* GOOGLE — airy search/product chrome */
+.google-search-shell {
+  position:absolute; top:82px; left:50%; transform:translateX(-50%);
+  width:min(760px,calc(100vw - 36px)); min-height:54px; display:flex; align-items:center; gap:12px;
+  padding:11px 16px; border:1px solid rgba(66,133,244,.16); border-radius:999px;
+  background:color-mix(in srgb,var(--paper) 82%,transparent); box-shadow:0 18px 54px rgba(34,72,130,.10);
+  backdrop-filter:blur(22px) saturate(1.3); color:var(--ink-2); overflow:hidden;
+  animation:googleSearchEnter .55s cubic-bezier(.2,1.25,.4,1);
+}
+.google-search-symbol { font-size:22px; line-height:1; color:#4285f4; transform:rotate(-12deg); }
+.google-search-shell strong { font-size:12px; font-weight:600; letter-spacing:-.01em; white-space:nowrap; }
+.google-search-cursor { width:1px; height:18px; background:#4285f4; animation:googleCaret 1s steps(1) infinite; }
+.google-search-chips { margin-left:auto; display:flex; gap:5px; }
+.google-search-chips i { padding:5px 8px; border-radius:999px; background:rgba(66,133,244,.08); color:var(--ink-3); font:700 7px "JetBrains Mono",monospace; font-style:normal; letter-spacing:.06em; text-transform:uppercase; }
+.google-search-chips i:nth-child(2){background:rgba(234,67,53,.07)}.google-search-chips i:nth-child(3){background:rgba(251,188,5,.08)}.google-search-chips i:nth-child(4){background:rgba(52,168,83,.08)}
+.google-lab-status { position:absolute; top:151px; left:50%; transform:translateX(-50%); display:flex; gap:7px; align-items:center; color:var(--ink-3); font:700 7px "JetBrains Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+.google-lab-status b { color:#4285f4; }.google-lab-status span { padding:4px 8px;border:1px solid rgba(66,133,244,.10);border-radius:999px; }
+@keyframes googleSearchEnter { from{opacity:0;transform:translate(-50%,-14px) scale(.94)} to{opacity:1;transform:translate(-50%,0) scale(1)} }
+@keyframes googleCaret { 0%,45%{opacity:1} 46%,100%{opacity:0} }
+
+/* AWS / AMAZON — dense operational console chrome */
+.amazon-console-shell { position:absolute; top:64px; left:18px; right:18px; height:48px; display:grid; grid-template-columns:1fr auto; align-items:center; border:1px solid rgba(255,153,0,.17); background:rgba(5,10,17,.88); box-shadow:0 18px 54px rgba(0,0,0,.24); backdrop-filter:blur(16px); animation:amazonConsoleEnter .35s ease-out; }
+.amazon-console-shell::before { content:""; position:absolute; inset:-1px auto -1px -1px; width:3px; background:#ff9900; box-shadow:0 0 14px rgba(255,153,0,.42); }
+.amazon-console-id { min-width:0; padding:7px 13px 7px 15px; }
+.amazon-console-id b { display:block; color:#ffb84d; font:700 8px "JetBrains Mono",monospace; letter-spacing:.12em; }
+.amazon-console-id span { display:block; margin-top:3px; color:rgba(220,229,241,.42); font:600 7px "JetBrains Mono",monospace; }
+.amazon-console-states { display:flex; align-self:stretch; }
+.amazon-console-states span { min-width:88px; display:flex; align-items:center; justify-content:center; gap:6px; padding:0 9px; border-left:1px solid rgba(255,255,255,.06); color:rgba(231,237,246,.55); font:700 7px "JetBrains Mono",monospace; }
+.amazon-console-states i,.amazon-health-rail i { width:6px;height:6px;border-radius:50%;background:#58c77b;box-shadow:0 0 10px rgba(88,199,123,.72);animation:amazonStatus 2.2s ease-in-out infinite; }
+.amazon-health-rail { position:absolute; right:18px; top:130px; width:176px; display:grid; border:1px solid rgba(255,153,0,.14); background:rgba(6,11,18,.72); box-shadow:0 20px 60px rgba(0,0,0,.22); backdrop-filter:blur(14px); font-family:"JetBrains Mono",monospace; animation:amazonRailEnter .45s ease-out; }
+.amazon-health-rail > div { display:flex;justify-content:space-between;padding:9px 10px;border-bottom:1px solid rgba(255,153,0,.11); }
+.amazon-health-rail > div b { color:#ffb84d;font-size:7px;letter-spacing:.10em; }.amazon-health-rail > div em{color:#58c77b;font-size:7px;font-style:normal;}
+.amazon-health-rail > span { display:grid;grid-template-columns:10px 36px 1fr;gap:6px;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.045); }
+.amazon-health-rail > span b { color:rgba(236,241,248,.65);font-size:7px; }.amazon-health-rail small{color:rgba(220,229,241,.34);font-size:7px;text-align:right;}
+@keyframes amazonConsoleEnter { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:none} }
+@keyframes amazonRailEnter { from{opacity:0;transform:translateX(16px)} to{opacity:1;transform:none} }
+@keyframes amazonStatus { 0%,100%{opacity:.45;transform:scale(.82)} 50%{opacity:1;transform:scale(1)} }
+
+/* MICROSOFT — layered command/workspace chrome */
+.ms-command-shell { position:absolute; top:72px; left:50%; transform:translateX(-50%); width:min(980px,calc(100vw - 34px)); min-height:50px; display:grid; grid-template-columns:auto minmax(0,1fr) auto auto; gap:12px; align-items:center; padding:8px 11px; border:1px solid rgba(0,120,212,.17); border-radius:8px; background:rgba(8,18,30,.74); box-shadow:0 20px 70px rgba(0,86,160,.10); backdrop-filter:blur(24px) saturate(1.25); animation:msCommandEnter .5s cubic-bezier(.22,.8,.22,1); }
+.ms-app-mark { display:grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;padding:4px; }
+.ms-app-mark i:nth-child(1){background:#f25022}.ms-app-mark i:nth-child(2){background:#7fba00}.ms-app-mark i:nth-child(3){background:#00a4ef}.ms-app-mark i:nth-child(4){background:#ffb900}
+.ms-breadcrumb { display:flex;align-items:center;gap:7px;min-width:0;color:rgba(219,233,248,.48);font-size:9px;white-space:nowrap;overflow:hidden; }
+.ms-breadcrumb strong{color:rgba(238,246,255,.78);font-weight:600}.ms-breadcrumb b{color:rgba(0,188,242,.52);font-weight:400}
+.ms-command-actions { display:flex;gap:4px; }.ms-command-actions i{min-width:38px;padding:5px 7px;border:1px solid rgba(0,188,242,.09);border-radius:4px;background:rgba(0,120,212,.05);color:rgba(221,236,250,.44);font:700 7px "JetBrains Mono",monospace;font-style:normal;text-align:center; }
+.ms-command-shell em { display:flex;align-items:center;gap:6px;color:rgba(214,235,220,.58);font:600 8px "Segoe UI",sans-serif;font-style:normal; }.ms-command-shell u{width:7px;height:7px;border-radius:50%;background:#107c10;box-shadow:0 0 10px rgba(16,124,16,.65);text-decoration:none;}
+.ms-workspace-title { position:absolute; top:134px; left:50%; transform:translateX(-50%); width:min(980px,calc(100vw - 34px)); display:flex;justify-content:space-between;align-items:center;color:rgba(214,229,244,.38); }
+.ms-workspace-title span{font:700 7px "JetBrains Mono",monospace;letter-spacing:.12em;color:#00bcf2}.ms-workspace-title b{font-size:9px;font-weight:500;}
+@keyframes msCommandEnter { from{opacity:0;transform:translate(-50%,-10px) scale(.98)} to{opacity:1;transform:translate(-50%,0) scale(1)} }
+
+/* Different information density per mode. */
+html[data-focus="google"] .section { padding-top:clamp(92px,10vw,150px); padding-bottom:clamp(92px,10vw,150px); }
+html[data-focus="google"] .section-inner { max-width:1180px; }
+html[data-focus="amazon"] .section { padding-top:clamp(58px,6vw,88px); padding-bottom:clamp(58px,6vw,88px); }
+html[data-focus="amazon"] .section-inner { max-width:1320px; }
+html[data-focus="amazon"] .index-table th,html[data-focus="amazon"] .index-table td { padding-top:8px!important;padding-bottom:8px!important; }
+html[data-focus="amazon"] .panel { padding-top:18px!important;padding-bottom:18px!important; }
+html[data-focus="microsoft"] .section { padding-top:clamp(72px,7.5vw,112px);padding-bottom:clamp(72px,7.5vw,112px); }
+html[data-focus="microsoft"] .section-inner { max-width:1240px; }
+
+@media (max-width:900px){.google-search-chips,.amazon-console-states span:nth-child(n+3),.amazon-health-rail,.ms-command-actions{display:none}.amazon-console-shell{grid-template-columns:1fr auto}.ms-command-shell{grid-template-columns:auto 1fr auto}.google-search-shell{top:68px}.amazon-console-shell{top:58px}.ms-command-shell{top:62px}.google-lab-status,.ms-workspace-title{display:none}}
+@media (max-width:620px){.google-search-shell{width:calc(100vw - 20px);min-height:46px;padding:8px 12px}.google-search-shell strong{font-size:10px}.amazon-console-shell{left:8px;right:8px}.amazon-console-states{display:none}.ms-command-shell{width:calc(100vw - 18px)}.ms-command-shell em{display:none}.ms-breadcrumb span:first-child,.ms-breadcrumb b:first-of-type{display:none}}
+@media (prefers-reduced-motion:reduce){.google-search-shell,.amazon-console-shell,.amazon-health-rail,.ms-command-shell,.amazon-console-states i,.amazon-health-rail i,.google-search-cursor{animation:none!important}}
