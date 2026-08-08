@@ -18,6 +18,8 @@ on:
       - ".github/overlay/focus-functional.js"
       - ".github/overlay/focus-signatures.css"
       - ".github/overlay/focus-signatures.js"
+      - ".github/overlay/focus-scroll.css"
+      - ".github/overlay/focus-scroll.js"
       - ".github/overlay/future-loader-v8.js"
       - ".github/signature-projects/**"
       - ".github/workflows/apply-focus-themes.yml"
@@ -67,6 +69,8 @@ jobs:
           cp .github/overlay/focus-functional.js focus-functional.js
           cp .github/overlay/focus-signatures.css focus-signatures.css
           cp .github/overlay/focus-signatures.js focus-signatures.js
+          cp .github/overlay/focus-scroll.css focus-scroll.css
+          cp .github/overlay/focus-scroll.js focus-scroll.js
           cp .github/overlay/future-loader-v8.js future-loader.js
 
           python - <<'PY'
@@ -88,6 +92,7 @@ jobs:
           node --check focus-active-effects.js
           node --check focus-functional.js
           node --check focus-signatures.js
+          node --check focus-scroll.js
           node --check future-loader.js
 
       - name: Validate focus release
@@ -101,7 +106,7 @@ jobs:
             focus-performance.css focus-performance.js \
             focus-active-effects.css focus-active-effects.js \
             focus-functional.js focus-signatures.css focus-signatures.js \
-            future-loader.js; do
+            focus-scroll.css focus-scroll.js future-loader.js; do
             test -s "$f"
           done
 
@@ -111,12 +116,15 @@ jobs:
           grep -q 'focus-mode-google' focus-performance.css
           grep -q 'focus-mode-amazon' focus-performance.css
           grep -q 'focus-mode-microsoft' focus-performance.css
+          grep -q 'focus-native-scroll' focus-scroll.css
+          grep -q '__AF_FOCUS_NATIVE_SCROLL__' focus-scroll.js
           grep -q 'amazon-focus-shell' focus-amazon.css
           grep -q 'data-amazon-search' focus-amazon.js
           grep -q 'GKE SRE Observability Lab' focus-signatures.js
           grep -q 'Private EC2 Ops with Systems Manager' focus-signatures.js
           grep -q 'Azure Arc Hybrid Server Operations' focus-signatures.js
           grep -q '/focus-active-effects.js?build=focus-active' future-loader.js
+          grep -q '/focus-scroll.js?build=focus-active' future-loader.js
           grep -q 'future-loader.js?build=focus' index.html
 
       - name: Commit focus architecture
@@ -132,10 +140,11 @@ jobs:
             focus-performance.css focus-performance.js \
             focus-active-effects.css focus-active-effects.js \
             focus-functional.js focus-signatures.css focus-signatures.js \
+            focus-scroll.css focus-scroll.js \
             future-loader.js index.html 404.html
           if git diff --cached --quiet; then
             echo "Focus architecture is already current."
             exit 0
           fi
-          git commit -m "Restore single-active portfolio focus architecture"
+          git commit -m "Restore native-scrolling portfolio focus architecture"
           git push origin HEAD:main
