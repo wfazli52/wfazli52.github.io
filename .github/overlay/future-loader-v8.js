@@ -32,6 +32,7 @@
     ensureStylesheet('/focus-performance.css?build=focus-active', 'data-focus-performance-css');
     ensureStylesheet('/focus-active-effects.css?build=focus-active', 'data-focus-active-effects-css');
     ensureStylesheet('/focus-signatures.css?build=focus-active', 'data-focus-signatures-css');
+    ensureStylesheet('/focus-scroll.css?build=focus-active', 'data-focus-scroll-css');
 
     loadScript('/focus-themes.js?build=focus-active', 'data-focus-themes');
     loadScript('/focus-v60.js?build=focus-active', 'data-focus-app');
@@ -40,6 +41,7 @@
     loadScript('/focus-functional.js?build=focus-active', 'data-focus-functional');
     loadScript('/focus-amazon.js?build=focus-active', 'data-focus-amazon');
     loadScript('/focus-signatures.js?build=focus-active', 'data-focus-signatures');
+    loadScript('/focus-scroll.js?build=focus-active', 'data-focus-scroll');
   };
 
   const loadQuality = () => {
