@@ -1,14 +1,24 @@
 /* v9 detail pass: structural differences, states, light-mode parity. */
+
+/* Shared switch choreography stays subtle; each mode supplies its own motion language. */
 html[data-focus="google"] ::selection { background:rgba(66,133,244,.28); color:var(--ink); }
 html[data-focus="amazon"] ::selection { background:rgba(255,153,0,.30); color:#fff; }
 html[data-focus="microsoft"] ::selection { background:rgba(0,120,212,.32); color:#fff; }
-html[data-focus="google"] .panel,html[data-focus="google"] .timeline-row,html[data-focus="google"] .skill { overflow:hidden; }
-html[data-focus="google"] .panel:nth-of-type(3n+1),html[data-focus="google"] .timeline-row:nth-of-type(3n+1) { border-radius:32px 14px 32px 14px!important; }
-html[data-focus="google"] .panel:nth-of-type(3n+2),html[data-focus="google"] .timeline-row:nth-of-type(3n+2) { border-radius:14px 32px 14px 32px!important; }
+
+/* GOOGLE / Material-inspired: contrasting and morphing shapes, airy spacing. */
+html[data-focus="google"] .panel,
+html[data-focus="google"] .timeline-row,
+html[data-focus="google"] .skill { overflow:hidden; }
+html[data-focus="google"] .panel:nth-of-type(3n+1),
+html[data-focus="google"] .timeline-row:nth-of-type(3n+1) { border-radius:32px 14px 32px 14px!important; }
+html[data-focus="google"] .panel:nth-of-type(3n+2),
+html[data-focus="google"] .timeline-row:nth-of-type(3n+2) { border-radius:14px 32px 14px 32px!important; }
 html[data-focus="google"] .panel:nth-of-type(3n+1):hover { border-radius:14px 32px 14px 32px!important; }
 html[data-focus="google"] .panel:nth-of-type(3n+2):hover { border-radius:32px 14px 32px 14px!important; }
-html[data-focus="google"] .panel,html[data-focus="google"] .timeline-row { transition:border-radius .55s cubic-bezier(.2,1.35,.4,1),transform .45s cubic-bezier(.2,1.35,.4,1),box-shadow .3s ease!important; }
-html[data-focus="google"] button:not(.focus-theme-trigger):not(.focus-theme-close),html[data-focus="google"] .idx-link { border-radius:999px!important; }
+html[data-focus="google"] .panel,
+html[data-focus="google"] .timeline-row { transition:border-radius .55s cubic-bezier(.2,1.35,.4,1),transform .45s cubic-bezier(.2,1.35,.4,1),box-shadow .3s ease!important; }
+html[data-focus="google"] button:not(.focus-theme-trigger):not(.focus-theme-close),
+html[data-focus="google"] .idx-link { border-radius:999px!important; }
 html[data-focus="google"] .section::before { opacity:.15!important; background:radial-gradient(circle at 50% 50%,rgba(66,133,244,.11),transparent 60%)!important; }
 html[data-focus="google"] .sec-title { letter-spacing:-.055em; }
 html[data-focus="google"] .panel-meta:nth-child(4n+1),html[data-focus="google"] .tag:nth-child(4n+1){color:#4285f4!important}
@@ -16,31 +26,64 @@ html[data-focus="google"] .panel-meta:nth-child(4n+2),html[data-focus="google"] 
 html[data-focus="google"] .panel-meta:nth-child(4n+3),html[data-focus="google"] .tag:nth-child(4n+3){color:#fbbc05!important}
 html[data-focus="google"] .panel-meta:nth-child(4n),html[data-focus="google"] .tag:nth-child(4n){color:#34a853!important}
 html[data-focus="google"]::-webkit-scrollbar-thumb { background:linear-gradient(#4285f4,#ea4335,#fbbc05,#34a853); border-radius:99px; }
-html[data-focus="amazon"] .panel,html[data-focus="amazon"] .timeline-row,html[data-focus="amazon"] .skill,html[data-focus="amazon"] .idx-detail-inner { position:relative; overflow:hidden; }
+
+/* AMAZON / Cloud-operations inspired: compact, explicit state, hard geometry. */
+html[data-focus="amazon"] .panel,
+html[data-focus="amazon"] .timeline-row,
+html[data-focus="amazon"] .skill,
+html[data-focus="amazon"] .idx-detail-inner { position:relative; overflow:hidden; }
 html[data-focus="amazon"] .section { border-left:1px solid rgba(255,153,0,.10); border-right:1px solid rgba(0,168,225,.06); }
 html[data-focus="amazon"] .section:nth-of-type(odd) { background:linear-gradient(90deg,rgba(255,153,0,.018),transparent 24%,transparent 78%,rgba(0,168,225,.014)); }
-html[data-focus="amazon"] .panel::before,html[data-focus="amazon"] .timeline-row::before { content:"STATUS  ●  NOMINAL"; position:absolute; right:8px; top:7px; color:rgba(88,199,123,.46); font:700 6px "JetBrains Mono",monospace; letter-spacing:.08em; }
-html[data-focus="amazon"] .panel:hover::before,html[data-focus="amazon"] .timeline-row:hover::before { color:#58c77b; text-shadow:0 0 10px rgba(88,199,123,.48); }
-html[data-focus="amazon"] button,html[data-focus="amazon"] .idx-link { border-radius:1px!important; text-transform:uppercase; letter-spacing:.08em; }
+html[data-focus="amazon"] .panel::before,
+html[data-focus="amazon"] .timeline-row::before { content:"STATUS  ●  NOMINAL"; position:absolute; right:8px; top:7px; color:rgba(88,199,123,.46); font:700 6px "JetBrains Mono",monospace; letter-spacing:.08em; }
+html[data-focus="amazon"] .panel:hover::before,
+html[data-focus="amazon"] .timeline-row:hover::before { color:#58c77b; text-shadow:0 0 10px rgba(88,199,123,.48); }
+html[data-focus="amazon"] button,
+html[data-focus="amazon"] .idx-link { border-radius:1px!important; text-transform:uppercase; letter-spacing:.08em; }
 html[data-focus="amazon"] .section-head,.amazon-console-shell { font-family:"JetBrains Mono",monospace; }
 html[data-focus="amazon"] .idx-title { font-weight:600; }
 html[data-focus="amazon"] .idx-tags,.amazon-console-states { font-size:.88em; }
 html[data-focus="amazon"]::-webkit-scrollbar-thumb { background:linear-gradient(#ff9900 0 68%,#00a8e1 68%); }
-html[data-focus="microsoft"] .panel,html[data-focus="microsoft"] .timeline-row,html[data-focus="microsoft"] .skill,html[data-focus="microsoft"] .idx-detail-inner { position:relative; transform-style:preserve-3d; backdrop-filter:blur(10px) saturate(1.12); }
-html[data-focus="microsoft"] .panel::before,html[data-focus="microsoft"] .timeline-row::before { content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit; background:linear-gradient(135deg,rgba(255,255,255,.035),transparent 30%,rgba(0,188,242,.018)); opacity:.65; }
+
+/* MICROSOFT / Fluent-inspired: layered panes, elevation, window-like states. */
+html[data-focus="microsoft"] .panel,
+html[data-focus="microsoft"] .timeline-row,
+html[data-focus="microsoft"] .skill,
+html[data-focus="microsoft"] .idx-detail-inner { position:relative; transform-style:preserve-3d; backdrop-filter:blur(10px) saturate(1.12); }
+html[data-focus="microsoft"] .panel::before,
+html[data-focus="microsoft"] .timeline-row::before { content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit; background:linear-gradient(135deg,rgba(255,255,255,.035),transparent 30%,rgba(0,188,242,.018)); opacity:.65; }
 html[data-focus="microsoft"] .panel:hover { transform:translateY(-5px) translateZ(8px) rotateX(.35deg)!important; }
-html[data-focus="microsoft"] button,html[data-focus="microsoft"] .idx-link { border-radius:5px!important; }
+html[data-focus="microsoft"] button,
+html[data-focus="microsoft"] .idx-link { border-radius:5px!important; }
 html[data-focus="microsoft"] .section:nth-of-type(3n+1) .section-inner { transform:translateX(-6px); }
 html[data-focus="microsoft"] .section:nth-of-type(3n+2) .section-inner { transform:translateX(6px); }
 html[data-focus="microsoft"] .section-inner { transition:transform .45s ease; }
 html[data-focus="microsoft"] .sec-num { padding:3px 7px; border:1px solid rgba(0,188,242,.12); border-radius:4px; background:rgba(0,120,212,.055); }
 html[data-focus="microsoft"]::-webkit-scrollbar-thumb { background:linear-gradient(#0078d4,#00bcf2); border-radius:4px; }
-html[data-theme="paper"][data-focus="amazon"] .panel,html[data-theme="paper"][data-focus="amazon"] .timeline-row,html[data-theme="paper"][data-focus="amazon"] .skill,html[data-theme="paper"][data-focus="amazon"] .idx-detail-inner { background:linear-gradient(180deg,rgba(255,251,244,.96),rgba(249,244,235,.91))!important; color:#1c2530; box-shadow:inset 3px 0 rgba(255,153,0,.18),0 16px 50px rgba(74,57,33,.08)!important; }
-html[data-theme="paper"][data-focus="amazon"] .amazon-console-shell,html[data-theme="paper"][data-focus="amazon"] .amazon-health-rail { background:rgba(255,250,242,.90); color:#242b34; box-shadow:0 18px 54px rgba(82,61,28,.10); }
-html[data-theme="paper"][data-focus="amazon"] .amazon-console-id span,html[data-theme="paper"][data-focus="amazon"] .amazon-console-states span,html[data-theme="paper"][data-focus="amazon"] .amazon-health-rail small { color:rgba(30,39,50,.52); }
-html[data-theme="paper"][data-focus="microsoft"] .panel,html[data-theme="paper"][data-focus="microsoft"] .timeline-row,html[data-theme="paper"][data-focus="microsoft"] .skill,html[data-theme="paper"][data-focus="microsoft"] .idx-detail-inner { background:linear-gradient(145deg,rgba(251,253,255,.95),rgba(238,247,253,.90))!important; color:#182532; box-shadow:0 16px 54px rgba(0,75,140,.08),inset 0 1px rgba(255,255,255,.88)!important; }
+
+/* Light versions remain genuinely usable rather than becoming dark islands. */
+html[data-theme="paper"][data-focus="amazon"] .panel,
+html[data-theme="paper"][data-focus="amazon"] .timeline-row,
+html[data-theme="paper"][data-focus="amazon"] .skill,
+html[data-theme="paper"][data-focus="amazon"] .idx-detail-inner { background:linear-gradient(180deg,rgba(255,251,244,.96),rgba(249,244,235,.91))!important; color:#1c2530; box-shadow:inset 3px 0 rgba(255,153,0,.18),0 16px 50px rgba(74,57,33,.08)!important; }
+html[data-theme="paper"][data-focus="amazon"] .amazon-console-shell,
+html[data-theme="paper"][data-focus="amazon"] .amazon-health-rail { background:rgba(255,250,242,.90); color:#242b34; box-shadow:0 18px 54px rgba(82,61,28,.10); }
+html[data-theme="paper"][data-focus="amazon"] .amazon-console-id span,
+html[data-theme="paper"][data-focus="amazon"] .amazon-console-states span,
+html[data-theme="paper"][data-focus="amazon"] .amazon-health-rail small { color:rgba(30,39,50,.52); }
+html[data-theme="paper"][data-focus="microsoft"] .panel,
+html[data-theme="paper"][data-focus="microsoft"] .timeline-row,
+html[data-theme="paper"][data-focus="microsoft"] .skill,
+html[data-theme="paper"][data-focus="microsoft"] .idx-detail-inner { background:linear-gradient(145deg,rgba(251,253,255,.95),rgba(238,247,253,.90))!important; color:#182532; box-shadow:0 16px 54px rgba(0,75,140,.08),inset 0 1px rgba(255,255,255,.88)!important; }
 html[data-theme="paper"][data-focus="microsoft"] .ms-command-shell { background:rgba(248,252,255,.91); color:#172433; }
 html[data-theme="paper"][data-focus="microsoft"] .ms-breadcrumb { color:rgba(24,37,50,.55); }
 html[data-theme="paper"][data-focus="microsoft"] .ms-breadcrumb strong { color:#182532; }
-@media (max-width:760px){html[data-focus="google"] .panel:nth-of-type(n),html[data-focus="google"] .timeline-row:nth-of-type(n){border-radius:18px!important}html[data-focus="amazon"] .section{border-left:0;border-right:0}html[data-focus="microsoft"] .section:nth-of-type(n) .section-inner{transform:none}}
-@media (prefers-reduced-motion:reduce){html[data-focus] .panel,html[data-focus] .timeline-row,html[data-focus] .skill,html[data-focus] .section-inner{transition:none!important;transform:none!important}}
+
+@media (max-width:760px){
+  html[data-focus="google"] .panel:nth-of-type(n),html[data-focus="google"] .timeline-row:nth-of-type(n){border-radius:18px!important}
+  html[data-focus="amazon"] .section{border-left:0;border-right:0}
+  html[data-focus="microsoft"] .section:nth-of-type(n) .section-inner{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html[data-focus] .panel,html[data-focus] .timeline-row,html[data-focus] .skill,html[data-focus] .section-inner{transition:none!important;transform:none!important}
+}
