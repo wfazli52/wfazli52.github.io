@@ -67,7 +67,7 @@ jobs:
           REFERENCE_APP: _reference/app
         run: python scripts/add-network-engineering-plan.py
 
-      - name: Add the futuristic hero and interaction layers
+      - name: Add futuristic hero and v9 focus worlds
         shell: bash
         run: |
           set -euo pipefail
@@ -77,6 +77,16 @@ jobs:
           cp .github/overlay/future-polish.css _reference/app/public/future-polish.css
           cp .github/overlay/future-polish.js _reference/app/public/future-polish.js
           cp .github/overlay/future-quality.js _reference/app/public/future-quality.js
+
+          cp .github/overlay/focus-themes.css _reference/app/public/focus-themes.css
+          cp .github/overlay/focus-themes.js _reference/app/public/focus-themes.js
+          cp .github/overlay/focus-3d.css _reference/app/public/focus-3d.css
+          cp .github/overlay/focus-worlds.css _reference/app/public/focus-worlds.css
+          cp .github/overlay/focus-effects.js _reference/app/public/focus-effects.js
+          cp .github/overlay/focus-chrome.css _reference/app/public/focus-chrome.css
+          cp .github/overlay/focus-chrome.js _reference/app/public/focus-chrome.js
+          cp .github/overlay/focus-refine.css _reference/app/public/focus-refine.css
+          cp .github/overlay/future-loader-v8.js _reference/app/public/future-loader.js
 
           python - <<'PY'
           from pathlib import Path
@@ -93,58 +103,16 @@ jobs:
           node --check _reference/app/public/hero-3d.js
           node --check _reference/app/public/future-polish.js
           node --check _reference/app/public/future-quality.js
-
-          cat > _reference/app/public/future-loader.js <<'JS'
-          (() => {
-            'use strict';
-            let attempts = 0;
-            const loadQuality = () => {
-              if (document.querySelector('script[data-future-quality]')) return;
-              const quality = document.createElement('script');
-              quality.src = '/future-quality.js?v=7';
-              quality.defer = true;
-              quality.dataset.futureQuality = '';
-              document.body.appendChild(quality);
-            };
-            const loadPolish = () => {
-              if (document.querySelector('script[data-future-polish]')) {
-                loadQuality();
-                return;
-              }
-              const polish = document.createElement('script');
-              polish.src = '/future-polish.js?v=7';
-              polish.defer = true;
-              polish.dataset.futurePolish = '';
-              polish.addEventListener('load', loadQuality, { once: true });
-              document.body.appendChild(polish);
-            };
-            const load = () => {
-              attempts += 1;
-              if (document.querySelector('.hero')) {
-                if (document.querySelector('script[data-future-ui]')) {
-                  loadPolish();
-                  return;
-                }
-                const script = document.createElement('script');
-                script.src = '/future-ui.js?v=7';
-                script.defer = true;
-                script.dataset.futureUi = '';
-                script.addEventListener('load', loadPolish, { once: true });
-                document.body.appendChild(script);
-                return;
-              }
-              if (attempts < 600) requestAnimationFrame(load);
-            };
-            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load, { once: true });
-            else load();
-          })();
-          JS
+          node --check _reference/app/public/focus-themes.js
+          node --check _reference/app/public/focus-effects.js
+          node --check _reference/app/public/focus-chrome.js
+          node --check _reference/app/public/future-loader.js
 
           python - <<'PY'
           from pathlib import Path
           path = Path('_reference/app/index.html')
           text = path.read_text(encoding='utf-8')
-          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=7" />\n  <link rel="stylesheet" href="/future-polish.css?v=7" />\n  <script defer src="/future-loader.js?v=7"></script>\n</head>')
+          text = text.replace('</head>', '  <link rel="stylesheet" href="/future-ui.css?v=7" />\n  <link rel="stylesheet" href="/future-polish.css?v=7" />\n  <script defer src="/future-loader.js?v=9"></script>\n</head>')
           path.write_text(text, encoding='utf-8')
           PY
 
@@ -193,6 +161,14 @@ jobs:
           test -s _reference/app/dist/future-polish.js
           test -s _reference/app/dist/future-quality.js
           test -s _reference/app/dist/future-loader.js
+          test -s _reference/app/dist/focus-themes.css
+          test -s _reference/app/dist/focus-themes.js
+          test -s _reference/app/dist/focus-3d.css
+          test -s _reference/app/dist/focus-worlds.css
+          test -s _reference/app/dist/focus-effects.js
+          test -s _reference/app/dist/focus-chrome.css
+          test -s _reference/app/dist/focus-chrome.js
+          test -s _reference/app/dist/focus-refine.css
           test -s _reference/app/dist/labs/netbox-dcim.html
           test -s _reference/app/dist/labs/ipmi-telemetry.html
           test -s _reference/app/dist/labs/storage-health.html
@@ -207,8 +183,14 @@ jobs:
           grep -R -I -q "CompTIA Cloud+" _reference/app/dist
           grep -R -I -q "NetBox DCIM & IPAM Source of Truth" _reference/app/dist
           grep -q 'data-theme="carbon"' _reference/app/dist/index.html
-          grep -q 'future-ui.css?v=7' _reference/app/dist/index.html
-          grep -q 'future-polish.css?v=7' _reference/app/dist/index.html
+          grep -q 'future-loader.js?v=9' _reference/app/dist/index.html
+          grep -q '/focus-worlds.css?v=9' _reference/app/dist/future-loader.js
+          grep -q '/focus-effects.js?v=9' _reference/app/dist/future-loader.js
+          grep -q '/focus-chrome.css?v=9' _reference/app/dist/future-loader.js
+          grep -q '/focus-refine.css?v=9' _reference/app/dist/future-loader.js
+          grep -q 'Google Focus' _reference/app/dist/focus-themes.js
+          grep -q 'amazon-rack-tower' _reference/app/dist/focus-worlds.css
+          grep -q 'ms-command-shell' _reference/app/dist/focus-chrome.css
           ! grep -R -I -n -E "contact@imranwafa\.com|703.?364.?9357|Petromax LLC|Instawire LLC|Mgtwell LLC" _reference/app/dist
 
       - name: Replace the live GitHub Pages site
@@ -232,7 +214,7 @@ jobs:
           cp /tmp/add-network-engineering-plan.py scripts/add-network-engineering-plan.py
           cp -a /tmp/permitted-specimen-site/. .
 
-      - name: Commit the compiled cinematic site on top of latest main
+      - name: Commit compiled v9 portfolio on top of latest main
         shell: bash
         run: |
           set -euo pipefail
@@ -247,5 +229,5 @@ jobs:
           tree_sha="$(git write-tree)"
           git fetch origin main
           parent_sha="$(git rev-parse origin/main)"
-          commit_sha="$(printf '%s\n' 'Launch Abdul Fazli network engineering roadmap' | git commit-tree "$tree_sha" -p "$parent_sha")"
+          commit_sha="$(printf '%s\n' 'Launch Abdul Fazli v9 focus-world portfolio' | git commit-tree "$tree_sha" -p "$parent_sha")"
           git push origin "$commit_sha:main"
